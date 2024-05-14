@@ -1,4 +1,4 @@
-1. Directory
+#Directory
 
 Controllers - Server Related
 Responder - Functions and Database
@@ -14,8 +14,7 @@ views/ - hbs files
 
 app.js - don't touch this
 
-2. Innitialization
-
+#Innitialization
 npm init
 npm i express express-handlebars body-parser mongodb bcrypt
 
