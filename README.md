@@ -21,7 +21,7 @@ app.js - don't touch this
 # Innitialization
 npm init
 
-npm i express express-handlebars body-parser mongodb bcrypt
+npm i express express-handlebars body-parser mongodb bcrypt express-session
 
 
 # Additional Documentation inside files.
