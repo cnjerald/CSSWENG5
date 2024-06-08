@@ -15,9 +15,18 @@ function add(server) {
   server.get('/', function(req, resp) {
     resp.render('login', {
       layout: 'loginIndex',
-      title: 'form'
+      title: 'login'
     });
   });
+
+  server.get('/register', function(req, resp) {
+    resp.render('personalInfoForm', {
+      layout: 'formIndex',
+      title: 'test'
+    });
+  });
+
+  
 
   server.post('/login-checker', function(req, resp) {
     resp.redirect('/mainMenu');
@@ -31,11 +40,6 @@ function add(server) {
     });
   });
 
-  server.post('/form-checker', function(req, resp){
-    var userEmail  = String(req.body.lname);
-    console.log("TEST" + userEmail);
-
-});
 
 
 
