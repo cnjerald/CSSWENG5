@@ -26,6 +26,46 @@ function add(server) {
     });
   });
 
+  server.post('/register-checker',function(req,resp){
+    // These are sample printers on each entries.
+    console.log(req.body.uic1 + req.body.uic2 + req.body.uic3 + req.body.uic4);
+    console.log(req.body.lname);
+    console.log(req.body.mname);
+    console.log(req.body.fname);
+    console.log(req.body.gender);
+    console.log(req.body.sex);
+    console.log(req.body.bday);
+    console.log(req.body.contact_number);
+    console.log(req.body.email_address);
+    console.log(req.body.facebook_address);
+    console.log(req.body.civil_status);
+    console.log(req.body.citizenship);
+    console.log(req.body.occupation);
+    console.log(req.body.designation);
+    console.log(req.body.company);
+    console.log(req.body.educationEntries);
+    console.log(req.body.ePerson);
+    console.log(req.body.eContact);
+    console.log(req.body.eRelationship);
+    console.log(req.body.eAddress);
+    console.log(req.body.comments);
+
+    // Todo:
+
+  /*
+    if responder.validEntries()
+        PUSH TO DATABASE
+    else
+      SEND AJAX, ERROR ENTRIES
+
+
+  */
+
+ 
+
+
+  });
+
   
 
   server.post('/login-checker', function(req, resp) {
