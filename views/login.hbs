@@ -1,16 +1,59 @@
-<form action='login-checker' method='post'>
-    <label for="username">Username: </label><br>
-    <input type="text" id="username" name="username" required><br>
+<div class="banner">
+    <img src="/images/banner.png">
+</div>
+<div class="wrapper">
+    <form id="login-form" action="">
+        <h1>Login</h1>
+        <div class="input-box">
+            <input type="text" placeholder="Username" required>
+            <span class="login-icon material-symbols-outlined">person</span>
+        </div>
+        <div class="input-box">
+            <input type="password" placeholder="Password" required>
+            <span class="login-icon material-symbols-outlined">lock</span>
+        </div>
 
-    <label for="password">Password: </label><br>
-    <input type="password" id="password" name="password" required><br>
+        <div class="remember-me">
+            <label><input type="checkbox"> Remember Me</label>
+            <a href="#">Forgot Password?</a>
+        </div>
 
-    <input type="submit" value="Log in" id="login-btn">
-</form>
+        <button class="btn" type="submit">Login</button>
 
-<hr>
+        <div class="register-link">
+            <p>
+                Don't have an account?
+                <a href="#">Register Now!</a>
+            </p>
+        </div>
+    </form>
+</div>
+<div class="footer">
+    <div class="socmed-container">
+        <div class="socmed-logo">
+            <div class="img-container-socmed img-container">
+                <a href="https://www.facebook.com/profile.php?id=100094331334641" target="_blank">
+                    <img src="/images/fb_logo.png">
+                </a>
+            </div>
+        </div>
+        <div class="socmed-logo">
+            <div class="img-container-socmed img-container">
+                <a href="https://www.facebook.com/profile.php?id=100094331334641" target="_blank">
+                    <img src="/images/gmail_logo.png">
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="footer-desc">
+        <p>Guide and Advocacy to Build on Aspirations of Yahweh, Inc.</p>
+    </div>
+</div>
+<!--
 <button id="paymentButton">PAYMENT PORTAL SAMPLE BUTTON</button>
 <div id="iframeContainer"></div>
 
 <p id="paymentStatusContainer">DEBUG- PAYMENT STATUS- THIS UPDATES EVERY 5 SECONDS UPON CLICKING THAT BUTTON ^</p>
 <h4> Don't have an account? <a href="/form"> Sign up</a></h4>
+
+-->

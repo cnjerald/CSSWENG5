@@ -15,7 +15,7 @@ function add(server) {
   server.get('/', function(req, resp) {
     resp.render('login', {
       layout: 'loginIndex',
-      title: 'login'
+      title: 'form'
     });
   });
 
@@ -31,8 +31,20 @@ function add(server) {
     });
   });
 
-  // Ajax payment_request
+  server.post('/form-checker', function(req, resp){
+    var userEmail  = String(req.body.lname);
+    console.log("TEST" + userEmail);
 
+});
+
+
+
+
+
+
+
+
+  // Ajax payment_request
   server.post('/payment_request', function(req, resp) {
     if (req.body.input == '100') {
       // Confirm receive request
