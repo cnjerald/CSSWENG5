@@ -14,11 +14,17 @@ $(document).ready(function(){
             entries.push(entry);
         });
 
+        //concat uic inputs
+        var uic = $("#uic1").val() + $("#uic2").val() + $("#uic3").val() + $("#uic4").val();
 
         $.post(
             'register-checker',
-            {
-                uic1: $("#uic1").val(), uic2: $("#uic2").val(), uic3: $("#uic3").val(), uic4: $("#uic4").val(),
+            {   
+                uic_code:uic, //just to have access to full uic in the database
+                uic1: $("#uic1").val(), 
+                uic2: $("#uic2").val(), 
+                uic3: $("#uic3").val(), 
+                uic4: $("#uic4").val(),
                 lname: $("#lname").val(),
                 fname: $("#fname").val(),
                 mname: $("#mname").val(),
@@ -41,8 +47,7 @@ $(document).ready(function(){
                 comments: $("#comments").val()
             },
             function(data,status){
-
-
+                console.log('Data saved successfully');
             }
 
         )

@@ -1,5 +1,5 @@
 //npm init
-//npm i express express-handlebars body-parser mongodb bcrypt express-session
+//npm i express express-handlebars body-parser mongodb bcrypt express-session mongoose
 // Pls see comment regarding new codes.
 
 const express = require('express');
@@ -14,6 +14,23 @@ server.set('view engine', 'hbs');
 server.engine('hbs', handlebars.engine({
     extname: 'hbs',
 }));
+
+//mongoose connection
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://127.0.0.1:27017/GABAY');
+
+mongoose.connection.on('connected', ()=>{
+    console.log('Database connected successfully');
+})
+
+mongoose.connection.on('error', (err)=> {
+    console.error('Database connection error:', err)
+})
+
+//database models 
+const personalInfo = require('./models/personalInfo');
+
+
 
 server.use(express.static('public'));
 

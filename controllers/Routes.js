@@ -2,6 +2,8 @@ const { timeEnd, info } = require('console');
 const responder = require('../models/Responder');
 const fs = require('fs');
 const session = require('express-session');
+//schemas
+const personalInfoModel = require('../models/personalInfo')
 
 function add(server) {
   server.use(session({
@@ -26,35 +28,44 @@ function add(server) {
     });
   });
 
-  server.post('/register-checker',function(req,resp){
-    // These are sample printers on each entries.
-    console.log(req.body.uic1 + req.body.uic2 + req.body.uic3 + req.body.uic4);
-    console.log(req.body.lname);
-    console.log(req.body.mname);
-    console.log(req.body.fname);
-    console.log(req.body.gender);
-    console.log(req.body.sex);
-    console.log(req.body.bday);
-    console.log(req.body.contact_number);
-    console.log(req.body.email_address);
-    console.log(req.body.facebook_address);
-    console.log(req.body.civil_status);
-    console.log(req.body.citizenship);
-    console.log(req.body.occupation);
-    console.log(req.body.designation);
-    console.log(req.body.company);
-    console.log(req.body.educationEntries);
-    console.log(req.body.ePerson);
-    console.log(req.body.eContact);
-    console.log(req.body.eRelationship);
-    console.log(req.body.eAddress);
-    console.log(req.body.comments);
+  server.post('/register-checker', function(req, resp) {
+    // new instance of model to update
+    const newPersonalInfo = new personalInfoModel({
+      uic_code: req.body.uic_code,
+      uic1: req.body.uic1,
+      uic2: req.body.uic2,
+      uic3: req.body.uic3,
+      uic4: req.body.uic4,
+      last_name: req.body.lname,
+      middle_name: req.body.mname,
+      first_name: req.body.fname,
+      gender: req.body.gender,
+      sex: req.body.sex,
+      birthday: req.body.bday,
+      contact_number: req.body.contact_number,
+      email: req.body.email_address,
+      fb_account: req.body.facebook_address,
+      civil_status: req.body.civil_status,
+      citizenship: req.body.citizenship,
+      occupation: req.body.occupation,
+      designation: req.body.designation,
+      company: req.body.company,
+    });
 
-    // Todo:
-
+    
+    // save the new instance to the database
+    newPersonalInfo.save().then(() => {
+      console.log('personal info created');
+      resp.send('Data saved successfully');
+    }).catch((error) => {
+      console.error('Error saving data: ', error);
+      resp.status(500).send('Internal Server Error');
+    });
+  });
   /*
     if responder.validEntries()
         PUSH TO DATABASE
+      
     else
       SEND AJAX, ERROR ENTRIES
 
@@ -64,7 +75,7 @@ function add(server) {
  
 
 
-  });
+  
 
   
 
