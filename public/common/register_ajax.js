@@ -3,6 +3,8 @@ $(document).ready(function(){
     $("#submit-btn").click(function(){
 
         var entries = [];
+        var medications = [];
+        var conditions = [];
 
         // Collect education entries
         $("#entries > .divider").each(function(index) {
@@ -12,6 +14,21 @@ $(document).ready(function(){
                 educationYear: $(this).find("select[name='education-year[]']").val()
             };
             entries.push(entry);
+        });
+
+        $("#medications > .divider").each(function(index) {
+            var entry = {
+                medication: $(this).find("input[name='medication[]']").val(),
+                startDate: $(this).find("input[name='startDate[]']").val()
+            };
+            medications.push(entry);
+        });
+        
+        $("#conditions > .divider").each(function(index) {
+            var entry = {
+                condition: $(this).find("input[name='condition[]']").val()
+            };
+            conditions.push(entry);
         });
 
         //concat uic inputs
@@ -44,7 +61,9 @@ $(document).ready(function(){
                 eContact: $("#contactPersonContact").val(),
                 eRelationship: $("#relationship").val(),
                 eAddress: $("#contactAddress").val(),
-                comments: $("#comments").val()
+                comments: $("#comments").val(),
+                medications: medications,
+                conditions: conditions
             },
             function(data,status){
                 if (status === "success"){

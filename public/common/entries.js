@@ -8,14 +8,35 @@ $(document).ready(function() {
     });
 
     $('#addMedication').click(function() {
-        addEntry('#medications', 'medication', null, null, medicationIndex++);
+        addMedicationEntry();
     });
 
     $('#addCondition').click(function() {
         addEntry('#conditions', 'condition', null, null, conditionIndex++);
     });
 
+    function addMedicationEntry() {
+        let entry = $('<div class="divider"></div>');
 
+        let comboBox1 = $('<div class="comboBox"></div>');
+        comboBox1.append(`<label class="left" for="medication${medicationIndex}">Medication:</label><br>`);
+        comboBox1.append(`<input class="inputBox" type="text" id="medication${medicationIndex}" name="medication[]" required placeholder="Enter medication"><br>`);
+        entry.append(comboBox1);
+
+        let comboBox2 = $('<div class="comboBox"></div>');
+        comboBox2.append(`<label class="left" for="startDate${medicationIndex}">Start Date:</label><br>`);
+        comboBox2.append(`<input class="inputBox" type="date" id="startDate${medicationIndex}" name="startDate[]" required><br>`);
+        entry.append(comboBox2);
+
+        let xButtonDiv = $('<div class="xButton"></div>');
+        xButtonDiv.append(`<button type="button" class="remove-button" onclick="removeEntry(this)"> </button>`);
+        entry.append(xButtonDiv);
+
+        $('#medications').append(entry);
+
+        updateRemoveButtons('#medications');
+        medicationIndex++;
+    }
 
 
     function addEntry(container, name1, name2, name3, index) {

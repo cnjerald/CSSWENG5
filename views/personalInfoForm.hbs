@@ -1,4 +1,6 @@
 <div class="outerContainer">
+        <p> Todo: Photo Upload</p>
+        <p> Todo: ESigniture</p>
         <h1> Personal Information </h1>
         <div class="divider">
             <div class="comboBox">
@@ -322,7 +324,7 @@
             </div>
 
         </div>
-        <p> Education Entries</p>
+        <h2> Education Entries</h2>
         <div id="entries">
             <div class="divider">
                 <div class="comboBox">
@@ -383,6 +385,69 @@
             </div>
     
         </div>
-    
+        <h1> Health Information </h1>
+
+        <div class="divider">
+            <div class="comboBox">
+                <label class="left" for="physician">Attending Physician: </label><br>
+                <input class="inputBox" type="text" id="physician" name="physician" required><br>
+            </div>
+            <div class="comboBox">
+                <label class="left" for="dod">Date of Diagnosis: </label><br>
+                <input class="inputBox" type="date" id="dod" name="dod" required><br>
+            </div>
+            <div class="comboBox">
+                <label class="left" for="treatmentHub">Treatment Hub: </label><br>
+                <input class="inputBox" type="text" id="treatmentHub" name="treatmentHub" required><br>
+            </div>
+        </div>
+        <div class="divider">
+            <div class="comboBox">
+                <label class="left" for="regimen">Regimen: </label><br>
+                <input class="inputBox" type="text" id="regimen" name="regimen" required><br>
+            </div>
+            <div class="comboBox">
+                <label class="left" for="location">Location: </label><br>
+                <input class="inputBox" type="text" id="location" name="location" required><br>
+            </div>  
+            <div class="comboBox">
+                <label class="left" for="contact">Contact Person: </label><br>
+                <input class="inputBox" type="text" id="contact" name="contact" required><br>       
+            </div> 
+
+        </div>
+        
+        <h2>Concurrent Medications</h2>
+        <div id="medications">
+            <div class="divider">
+                <div class="comboBox">
+                    <label for="medication0" class="left">Medication:</label><br>
+                    <input class="inputBox" type="text" id="medication0" name="medication[]" required placeholder="Enter medication"><br>
+                </div>
+                <div class="comboBox">
+                    <label for="startDate0" class="left">Start Date:</label><br>
+                    <input class="inputBox" type="date" id="startDate0" name="startDate[]" required><br>
+                </div>
+                <div class="xButton">
+                    <button type="button" class="remove-button" onclick="removeEntry(this)"> </button>
+                </div>
+            </div>
+        </div>
+        <button type="button" id="addMedication">Add More</button>
+        
+        <h2>Medical Conditions</h2>
+        <div id="conditions">
+            <div class="divider">
+                <div class="comboBox">
+                    <label for="condition0" class="left">Condition:</label><br>
+                    <input class="inputBox" type="text" id="condition0" name="condition[]" required placeholder="Enter condition"><br>
+                </div>
+                <div class="xButton">
+                    <button type="button" class="remove-button" onclick="removeEntry(this)"> </button>
+                </div>
+            </div>
+        </div>
+        <button type="button" id="addCondition">Add More</button>
+        <br><br>
         <input  type="button" value="submit" id="submit-btn">
     </div>

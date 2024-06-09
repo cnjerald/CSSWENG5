@@ -52,6 +52,9 @@ function add(server) {
       company: req.body.company,
     });
 
+    console.log(req.body.medications);
+    console.log(req.body.conditions);
+
     responder.checkPersonalInfo(newPersonalInfo).then((arr)=>{
       let pass = 0;
       arr.every(function(element){
