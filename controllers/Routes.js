@@ -66,7 +66,8 @@ function add(server) {
         newPersonalInfo.save()
           .then(() => {
             console.log('personal info created');
-            resp.send('Data saved successfully');
+            resp.send({msg:'Data saved successfully'});
+            
           })
           .catch((error) => {
             console.error('Error saving data: ', error);
