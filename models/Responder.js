@@ -96,6 +96,45 @@ function checkPayment(id) {
 module.exports.checkPayment= checkPayment;
 
 
+function checkPersonalInfo(newPersonalInfo){
+  return new Promise((resolve,reject)=>{
+    let array = [];
+    
+    array.push(newPersonalInfo.uic_code.length == 8 ? 1 : 0);
+    array.push(
+        onlyContainsLetters(newPersonalInfo.uic1) && onlyContainsLetters(newPersonalInfo.uic2) ? 1 : 0
+    );
+    array.push(
+        onlyContainsNumbers(newPersonalInfo.uic3) && onlyContainsNumbers(newPersonalInfo.uic4) ? 1 : 0
+    );
+    const fieldsToCheck = [
+        { key: 'last_name', message: 1 },
+        { key: 'middle_name', message: 1 }, 
+        { key: 'first_name', message: 1 }, 
+        { key: 'sex', message: 1 },
+        { key: 'birthday', message: 1 },
+        { key: 'contact_number', message: 1 },
+        { key: 'email', message: 1 },
+        { key: 'civil_status', message: 1 },
+        { key: 'citizenship', message: 1 },
+    ];
+    fieldsToCheck.forEach(field => {
+      array.push(newPersonalInfo[field.key] && newPersonalInfo[field.key].length > 0 ? field.message : 0);
+  });
+
+    resolve(array).catch(errorFn);
+  })
+  
+}
+module.exports.checkPersonalInfo = checkPersonalInfo;
+
+function onlyContainsLetters(str) {
+  return /^[A-Za-z]+$/.test(str);
+}
+
+function onlyContainsNumbers(str) {
+  return /^[0-9]+$/.test(str);
+}
 
 // Clean Closing
 
@@ -104,6 +143,9 @@ function finalClose(){
     mongoClient.close();
     process.exit();
 }
+
+
+
 
 process.on('SIGTERM',finalClose);  //general termination signal
 process.on('SIGINT',finalClose);   //catches when ctrl + c is used

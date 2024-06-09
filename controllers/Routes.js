@@ -52,25 +52,38 @@ function add(server) {
       company: req.body.company,
     });
 
+    responder.checkPersonalInfo(newPersonalInfo).then((arr)=>{
+      let pass = 0;
+      arr.every(function(element){
+        if (element !== 1) {
+          pass = 1;
+          return false; // exit the loop early if any element is not 1
+        }
+        return true;
+      });
+      
+      if (pass === 0){
+        newPersonalInfo.save()
+          .then(() => {
+            console.log('personal info created');
+            resp.send('Data saved successfully');
+          })
+          .catch((error) => {
+            console.error('Error saving data: ', error);
+            resp.status(500).send('Internal Server Error');
+          });
+      } else {
+        resp.send({arr: arr});
+      }
+
+
+    })
+
     
     // save the new instance to the database
-    newPersonalInfo.save().then(() => {
-      console.log('personal info created');
-      resp.send('Data saved successfully');
-    }).catch((error) => {
-      console.error('Error saving data: ', error);
-      resp.status(500).send('Internal Server Error');
-    });
+
   });
-  /*
-    if responder.validEntries()
-        PUSH TO DATABASE
-      
-    else
-      SEND AJAX, ERROR ENTRIES
 
-
-  */
 
  
 

@@ -34,7 +34,7 @@ $(document).ready(function(){
                 contact_number: $("#contact-number").val(),
                 email_address: $("#email-address").val(),
                 facebook_address: $("#facebook-address").val(),
-                civil_status: $("#civil-status").val(),
+                civil_status: $('#civil-status').val(),
                 citizenship: $("#citizenship").val(),
                 occupation: $("#occupation").val(),
                 designation: $("#designation").val(),
@@ -47,7 +47,26 @@ $(document).ready(function(){
                 comments: $("#comments").val()
             },
             function(data,status){
-                console.log('Data saved successfully');
+                if (data.arr[0] === 0) {
+                    $("label[for='uic']").html("Unique Identifier Code: Insufficient characters").css("color", "red");
+                } else if (data.arr[1] === 0) {
+                    $("label[for='uic']").html("Unique Identifier Code: First 4 characters must be letters").css("color", "red");
+                } else if (data.arr[2] === 0) {
+                    $("label[for='uic']").html("Unique Identifier Code: Last 4 characters must be numbers").css("color", "red");
+                } else {
+                    $("label[for='uic']").html("Unique Identifier Code: ").css("color", ""); // Reset color
+                }
+                
+                data.arr[3] === 0 ? $("label[for='lname']").html("Last name: This field is required").css("color", "red") : $("label[for='lname']").html("Last name:");
+                data.arr[4] === 0 ? $("label[for='mname']").html("Middle name: This field is required").css("color", "red") : $("label[for='mname']").html("Middle name:");
+                data.arr[5] === 0 ? $("label[for='fname']").html("First name: This field is required").css("color", "red") : $("label[for='fname']").html("First name:");
+                data.arr[6] === 0 ? $("label[for='sex']").html("Sex: This field is required").css("color", "red") : $("label[for='sex']").html("Sex:");
+                data.arr[7] === 0 ? $("label[for='bday']").html("Birthday: This field is required").css("color", "red") : $("label[for='bday']").html("Birthday:");
+                data.arr[8] === 0 ? $("label[for='contact-number']").html("Contact Number: This field is required").css("color", "red") : $("label[for='contact-number']").html("Contact Number:");
+                data.arr[9] === 0 ? $("label[for='email']").html("Email Address: This field is required").css("color", "red") : $("label[for='email']").html("Email Address:");
+                data.arr[10] === 0 ? $("label[for='civil-status']").html("Civil Status: This field is required").css("color", "red") : $("label[for='civil-status']").html("Civil Status:");
+                data.arr[11] === 0 ? $("label[for='citizenship']").html("Citizenship: This field is required").css("color", "red") : $("label[for='citizenship']").html("Citizenship:");
+                 
             }
 
         )
