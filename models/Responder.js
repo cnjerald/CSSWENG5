@@ -1,7 +1,23 @@
-const { MongoClient, ObjectId } = require('mongodb');
 const { emit } = require('process');
-const databaseURL = "mongodb://127.0.0.1:27017/";
-const mongoClient = new MongoClient(databaseURL);
+const mongoose = require('mongoose');
+
+const adminSchema = new mongoose.Schema({
+  username : { type: String },
+  password : { type: String }
+}, { versionKey: false });
+
+const loginModel = mongoose.model('adminInfo',adminSchema);
+// DELETE THIS 
+
+   // This is just for debug.
+   const admin = new loginModel({
+    username : "admin",
+    password : "admin"
+  })
+
+  admin.save().then(()=>{
+    console.log("Admin Created!");
+  })
 
 
 //Paymongo
@@ -41,14 +57,6 @@ function successFn(res){
 
 
 
-mongoClient.connect().then(function(con){
-  console.log("Attempt to create databases");
-  const dbo = mongoClient.db(databaseName);
-
-  dbo.createCollection(colUsers)
-    .then(successFn).catch(errorFn);
-
-}).catch(errorFn);
 
 
 // Helper Functions Here
@@ -133,6 +141,28 @@ function checkPersonalInfo(newPersonalInfo){
 }
 module.exports.checkPersonalInfo = checkPersonalInfo;
 
+
+function getUser(username, password) {
+  return new Promise((resolve,reject)=>{
+
+    const searchQuery = {username : username, password: password}
+
+    loginModel.findOne(searchQuery).then((function(login){
+      if(login != undefined && login._id != null){
+        resolve(1);
+      } else{
+        resolve();
+      }
+    }))
+
+
+  })
+
+
+}
+
+module.exports.getUser = getUser;
+
 function onlyContainsLetters(str) {
   return /^[A-Za-z]+$/.test(str);
 }
@@ -144,13 +174,10 @@ function onlyContainsNumbers(str) {
 // Clean Closing
 
 function finalClose(){
-    console.log('Close connection at the end!');
-    mongoClient.close();
-    process.exit();
+  console.log('Close connection at the end!');
+  mongoose.connection.close();
+  process.exit();
 }
-
-
-
 
 process.on('SIGTERM',finalClose);  //general termination signal
 process.on('SIGINT',finalClose);   //catches when ctrl + c is used

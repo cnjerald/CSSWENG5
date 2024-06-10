@@ -5,7 +5,6 @@ const session = require('express-session');
 //schemas
 const personalInfoModel = require('../models/personalInfo')
 
-
 function add(server) {
   server.use(session({
     secret: '09175019182', // Pls do not call this number. will change to a hash soon.
@@ -114,16 +113,31 @@ function add(server) {
   });
 
 
- 
-
-
-  
-
-  
 
   server.post('/login-checker', function(req, resp) {
-    resp.redirect('/mainMenu');
-  });
+ 
+    let userEmail = req.body.username;
+    let userPassword = req.body.password;
+    console.log(userEmail);
+    console.log(userPassword);
+    req.session.curUserMail = req.body.email;
+
+    responder.getUser(userEmail, userPassword)
+    .then(user => {
+        if (user != null){
+            resp.redirect('/mainpage');
+        } else {
+          resp.render('login', {
+            layout: 'loginIndex',
+            title: 'login'
+          });
+        }             
+    })
+    .catch(error => {
+        console.error(error);
+    });
+
+});
 
 
   server.get('/mainmenu', function(req, resp) {
@@ -132,12 +146,6 @@ function add(server) {
       title: 'mainpage'
     });
   });
-
-
-
-
-
-
 
 
 

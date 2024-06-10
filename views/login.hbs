@@ -2,14 +2,15 @@
     <img src="/images/banner.png">
 </div>
 <div class="wrapper">
-    <form id="login-form" action="/mainpage">
+    
+    <form id="login-form" action="login-checker" method="post">
         <h1>Login</h1>
         <div class="input-box">
-            <input type="text" placeholder="Username" required>
+            <input type="text" placeholder="Username" id="username" name="username" required>
             <span class="login-icon material-symbols-outlined">person</span>
         </div>
         <div class="input-box">
-            <input type="password" placeholder="Password" required>
+            <input type="password" placeholder="Password" id="password" name="password" required>
             <span class="login-icon material-symbols-outlined">lock</span>
         </div>
 
@@ -18,7 +19,7 @@
             <a href="#">Forgot Password?</a>
         </div>
 
-        <button class="btn" type="submit">Login</button>
+        <input class="btn" type="submit" value="Log in" id="login-btn">
 
         <div class="register-link">
             <p>
