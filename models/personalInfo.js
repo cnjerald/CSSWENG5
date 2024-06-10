@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+
 const entrySchema = new mongoose.Schema({
   school: { type: String },
   course: { type: String },
