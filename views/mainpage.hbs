@@ -1,8 +1,710 @@
-<aside>
-        <p> Aside! </p>
-</aside>
-<div class="mainPanel">
-    <div>
-        <p> Name status </p>
-    </div>
-</div>
+<main>
+        <div class="main">
+
+            <div class="aside">
+                <div class="aside-header">Search Filter</div>
+                
+                <div class="dropdown-container">
+
+                        <div class="dropdown-label">Membership Status</div>
+                        <div class="dropdown">
+                            <div class="select">
+                                <span class="selected">All</span>
+                                <div class="caret"></div>
+                            </div>
+                            <ul class="menu">
+                                <li class="active">All</li>
+                                <li>Active</li>
+                                <li>Inactive</li>
+                                <li>Pending</li>
+                                <li>Renewal</li>
+                                <li>Lapsed</li>
+                            </ul>
+                        </div>
+
+                        <div class="dropdown-label">Payment Status</div>
+                        <div class="dropdown">
+                            <div class="select">
+                                <span class="selected">All</span>
+                                <div class="caret"></div>
+                            </div>
+                            <ul class="menu">
+                                <li class="active">All</li>
+                                <li>Pending</li>
+                                <li>Processed</li>
+                                <li>Overdue</li>
+                            </ul>
+                        </div>
+    
+                        <div class="dropdown-label">Sex</div>
+                        <div class="dropdown">
+                            <div class="select">
+                                <span class="selected">All</span>
+                                <div class="caret"></div>
+                            </div>
+                            <ul class="menu">
+                                <li class="active">All</li>
+                                <li>Male</li>
+                                <li>Female</li>
+                            </ul>
+                        </div>
+
+                        <div class="dropdown-label">Occupation</div>
+                        <div class="dropdown">
+                            <div class="select">
+                                <span class="selected">All</span>
+                                <div class="caret"></div>
+                            </div>
+                            <ul class="menu">
+                                <li class="active">All</li>
+                                <li>Occupation 1</li>
+                                <li>Occupation 2</li>
+                                <li>Occupation 3</li>
+                            </ul>
+                        </div>
+
+                        <div class="dropdown-label">Engagement Metric</div>
+                        <div class="dropdown">
+                            <div class="select">
+                                <span class="selected">All</span>
+                                <div class="caret"></div>
+                            </div>
+                            <ul class="menu">
+                                <li class="active">All</li>
+                                <li>0 per week</li>
+                                <li>1-2 per week</li>
+                                <li>3-5 per week</li>
+                                <li>5-6 per week</li>
+                                <li>7 per week</li>
+                            </ul>
+                        </div>
+
+                        <div class="dropdown-label">Contributions</div>
+                        <div class="dropdown">
+                            <div class="select">
+                                <span class="selected">All</span>
+                                <div class="caret"></div>
+                            </div>
+                            <ul class="menu">
+                                <li class="active">All</li>
+                                <li>None</li>
+                                <li>Very Seldom</li>
+                                <li>Seldom</li>
+                                <li>Often</li>
+                                <li>Frequent</li>
+                                <li>Very Frequent</li>
+                            </ul>
+                        </div>
+
+                </div>
+
+            </div>
+
+            <div class="database-container">
+
+                <div class="searchbar-container">
+                    <form id="searchbar-form" action="">
+                        <div class="search">
+                            <div class="search-btn-container">
+                                <button class="btn" type="submit">
+                                    <span class="search-icon material-symbols-outlined">search</span>
+                                </button>
+                            </div>
+                            <div class="search-input-container">
+                                <input class="search-input" type="search" placeholder="Search...">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="sort-container">
+                    
+                    <div class="sort-item">
+                        <div class="sort-label"><p>Sort By:</p></div>
+                        <div class="dropdown dropdown-sort">
+                            <div class="select select-sort">
+                                <span class="selected selected-sort">Newest</span>
+                                <div class="caret caret-sort"></div>
+                            </div>
+                            <ul class="menu menu-sort">
+                                <li class="active active-sort">Newest</li>
+                                <li>Name</li>
+                                <li>Membership</li>
+                                <li>Payment</li>
+                                <li>Sex</li>
+                                <li>Occupation</li>
+                                <li>Engagement</li>
+                                <li>Contributions</li>
+                                <li>Oldest</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="sort-item">
+                        <div class="sort-label"><p>Items per page:</p></div>
+                        <div class="items-container">
+                            <button class="item-btn" data-size="small">10</button>
+                            <button class="item-btn" data-size="medium">20</button>
+                            <button class="item-btn" data-size="large">35</button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="database-wrapper">
+                    <div class="database-item database-header">
+                        <div class="db-item UIC">UIC</div>
+                        <div class="db-item Name">Name</div>
+                        <div class="db-item Payment">Payment</div>
+                        <div class="db-item Sex">Sex</div>
+                        <div class="db-item Occupation">Occupation</div>
+                        <div class="db-item Engagement">Engagement</div>
+                        <div class="db-item Contribution">Contribution</div>
+                        <div class="db-item Show-More last-child">Show More</div>
+                    </div>
+
+                    <!--Member Entry Start-->
+
+
+                    <div class="database-item database-header">
+                        <div class="db-item UIC">T81IIA9LIWBGML</div>
+                        <div class="db-item Name">Sandra Noemi</div>
+                        <div class="db-item Payment">Processed</div>
+                        <div class="db-item Sex">Female</div>
+                        <div class="db-item Occupation">Engineer</div>
+                        <div class="db-item Engagement">1-2 per week</div>
+                        <div class="db-item Contribution">Frequent</div>
+                        <div class="db-item Show-More last-child">
+                            <div class="last-child-item">
+                                <a href="/memberDetail"><span class="last-child-icon material-symbols-outlined">more_horiz</span></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="database-item database-header">
+                        <div class="db-item UIC">PLDKOKJR8H9HPV</div>
+                        <div class="db-item Name">Nurzhan Oakleigh</div>
+                        <div class="db-item Payment">Pending</div>
+                        <div class="db-item Sex">Male</div>
+                        <div class="db-item Occupation">Chef</div>
+                        <div class="db-item Engagement">1-2 per week</div>
+                        <div class="db-item Contribution">Often</div>
+                        <div class="db-item Show-More last-child">
+                            <div class="last-child-item">
+                                <a href="#"><span class="last-child-icon material-symbols-outlined">more_horiz</span></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="database-item database-header">
+                        <div class="db-item UIC">91WXTD3TUHIHG3</div>
+                        <div class="db-item Name">Arnold Vesa</div>
+                        <div class="db-item Payment">Overdue</div>
+                        <div class="db-item Sex">Male</div>
+                        <div class="db-item Occupation">Engineer</div>
+                        <div class="db-item Engagement">1-2 per week</div>
+                        <div class="db-item Contribution">Frequent</div>
+                        <div class="db-item Show-More last-child">
+                            <div class="last-child-item">
+                                <a href="#"><span class="last-child-icon material-symbols-outlined">more_horiz</span></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="database-item database-header">
+                        <div class="db-item UIC">SPIRXYVLAKV4QL</div>
+                        <div class="db-item Name">Abbán Asel</div>
+                        <div class="db-item Payment">Overdue</div>
+                        <div class="db-item Sex">Male</div>
+                        <div class="db-item Occupation">Doctor</div>
+                        <div class="db-item Engagement">7 per week</div>
+                        <div class="db-item Contribution">Seldom</div>
+                        <div class="db-item Show-More last-child">
+                            <div class="last-child-item">
+                                <a href="#"><span class="last-child-icon material-symbols-outlined">more_horiz</span></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="database-item database-header">
+                        <div class="db-item UIC">SWAJXSS20EY6XP</div>
+                        <div class="db-item Name">Melisa David</div>
+                        <div class="db-item Payment">Processed</div>
+                        <div class="db-item Sex">Female</div>
+                        <div class="db-item Occupation">Teacher</div>
+                        <div class="db-item Engagement">0 per week</div>
+                        <div class="db-item Contribution">Very Frequent</div>
+                        <div class="db-item Show-More last-child">
+                            <div class="last-child-item">
+                                <a href="#"><span class="last-child-icon material-symbols-outlined">more_horiz</span></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="database-item database-header">
+                        <div class="db-item UIC">T81IIA9LIWBGML</div>
+                        <div class="db-item Name">Sandra Noemi</div>
+                        <div class="db-item Payment">Processed</div>
+                        <div class="db-item Sex">Female</div>
+                        <div class="db-item Occupation">Engineer</div>
+                        <div class="db-item Engagement">1-2 per week</div>
+                        <div class="db-item Contribution">Frequent</div>
+                        <div class="db-item Show-More last-child">
+                            <div class="last-child-item">
+                                <a href="#"><span class="last-child-icon material-symbols-outlined">more_horiz</span></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="database-item database-header">
+                        <div class="db-item UIC">PLDKOKJR8H9HPV</div>
+                        <div class="db-item Name">Nurzhan Oakleigh</div>
+                        <div class="db-item Payment">Pending</div>
+                        <div class="db-item Sex">Male</div>
+                        <div class="db-item Occupation">Chef</div>
+                        <div class="db-item Engagement">1-2 per week</div>
+                        <div class="db-item Contribution">Often</div>
+                        <div class="db-item Show-More last-child">
+                            <div class="last-child-item">
+                                <a href="#"><span class="last-child-icon material-symbols-outlined">more_horiz</span></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="database-item database-header">
+                        <div class="db-item UIC">91WXTD3TUHIHG3</div>
+                        <div class="db-item Name">Arnold Vesa</div>
+                        <div class="db-item Payment">Overdue</div>
+                        <div class="db-item Sex">Male</div>
+                        <div class="db-item Occupation">Engineer</div>
+                        <div class="db-item Engagement">1-2 per week</div>
+                        <div class="db-item Contribution">Frequent</div>
+                        <div class="db-item Show-More last-child">
+                            <div class="last-child-item">
+                                <a href="#"><span class="last-child-icon material-symbols-outlined">more_horiz</span></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="database-item database-header">
+                        <div class="db-item UIC">SPIRXYVLAKV4QL</div>
+                        <div class="db-item Name">Abbán Asel</div>
+                        <div class="db-item Payment">Overdue</div>
+                        <div class="db-item Sex">Male</div>
+                        <div class="db-item Occupation">Doctor</div>
+                        <div class="db-item Engagement">7 per week</div>
+                        <div class="db-item Contribution">Seldom</div>
+                        <div class="db-item Show-More last-child">
+                            <div class="last-child-item">
+                                <a href="#"><span class="last-child-icon material-symbols-outlined">more_horiz</span></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="database-item database-header">
+                        <div class="db-item UIC">SWAJXSS20EY6XP</div>
+                        <div class="db-item Name">Melisa David</div>
+                        <div class="db-item Payment">Processed</div>
+                        <div class="db-item Sex">Female</div>
+                        <div class="db-item Occupation">Teacher</div>
+                        <div class="db-item Engagement">0 per week</div>
+                        <div class="db-item Contribution">Very Frequent</div>
+                        <div class="db-item Show-More last-child">
+                            <div class="last-child-item">
+                                <a href="#"><span class="last-child-icon material-symbols-outlined">more_horiz</span></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="database-item database-header">
+                        <div class="db-item UIC">T81IIA9LIWBGML</div>
+                        <div class="db-item Name">Sandra Noemi</div>
+                        <div class="db-item Payment">Processed</div>
+                        <div class="db-item Sex">Female</div>
+                        <div class="db-item Occupation">Engineer</div>
+                        <div class="db-item Engagement">1-2 per week</div>
+                        <div class="db-item Contribution">Frequent</div>
+                        <div class="db-item Show-More last-child">
+                            <div class="last-child-item">
+                                <a href="#"><span class="last-child-icon material-symbols-outlined">more_horiz</span></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="database-item database-header">
+                        <div class="db-item UIC">PLDKOKJR8H9HPV</div>
+                        <div class="db-item Name">Nurzhan Oakleigh</div>
+                        <div class="db-item Payment">Pending</div>
+                        <div class="db-item Sex">Male</div>
+                        <div class="db-item Occupation">Chef</div>
+                        <div class="db-item Engagement">1-2 per week</div>
+                        <div class="db-item Contribution">Often</div>
+                        <div class="db-item Show-More last-child">
+                            <div class="last-child-item">
+                                <a href="#"><span class="last-child-icon material-symbols-outlined">more_horiz</span></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="database-item database-header">
+                        <div class="db-item UIC">91WXTD3TUHIHG3</div>
+                        <div class="db-item Name">Arnold Vesa</div>
+                        <div class="db-item Payment">Overdue</div>
+                        <div class="db-item Sex">Male</div>
+                        <div class="db-item Occupation">Engineer</div>
+                        <div class="db-item Engagement">1-2 per week</div>
+                        <div class="db-item Contribution">Frequent</div>
+                        <div class="db-item Show-More last-child">
+                            <div class="last-child-item">
+                                <a href="#"><span class="last-child-icon material-symbols-outlined">more_horiz</span></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="database-item database-header">
+                        <div class="db-item UIC">SPIRXYVLAKV4QL</div>
+                        <div class="db-item Name">Abbán Asel</div>
+                        <div class="db-item Payment">Overdue</div>
+                        <div class="db-item Sex">Male</div>
+                        <div class="db-item Occupation">Doctor</div>
+                        <div class="db-item Engagement">7 per week</div>
+                        <div class="db-item Contribution">Seldom</div>
+                        <div class="db-item Show-More last-child">
+                            <div class="last-child-item">
+                                <a href="#"><span class="last-child-icon material-symbols-outlined">more_horiz</span></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="database-item database-header">
+                        <div class="db-item UIC">SWAJXSS20EY6XP</div>
+                        <div class="db-item Name">Melisa David</div>
+                        <div class="db-item Payment">Processed</div>
+                        <div class="db-item Sex">Female</div>
+                        <div class="db-item Occupation">Teacher</div>
+                        <div class="db-item Engagement">0 per week</div>
+                        <div class="db-item Contribution">Very Frequent</div>
+                        <div class="db-item Show-More last-child">
+                            <div class="last-child-item">
+                                <a href="#"><span class="last-child-icon material-symbols-outlined">more_horiz</span></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="database-item database-header">
+                        <div class="db-item UIC">T81IIA9LIWBGML</div>
+                        <div class="db-item Name">Sandra Noemi</div>
+                        <div class="db-item Payment">Processed</div>
+                        <div class="db-item Sex">Female</div>
+                        <div class="db-item Occupation">Engineer</div>
+                        <div class="db-item Engagement">1-2 per week</div>
+                        <div class="db-item Contribution">Frequent</div>
+                        <div class="db-item Show-More last-child">
+                            <div class="last-child-item">
+                                <a href="#"><span class="last-child-icon material-symbols-outlined">more_horiz</span></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="database-item database-header">
+                        <div class="db-item UIC">PLDKOKJR8H9HPV</div>
+                        <div class="db-item Name">Nurzhan Oakleigh</div>
+                        <div class="db-item Payment">Pending</div>
+                        <div class="db-item Sex">Male</div>
+                        <div class="db-item Occupation">Chef</div>
+                        <div class="db-item Engagement">1-2 per week</div>
+                        <div class="db-item Contribution">Often</div>
+                        <div class="db-item Show-More last-child">
+                            <div class="last-child-item">
+                                <a href="#"><span class="last-child-icon material-symbols-outlined">more_horiz</span></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="database-item database-header">
+                        <div class="db-item UIC">91WXTD3TUHIHG3</div>
+                        <div class="db-item Name">Arnold Vesa</div>
+                        <div class="db-item Payment">Overdue</div>
+                        <div class="db-item Sex">Male</div>
+                        <div class="db-item Occupation">Engineer</div>
+                        <div class="db-item Engagement">1-2 per week</div>
+                        <div class="db-item Contribution">Frequent</div>
+                        <div class="db-item Show-More last-child">
+                            <div class="last-child-item">
+                                <a href="#"><span class="last-child-icon material-symbols-outlined">more_horiz</span></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="database-item database-header">
+                        <div class="db-item UIC">SPIRXYVLAKV4QL</div>
+                        <div class="db-item Name">Abbán Asel</div>
+                        <div class="db-item Payment">Overdue</div>
+                        <div class="db-item Sex">Male</div>
+                        <div class="db-item Occupation">Doctor</div>
+                        <div class="db-item Engagement">7 per week</div>
+                        <div class="db-item Contribution">Seldom</div>
+                        <div class="db-item Show-More last-child">
+                            <div class="last-child-item">
+                                <a href="#"><span class="last-child-icon material-symbols-outlined">more_horiz</span></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="database-item database-header">
+                        <div class="db-item UIC">SWAJXSS20EY6XP</div>
+                        <div class="db-item Name">Melisa David</div>
+                        <div class="db-item Payment">Processed</div>
+                        <div class="db-item Sex">Female</div>
+                        <div class="db-item Occupation">Teacher</div>
+                        <div class="db-item Engagement">0 per week</div>
+                        <div class="db-item Contribution">Very Frequent</div>
+                        <div class="db-item Show-More last-child">
+                            <div class="last-child-item">
+                                <a href="#"><span class="last-child-icon material-symbols-outlined">more_horiz</span></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="database-item database-header">
+                        <div class="db-item UIC">T81IIA9LIWBGML</div>
+                        <div class="db-item Name">Sandra Noemi</div>
+                        <div class="db-item Payment">Processed</div>
+                        <div class="db-item Sex">Female</div>
+                        <div class="db-item Occupation">Engineer</div>
+                        <div class="db-item Engagement">1-2 per week</div>
+                        <div class="db-item Contribution">Frequent</div>
+                        <div class="db-item Show-More last-child">
+                            <div class="last-child-item">
+                                <a href="#"><span class="last-child-icon material-symbols-outlined">more_horiz</span></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="database-item database-header">
+                        <div class="db-item UIC">PLDKOKJR8H9HPV</div>
+                        <div class="db-item Name">Nurzhan Oakleigh</div>
+                        <div class="db-item Payment">Pending</div>
+                        <div class="db-item Sex">Male</div>
+                        <div class="db-item Occupation">Chef</div>
+                        <div class="db-item Engagement">1-2 per week</div>
+                        <div class="db-item Contribution">Often</div>
+                        <div class="db-item Show-More last-child">
+                            <div class="last-child-item">
+                                <a href="#"><span class="last-child-icon material-symbols-outlined">more_horiz</span></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="database-item database-header">
+                        <div class="db-item UIC">91WXTD3TUHIHG3</div>
+                        <div class="db-item Name">Arnold Vesa</div>
+                        <div class="db-item Payment">Overdue</div>
+                        <div class="db-item Sex">Male</div>
+                        <div class="db-item Occupation">Engineer</div>
+                        <div class="db-item Engagement">1-2 per week</div>
+                        <div class="db-item Contribution">Frequent</div>
+                        <div class="db-item Show-More last-child">
+                            <div class="last-child-item">
+                                <a href="#"><span class="last-child-icon material-symbols-outlined">more_horiz</span></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="database-item database-header">
+                        <div class="db-item UIC">SPIRXYVLAKV4QL</div>
+                        <div class="db-item Name">Abbán Asel</div>
+                        <div class="db-item Payment">Overdue</div>
+                        <div class="db-item Sex">Male</div>
+                        <div class="db-item Occupation">Doctor</div>
+                        <div class="db-item Engagement">7 per week</div>
+                        <div class="db-item Contribution">Seldom</div>
+                        <div class="db-item Show-More last-child">
+                            <div class="last-child-item">
+                                <a href="#"><span class="last-child-icon material-symbols-outlined">more_horiz</span></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="database-item database-header">
+                        <div class="db-item UIC">SWAJXSS20EY6XP</div>
+                        <div class="db-item Name">Melisa David</div>
+                        <div class="db-item Payment">Processed</div>
+                        <div class="db-item Sex">Female</div>
+                        <div class="db-item Occupation">Teacher</div>
+                        <div class="db-item Engagement">0 per week</div>
+                        <div class="db-item Contribution">Very Frequent</div>
+                        <div class="db-item Show-More last-child">
+                            <div class="last-child-item">
+                                <a href="#"><span class="last-child-icon material-symbols-outlined">more_horiz</span></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="database-item database-header">
+                        <div class="db-item UIC">T81IIA9LIWBGML</div>
+                        <div class="db-item Name">Sandra Noemi</div>
+                        <div class="db-item Payment">Processed</div>
+                        <div class="db-item Sex">Female</div>
+                        <div class="db-item Occupation">Engineer</div>
+                        <div class="db-item Engagement">1-2 per week</div>
+                        <div class="db-item Contribution">Frequent</div>
+                        <div class="db-item Show-More last-child">
+                            <div class="last-child-item">
+                                <a href="#"><span class="last-child-icon material-symbols-outlined">more_horiz</span></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="database-item database-header">
+                        <div class="db-item UIC">PLDKOKJR8H9HPV</div>
+                        <div class="db-item Name">Nurzhan Oakleigh</div>
+                        <div class="db-item Payment">Pending</div>
+                        <div class="db-item Sex">Male</div>
+                        <div class="db-item Occupation">Chef</div>
+                        <div class="db-item Engagement">1-2 per week</div>
+                        <div class="db-item Contribution">Often</div>
+                        <div class="db-item Show-More last-child">
+                            <div class="last-child-item">
+                                <a href="#"><span class="last-child-icon material-symbols-outlined">more_horiz</span></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="database-item database-header">
+                        <div class="db-item UIC">91WXTD3TUHIHG3</div>
+                        <div class="db-item Name">Arnold Vesa</div>
+                        <div class="db-item Payment">Overdue</div>
+                        <div class="db-item Sex">Male</div>
+                        <div class="db-item Occupation">Engineer</div>
+                        <div class="db-item Engagement">1-2 per week</div>
+                        <div class="db-item Contribution">Frequent</div>
+                        <div class="db-item Show-More last-child">
+                            <div class="last-child-item">
+                                <a href="#"><span class="last-child-icon material-symbols-outlined">more_horiz</span></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="database-item database-header">
+                        <div class="db-item UIC">SPIRXYVLAKV4QL</div>
+                        <div class="db-item Name">Abbán Asel</div>
+                        <div class="db-item Payment">Overdue</div>
+                        <div class="db-item Sex">Male</div>
+                        <div class="db-item Occupation">Doctor</div>
+                        <div class="db-item Engagement">7 per week</div>
+                        <div class="db-item Contribution">Seldom</div>
+                        <div class="db-item Show-More last-child">
+                            <div class="last-child-item">
+                                <a href="#"><span class="last-child-icon material-symbols-outlined">more_horiz</span></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="database-item database-header">
+                        <div class="db-item UIC">SWAJXSS20EY6XP</div>
+                        <div class="db-item Name">Melisa David</div>
+                        <div class="db-item Payment">Processed</div>
+                        <div class="db-item Sex">Female</div>
+                        <div class="db-item Occupation">Teacher</div>
+                        <div class="db-item Engagement">0 per week</div>
+                        <div class="db-item Contribution">Very Frequent</div>
+                        <div class="db-item Show-More last-child">
+                            <div class="last-child-item">
+                                <a href="#"><span class="last-child-icon material-symbols-outlined">more_horiz</span></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="database-item database-header">
+                        <div class="db-item UIC">T81IIA9LIWBGML</div>
+                        <div class="db-item Name">Sandra Noemi</div>
+                        <div class="db-item Payment">Processed</div>
+                        <div class="db-item Sex">Female</div>
+                        <div class="db-item Occupation">Engineer</div>
+                        <div class="db-item Engagement">1-2 per week</div>
+                        <div class="db-item Contribution">Frequent</div>
+                        <div class="db-item Show-More last-child">
+                            <div class="last-child-item">
+                                <a href="#"><span class="last-child-icon material-symbols-outlined">more_horiz</span></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="database-item database-header">
+                        <div class="db-item UIC">PLDKOKJR8H9HPV</div>
+                        <div class="db-item Name">Nurzhan Oakleigh</div>
+                        <div class="db-item Payment">Pending</div>
+                        <div class="db-item Sex">Male</div>
+                        <div class="db-item Occupation">Chef</div>
+                        <div class="db-item Engagement">1-2 per week</div>
+                        <div class="db-item Contribution">Often</div>
+                        <div class="db-item Show-More last-child">
+                            <div class="last-child-item">
+                                <a href="#"><span class="last-child-icon material-symbols-outlined">more_horiz</span></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="database-item database-header">
+                        <div class="db-item UIC">91WXTD3TUHIHG3</div>
+                        <div class="db-item Name">Arnold Vesa</div>
+                        <div class="db-item Payment">Overdue</div>
+                        <div class="db-item Sex">Male</div>
+                        <div class="db-item Occupation">Engineer</div>
+                        <div class="db-item Engagement">1-2 per week</div>
+                        <div class="db-item Contribution">Frequent</div>
+                        <div class="db-item Show-More last-child">
+                            <div class="last-child-item">
+                                <a href="#"><span class="last-child-icon material-symbols-outlined">more_horiz</span></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="database-item database-header">
+                        <div class="db-item UIC">SPIRXYVLAKV4QL</div>
+                        <div class="db-item Name">Abbán Asel</div>
+                        <div class="db-item Payment">Overdue</div>
+                        <div class="db-item Sex">Male</div>
+                        <div class="db-item Occupation">Doctor</div>
+                        <div class="db-item Engagement">7 per week</div>
+                        <div class="db-item Contribution">Seldom</div>
+                        <div class="db-item Show-More last-child">
+                            <div class="last-child-item">
+                                <a href="#"><span class="last-child-icon material-symbols-outlined">more_horiz</span></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="database-item database-header">
+                        <div class="db-item UIC">SWAJXSS20EY6XP</div>
+                        <div class="db-item Name">Melisa David</div>
+                        <div class="db-item Payment">Processed</div>
+                        <div class="db-item Sex">Female</div>
+                        <div class="db-item Occupation">Teacher</div>
+                        <div class="db-item Engagement">0 per week</div>
+                        <div class="db-item Contribution">Very Frequent</div>
+                        <div class="db-item Show-More last-child">
+                            <div class="last-child-item">
+                                <a href="#"><span class="last-child-icon material-symbols-outlined">more_horiz</span></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Member Entry End-->
+
+                </div>
+
+                <div class="move-container">
+                    <button class="move-item move-btn"><span class="material-symbols-outlined">keyboard_double_arrow_left</span></button>
+                    <button class="move-item move-btn"><span class="material-symbols-outlined">keyboard_arrow_left</span></button>
+                    <span class="move-item move-desc">1</span>
+                    <button class="move-item move-btn"><span class="material-symbols-outlined">keyboard_arrow_right</span></button>
+                    <button class="move-item move-btn"><span class="material-symbols-outlined">keyboard_double_arrow_right</span></button>
+                </div>
+
+            </div>
+        </div>
+    </main>
+    <script src="/js/dropdown.js"></script>
+    <script src="/js/database-wrapper.js"></script>

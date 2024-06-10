@@ -36,6 +36,21 @@ function add(server) {
     });
   });
 
+  server.get('/mainpage', function(req, resp) {
+    resp.render('mainpage', {
+      layout: 'mainMenuIndex',
+      title: 'temp'
+    });
+  });
+
+  server.get('/memberDetail', function(req, resp) {
+    resp.render('memberDetail', {
+      layout: 'memberDetailsIndex',
+      title: 'temp'
+    });
+  });
+
+
   server.post('/register-checker', function(req, resp) {
     // new instance of model to update
     const newPersonalInfo = new personalInfoModel({
