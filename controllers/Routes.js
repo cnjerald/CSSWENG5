@@ -28,6 +28,13 @@ function add(server) {
     });
   });
 
+  server.get('/payment', function(req, resp) {
+    resp.render('payment', {
+      layout: 'paymentIndex',
+      title: 'test'
+    });
+  });
+
   server.post('/register-checker', function(req, resp) {
     // new instance of model to update
     const newPersonalInfo = new personalInfoModel({

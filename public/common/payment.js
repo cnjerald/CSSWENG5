@@ -1,4 +1,7 @@
 $(document).ready(function() {
+    // Variable to hold the interval reference
+    var intervalId;
+
     $("#paymentButton").click(function() {
         $.post(
             'payment_request',
@@ -6,26 +9,28 @@ $(document).ready(function() {
             function(data, status) {
                 if (status === 'success') {
                     renderWebsiteInIframe(data.link);
+                    // Start the interval when payment request is successful
+                    intervalId = setInterval(checkPaymentStatus, 1000);
                 }
             }
         );
     });
 
-    //every 5 seconds
     function checkPaymentStatus() {
         $.post(
             'payment_checker',
             { input: '200' },
             function(data, status) {
                 if (status === 'success') {
+                    if(data.paymentStatus === 'paid'){
+                        // Stop the interval when payment is paid
+                        clearInterval(intervalId);
+                    }
                     $("#paymentStatusContainer").text(data.paymentStatus);
                 }
             }
         );
     }
-
-    // Set an interval to call checkPaymentStatus every 5 seconds
-    setInterval(checkPaymentStatus, 5000);
 
     function renderWebsiteInIframe(url) {
         // Create an iframe element
