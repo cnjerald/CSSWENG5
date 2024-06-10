@@ -99,13 +99,18 @@ module.exports.checkPayment= checkPayment;
 function checkPersonalInfo(newPersonalInfo){
   return new Promise((resolve,reject)=>{
     let array = [];
-    
-    array.push(newPersonalInfo.uic_code.length == 8 ? 1 : 0);
+    newPersonalInfo.uic_code
+    let str_uic = newPersonalInfo.uic_code;
+    let char_uic = (str_uic.slice(0, 4)).toUpperCase();
+    let num_uic = str_uic.slice(-10);
+    console.log(char_uic);
+    console.log(num_uic);
+    array.push(str_uic.length == 14 ? 1 : 0);
     array.push(
-        onlyContainsLetters(newPersonalInfo.uic1) && onlyContainsLetters(newPersonalInfo.uic2) ? 1 : 0
+        onlyContainsLetters(char_uic) ? 1 : 0
     );
     array.push(
-        onlyContainsNumbers(newPersonalInfo.uic3) && onlyContainsNumbers(newPersonalInfo.uic4) ? 1 : 0
+        onlyContainsNumbers(num_uic) ? 1 : 0
     );
     const fieldsToCheck = [
         { key: 'last_name', message: 1 },
