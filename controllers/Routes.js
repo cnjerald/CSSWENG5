@@ -5,6 +5,7 @@ const session = require('express-session');
 //schemas
 const personalInfoModel = require('../models/personalInfo')
 
+
 function add(server) {
   server.use(session({
     secret: '09175019182', // Pls do not call this number. will change to a hash soon.
@@ -39,10 +40,6 @@ function add(server) {
     // new instance of model to update
     const newPersonalInfo = new personalInfoModel({
       uic_code: req.body.uic_code,
-      uic1: req.body.uic1,
-      uic2: req.body.uic2,
-      uic3: req.body.uic3,
-      uic4: req.body.uic4,
       last_name: req.body.lname,
       middle_name: req.body.mname,
       first_name: req.body.fname,
@@ -57,11 +54,21 @@ function add(server) {
       occupation: req.body.occupation,
       designation: req.body.designation,
       company: req.body.company,
+      entries: req.body.entries,
+      medications: req.body.medications,
+      conditions: req.body.conditions,
+      ePerson: req.body.ePerson,
+      eContact: req.body.eContact,
+      eRelationship: req.body.eRelationship,
+      eAddress: req.body.eAddress,
+      comments: req.body.comments
     });
 
+    console.log(req.body.entries);
     console.log(req.body.medications);
     console.log(req.body.conditions);
 
+    
     responder.checkPersonalInfo(newPersonalInfo).then((arr)=>{
       let pass = 0;
       arr.every(function(element){
@@ -71,7 +78,7 @@ function add(server) {
         }
         return true;
       });
-      
+      console.log(pass);
       if (pass === 0){
         newPersonalInfo.save()
           .then(() => {
@@ -86,13 +93,9 @@ function add(server) {
       } else {
         resp.send({arr: arr});
       }
-
-
     })
-
-    
+     
     // save the new instance to the database
-
   });
 
 

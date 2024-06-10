@@ -1,29 +1,46 @@
 const mongoose = require('mongoose');
 
+const entrySchema = new mongoose.Schema({
+  school: { type: String },
+  course: { type: String },
+  educationYear: { type: String }
+}, { _id: false });
+
+const medicationSchema = new mongoose.Schema({
+  medication: { type: String },
+  startDate: { type: String }
+}, { _id: false });
+
+const conditionSchema = new mongoose.Schema({
+  condition: { type: String }
+}, { _id: false });
+
 const personalInfoSchema = new mongoose.Schema({
-    uic_code:{type:String},
-    uic1: {type:String},
-    uic2: {type:String},
-    uic3: {type:String},
-    uic4: {type:String},
-    last_name: {type: String},
-    middle_name: {type: String},
-    first_name: {type: String},
-    gender: {type: String},
-    sex: {type: String},
-    birthday: {type: String},
-    contact_number: {type: String},
-    email: {type: String},
-    fb_account: {type: String},
-    civil_status: {type: String},
-    citizenship: {type: String},
-    occupation: {type: String},
-    designation: {type: String},
-    company: {type: String}
-  },{ versionKey: false });
+  uic_code: { type: String },
+  last_name: { type: String },
+  middle_name: { type: String },
+  first_name: { type: String },
+  gender: { type: String },
+  sex: { type: String },
+  birthday: { type: String },
+  contact_number: { type: String },
+  email: { type: String },
+  fb_account: { type: String },
+  civil_status: { type: String },
+  citizenship: { type: String },
+  occupation: { type: String },
+  designation: { type: String },
+  company: { type: String },
+  entries: [entrySchema], 
+  medications: [medicationSchema], 
+  conditions: [conditionSchema], 
+  ePerson: { type: String },
+  eContact: { type: String },
+  eRelationship: { type: String },
+  eAddress: { type: String },
+  comments: { type: String }
+}, { versionKey: false });
 
-  const personalInfoModel = mongoose.model('personalInfo', personalInfoSchema);
-  
-  module.exports = personalInfoModel;
+const personalInfoModel = mongoose.model('personalInfo', personalInfoSchema);
 
-
+module.exports = personalInfoModel;

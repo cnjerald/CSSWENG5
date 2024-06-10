@@ -21,7 +21,7 @@ $(document).ready(function(){
                 medication: $(this).find("input[name='medication[]']").val(),
                 startDate: $(this).find("input[name='startDate[]']").val()
             };
-            medications.push(entry);
+            medications.push(entry);        
         });
         
         $("#conditions > .divider").each(function(index) {
@@ -32,16 +32,12 @@ $(document).ready(function(){
         });
 
         //concat uic inputs
-        var uic = $("#uic1").val() + $("#uic2").val() + $("#uic3").val() + $("#uic4").val();
+        var uic = $("#uic1").val() + $("#uic2").val() + $("#uic3").val() + $("#uic4").val()+ $("#uic5").val()+ $("#uic6").val()+ $("#uic7").val();
 
         $.post(
             'register-checker',
             {   
                 uic_code:uic, //just to have access to full uic in the database
-                uic1: $("#uic1").val(), 
-                uic2: $("#uic2").val(), 
-                uic3: $("#uic3").val(), 
-                uic4: $("#uic4").val(),
                 lname: $("#lname").val(),
                 fname: $("#fname").val(),
                 mname: $("#mname").val(),
@@ -56,14 +52,14 @@ $(document).ready(function(){
                 occupation: $("#occupation").val(),
                 designation: $("#designation").val(),
                 company: $("#company").val(),
-                educationEntries: entries,
+                entries: entries,
+                medications: medications,
+                conditions: conditions,
                 ePerson: $("#contactPerson").val(),
                 eContact: $("#contactPersonContact").val(),
                 eRelationship: $("#relationship").val(),
                 eAddress: $("#contactAddress").val(),
                 comments: $("#comments").val(),
-                medications: medications,
-                conditions: conditions
             },
             function(data,status){
                 if (status === "success"){
