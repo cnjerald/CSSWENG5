@@ -17,7 +17,7 @@ function add(server) {
   server.get('/', function(req, resp) {
     resp.render('login', {
       layout: 'loginIndex',
-      title: 'login'
+      title: 'login',
     });
   });
 
@@ -36,9 +36,12 @@ function add(server) {
   });
 
   server.get('/mainpage', function(req, resp) {
-    resp.render('mainpage', {
-      layout: 'mainMenuIndex',
-      title: 'temp'
+    responder.getMembers().then(memberData => {
+      resp.render('mainpage', {
+        layout: 'mainMenuIndex',
+        title: 'temp',
+        member: memberData,
+      });
     });
   });
 

@@ -312,7 +312,7 @@
     margin: 25px 0px 0px 0px;
     border: 2px solid gray;
     width: 1600px;
-    height: auto;
+    height: 200px;
     max-height: 1050px;
     overflow: hidden;
 }

@@ -1,5 +1,6 @@
 const { emit } = require('process');
 const mongoose = require('mongoose');
+const personalInfoModel = require('./personalInfo');
 
 const adminSchema = new mongoose.Schema({
   username : { type: String },
@@ -7,18 +8,6 @@ const adminSchema = new mongoose.Schema({
 }, { versionKey: false });
 
 const loginModel = mongoose.model('adminInfo',adminSchema);
-// DELETE THIS 
-
-   // This is just for debug.
-   const admin = new loginModel({
-    username : "admin",
-    password : "admin"
-  })
-
-  admin.save().then(()=>{
-    console.log("Admin Created!");
-  })
-
 
 //Paymongo
 
@@ -154,14 +143,23 @@ function getUser(username, password) {
         resolve();
       }
     }))
-
-
   })
-
-
 }
-
 module.exports.getUser = getUser;
+
+function getMembers() {
+  return new Promise((resolve, reject) => {
+    personalInfoModel.find({}).lean().then(members => {
+      resolve(members);
+    }).catch(error => {
+      reject(error);
+    });
+  });
+}
+module.exports.getMembers = getMembers;
+
+
+
 
 function onlyContainsLetters(str) {
   return /^[A-Za-z]+$/.test(str);

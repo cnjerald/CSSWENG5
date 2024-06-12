@@ -12,21 +12,51 @@ server.use(express.urlencoded({ extended: true }));
 const handlebars = require('express-handlebars');
 server.set('view engine', 'hbs');
 server.engine('hbs', handlebars.engine({
-    extname: 'hbs',
+  extname: 'hbs',
 }));
 
 //mongoose connection
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://127.0.0.1:27017/GABAY');
 
-mongoose.connection.on('connected', ()=>{
-    console.log('Database connected successfully');
-})
+const uri = "mongodb+srv://cnjerald1:1234@gabay.ptjm2vu.mongodb.net/Gabay?retryWrites=true&w=majority";
 
-mongoose.connection.on('error', (err)=> {
-    console.error('Database connection error:', err)
-})
+const clientOptions = {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    serverSelectionTimeoutMS: 5000,  // Timeout after 5s instead of 30s
+    socketTimeoutMS: 45000,  // Close sockets after 45 seconds of inactivity
+    family: 4,  // Use IPv4, skip trying IPv6
+    serverApi: {
+        version: '1',
+        strict: true,
+        deprecationErrors: true
+    }
+};
 
+// Attempt to connect to the database
+async function connectToDatabase() {
+  try {
+      await mongoose.connect(uri, clientOptions);
+      console.log('Database connected successfully');
+  } catch (err) {
+      console.error('Database connection error:', err);
+  }
+}
+
+connectToDatabase();
+
+// Listen for connection events
+mongoose.connection.on('connected', () => {
+    console.log('Mongoose connected to database');
+});
+
+mongoose.connection.on('error', (err) => {
+    console.error('Mongoose connection error:', err);
+});
+
+mongoose.connection.on('disconnected', () => {
+    console.log('Mongoose disconnected from database');
+});
 //database models 
 const personalInfo = require('./models/personalInfo');
 
@@ -99,4 +129,5 @@ Handlebars.registerHelper('concat', function() {
 const port = process.env.PORT | 8080;
 server.listen(port, function(){
     console.log('Listening at port '+port);
+    console.log('Wait for database connection, else it will crash.');
 });
