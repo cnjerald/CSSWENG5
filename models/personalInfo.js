@@ -22,7 +22,7 @@ const personalInfoSchema = new mongoose.Schema({
   first_name: { type: String },
   gender: { type: String },
   sex: { type: String },
-  birthday: { type: String },
+  birthday: { type: String},
   contact_number: { type: String },
   email: { type: String },
   fb_account: { type: String },
@@ -38,7 +38,8 @@ const personalInfoSchema = new mongoose.Schema({
   eContact: { type: String },
   eRelationship: { type: String },
   eAddress: { type: String },
-  comments: { type: String }
+  comments: { type: String },
+  memberUntil: { type: String, default: "newuser" }
 }, { versionKey: false });
 
 const personalInfoModel = mongoose.model('personalInfo', personalInfoSchema);

@@ -78,7 +78,7 @@ function add(server) {
       eContact: req.body.eContact,
       eRelationship: req.body.eRelationship,
       eAddress: req.body.eAddress,
-      comments: req.body.comments
+      comments: req.body.comments,
     });
 
     console.log(req.body.entries);
@@ -151,6 +151,20 @@ function add(server) {
   });
 
 
+  server.post('/membership_request',function(req,resp){
+    responder.checkMembershipStatus(req.body.input).then(args =>{
+      if(args != undefined){
+        resp.send({name: args.name, memberUntil: args.memberUntil})
+      } else{
+        console.log("Who are you?");
+      }
+
+
+    })
+ 
+
+
+  });
 
   // Ajax payment_request
   server.post('/payment_request', function(req, resp) {

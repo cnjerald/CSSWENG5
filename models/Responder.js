@@ -9,6 +9,8 @@ const adminSchema = new mongoose.Schema({
 
 const loginModel = mongoose.model('adminInfo',adminSchema);
 
+
+
 //Paymongo
 
 const options = {
@@ -31,9 +33,6 @@ const options = {
 
 
 
-// Database and collection names here...
-const databaseName = "Test";
-const colUsers = "test";
 
 function errorFn(err){
     console.log('Error found. Please trace!');
@@ -158,7 +157,22 @@ function getMembers() {
 }
 module.exports.getMembers = getMembers;
 
+function checkMembershipStatus(uic){
+  console.log(uic);
+  return new Promise((resolve, reject) => {
+    personalInfoModel.findOne({uic_code: uic}).lean().then((function(user){
+      if(user != undefined && user._id != null){
+        resolve({name: user.last_name + ", " + user.first_name, memberUntil: user.memberUntil, uic: user.uic_code})
+      } else{
+        resolve(undefined);
+      }
+    }))
+  });
+}
 
+
+
+module.exports.checkMembershipStatus = checkMembershipStatus;
 
 
 function onlyContainsLetters(str) {

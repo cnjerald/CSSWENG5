@@ -16,6 +16,26 @@ $(document).ready(function() {
         );
     });
 
+    
+    $('[name^="uic"]').on('input', function(){
+        let uic = $("#uic1").val() + $("#uic2").val() + $("#uic3").val() + $("#uic4").val() + $("#uic5").val() + $("#uic6").val() + $("#uic7").val();
+        
+        if (uic.length === 14) {
+            $.post(
+                'membership_request',
+                { input: uic },
+                function(data, status) {
+                    if(status==='success'){
+                        $("label[for='name']").html("Name:" + data.name);
+                        $("label[for='membership']").html("Membership Status:" + data.memberUntil);
+                    }
+                }
+            );
+        } else {
+            console.log("UIC length is not 14.");
+        }
+    });
+
     function checkPaymentStatus() {
         $.post(
             'payment_checker',
