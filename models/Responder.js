@@ -170,9 +170,60 @@ function checkMembershipStatus(uic){
   });
 }
 
-
-
 module.exports.checkMembershipStatus = checkMembershipStatus;
+function updateMembershipStatus(uic) {
+  return new Promise((resolve, reject) => {
+    personalInfoModel.findOne({ uic_code: uic }).lean().then((user) => {
+      if (user != undefined && user._id != null) {
+        let today = new Date();
+
+        // Extract the year, month, and day from the Date object
+        let year = today.getFullYear() + 1; // plus 1 because i want it to be the next year.
+        let month = today.getMonth() + 1; 
+        let day = today.getDate();
+
+        // Format the date as a string (e.g., YYYY-MM-DD)
+        let formattedDate = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+
+        if (user.memberUntil == 'newuser') {
+          personalInfoModel.updateOne({ _id: user._id }, { memberUntil: formattedDate })
+            .then((result) => {
+              resolve(result);
+            }).catch((err) => {
+              reject(err);
+            });
+        } else {
+          let memberUntilDate = new Date(user.memberUntil);
+
+          if (today <= memberUntilDate) {
+            // Extend membership by 1 year from current expiration
+            memberUntilDate.setFullYear(memberUntilDate.getFullYear() + 1);
+          } else {
+            // Extend membership by 1 year from today
+            memberUntilDate = new Date(today);
+            memberUntilDate.setFullYear(today.getFullYear() + 1);
+          }
+
+          // Format the new membership date
+          let newFormattedDate = `${memberUntilDate.getFullYear()}-${String(memberUntilDate.getMonth() + 1).padStart(2, '0')}-${String(memberUntilDate.getDate()).padStart(2, '0')}`;
+
+          personalInfoModel.updateOne({ _id: user._id }, { memberUntil: newFormattedDate })
+            .then((result) => {
+              resolve(result);
+            }).catch((err) => {
+              reject(err);
+            });
+        }
+      } else {
+        reject(new Error('User not found'));
+      }
+    }).catch((err) => {
+      reject(err);
+    });
+  });
+}
+
+module.exports.updateMembershipStatus = updateMembershipStatus;
 
 
 function onlyContainsLetters(str) {

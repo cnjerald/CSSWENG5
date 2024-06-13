@@ -187,6 +187,27 @@ function add(server) {
   });
 
   // Ajax check_payment_status
+  
+  server.post('/payment_request', function(req, resp) {
+    if (req.body.input == '100') {
+      // Confirm receive request
+      console.log("Received request");
+      // GetLink
+      responder.getPaymentLink().then(args => {
+        // Store paymentID in session
+        req.session.paymentID = args.paymentID;
+        // Send link to webpage Async
+        resp.send({ link: args.link });
+      }).catch(error => {
+        console.error("Error in getPaymentLink: ", error);
+        resp.status(500).send({ error: 'Internal Server Error' });
+      });
+    } else {
+      resp.status(400).send({ error: 'Invalid input' });
+    }
+  });
+
+  // Ajax check_payment_status
   server.post('/payment_checker', function(req, resp) {
     if (req.body.input == '200') {
       if (req.session.paymentID != null) {
@@ -194,7 +215,10 @@ function add(server) {
         console.log("Received check request");
         // Send to responder to check status
         responder.checkPayment(req.session.paymentID).then(args => {
-          // Update async status
+          console.log("Debugger" + req.body.uic);
+          if(args.status == 'paid'){
+            responder.updateMembershipStatus(req.body.uic);
+          } 
           resp.send({ paymentStatus: args.status });
         }).catch(error => {
           console.error("Error in checkPayment: ", error);
@@ -207,6 +231,9 @@ function add(server) {
       resp.status(400).send({ error: 'Invalid input' });
     }
   });
+
+  
+  
 
   // Use of Function from Responder.
   responder.sampleFunction("Passed Parameter: Hello World").then(output => {
