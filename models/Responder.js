@@ -1,6 +1,7 @@
 const { emit } = require('process');
 const mongoose = require('mongoose');
 const personalInfoModel = require('./personalInfo');
+const nodemailer = require('nodemailer');
 
 const adminSchema = new mongoose.Schema({
   username : { type: String },
@@ -8,6 +9,79 @@ const adminSchema = new mongoose.Schema({
 }, { versionKey: false });
 
 const loginModel = mongoose.model('adminInfo',adminSchema);
+
+/*  
+    Please read this before you put your email for testing.
+    This function is responsible for the reminders sent tru email.
+    Do not PUSH a file in GITHUB with your EMAIL and APP password in it. 
+    YOU MIGHT/WILL GET HACKED. CAN'T GUARANTEE.
+*/ 
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: true,
+  auth: {
+   user: '', // Email of sender
+   pass: '', // app password (Settings > Set up app password)  REMEMBER THE REMINDER
+  },
+ });
+
+ /*
+  How does it work:
+    1. It gets all members.
+    2. It checks if the expiry is GREATER than or equal to 1 month from this day AND
+    3. Check if the machine has sent a reminder.
+    4. Push emails of users in the emailList
+    4. It changes the reminderSent of each user to true (This is done first- might be optimzied?)
+    5. Email is sent to emailList.
+ */
+
+ function checkOneMonth() {
+  let emailList = [];
+  getMembers().then(members => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Set the time to 00:00:00 for accurate comparison
+    members.forEach(member => {
+      const memberUntilDate = new Date(member.memberUntil);
+      memberUntilDate.setMonth(memberUntilDate.getMonth() - 1);
+      memberUntilDate.setHours(0, 0, 0, 0); // Set the time to 00:00:00 for accurate comparison
+
+      if (memberUntilDate.getTime() <= today.getTime() && !member.reminderSent) {
+        console.log("Reminder needed for member:", member._id);
+        emailList.push(member.email);
+        // update the mongoDB isSent to prevent multiple sends 
+        personalInfoModel.updateOne({ _id: member._id }, { reminderSent: true })
+        .then(() => {
+          console.log("Updated reminderSent ");
+        })
+        .catch((err) => {
+          console.error("Error updating reminderSent field:", err);
+        });
+      }
+    });//foreach
+
+    // Set mail options
+    let mailOptions = {
+      from: '', // sender address
+      to: emailList, // receiver's address
+      subject: 'Membership Expiry Reminder', // Subject line
+      text: 'Hello, your membership will expire in one month.' // of subject (can be changed to HTML)
+    };
+    // Send
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        return console.error("Error sending email:", error);
+      } else {
+        console.log("Email sent successfully.");
+      }
+    });
+  }).catch(error => {
+    console.error("Error fetching members:", error);
+  });
+}
+
+module.exports.checkOneMonth = checkOneMonth;
 
 
 
@@ -171,6 +245,9 @@ function checkMembershipStatus(uic){
 }
 
 module.exports.checkMembershipStatus = checkMembershipStatus;
+
+
+
 function updateMembershipStatus(uic) {
   return new Promise((resolve, reject) => {
     personalInfoModel.findOne({ uic_code: uic }).lean().then((user) => {

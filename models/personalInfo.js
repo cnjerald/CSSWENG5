@@ -39,7 +39,8 @@ const personalInfoSchema = new mongoose.Schema({
   eRelationship: { type: String },
   eAddress: { type: String },
   comments: { type: String },
-  memberUntil: { type: String, default: "newuser" }
+  memberUntil: { type: String, default: "newuser" },
+  reminderSent: {type:Boolean, default:false}
 }, { versionKey: false });
 
 const personalInfoModel = mongoose.model('personalInfo', personalInfoSchema);

@@ -13,6 +13,10 @@ function add(server) {
     cookie: { secure: false } 
   }));
 
+  // For bug testers, param2 can be changed to 60000 (or 1 minuites for bug testing) 
+  // See documentation of this function on Responder.js file.
+  setInterval(responder.checkOneMonth, 60* 60 * 1000);
+
   // Login as index
   server.get('/', function(req, resp) {
     resp.render('login', {
@@ -231,6 +235,8 @@ function add(server) {
       resp.status(400).send({ error: 'Invalid input' });
     }
   });
+
+
 
   
   

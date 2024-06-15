@@ -1,5 +1,5 @@
 //npm init
-//npm i express express-handlebars body-parser mongodb bcrypt express-session mongoose
+//npm i express express-handlebars body-parser mongodb bcrypt express-session mongoose nodemailer
 // Pls see comment regarding new codes.
 
 const express = require('express');
