@@ -170,48 +170,19 @@
                         <div class="db-item Name">{{last_name}} {{first_name}}</div>
                         <div class="db-item Payment"></div>
                         <div class="db-item Sex">{{sex}}</div>
-                        <div class="db-item Occupation"></div>
-                        <div class="db-item Engagement">1-2 per week</div>
-                        <div class="db-item Contribution">Frequent</div>
+                        <div class="db-item Occupation">{{occupation}}</div>
+                        <div class="db-item Engagement">{{engagement}}</div>
+                        <div class="db-item Contribution">{{contribution}}</div>
                         <div class="db-item Show-More last-child">
                             <div class="last-child-item">
-                                <a href="/memberDetail"><span class="last-child-icon material-symbols-outlined">more_horiz</span></a>
+                                         <!--reference to member detail-->
+                                <a href="/memberDetail?uic_code={{uic_code}}"><span class="last-child-icon material-symbols-outlined">more_horiz</span></a>
                             </div>
                         </div>
                     </div>
                     {{/each}}
 
-                    <div class="database-item database-header">
-                        <div class="db-item UIC">PLDKOKJR8H9HPV</div>
-                        <div class="db-item Name">Nurzhan Oakleigh</div>
-                        <div class="db-item Payment">Pending</div>
-                        <div class="db-item Sex">Male</div>
-                        <div class="db-item Occupation">Chef</div>
-                        <div class="db-item Engagement">1-2 per week</div>
-                        <div class="db-item Contribution">Often</div>
-                        <div class="db-item Show-More last-child">
-                            <div class="last-child-item">
-                                <a href="#"><span class="last-child-icon material-symbols-outlined">more_horiz</span></a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="database-item database-header">
-                        <div class="db-item UIC">91WXTD3TUHIHG3</div>
-                        <div class="db-item Name">Arnold Vesa</div>
-                        <div class="db-item Payment">Overdue</div>
-                        <div class="db-item Sex">Male</div>
-                        <div class="db-item Occupation">Engineer</div>
-                        <div class="db-item Engagement">1-2 per week</div>
-                        <div class="db-item Contribution">Frequent</div>
-                        <div class="db-item Show-More last-child">
-                            <div class="last-child-item">
-                                <a href="#"><span class="last-child-icon material-symbols-outlined">more_horiz</span></a>
-                            </div>
-                        </div>
-                    </div>
-
-
+                    
                     <!--Member Entry End-->
 
                 </div>
@@ -227,5 +198,5 @@
             </div>
         </div>
     </main>
-    <script src="/js/dropdown.js"></script>
+    <script src="../common/dropdown.js"></script>
     <script src="/js/database-wrapper.js"></script>

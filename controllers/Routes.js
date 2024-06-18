@@ -49,12 +49,27 @@ function add(server) {
     });
   });
 
+
   server.get('/memberDetail', function(req, resp) {
-    resp.render('memberDetail', {
-      layout: 'memberDetailsIndex',
-      title: 'temp'
+    const uicCode = req.query.uic_code; // extract uic_code from query parameters
+
+    responder.getMembers().then(memberData => {
+        // find the member in memberData array based on uic_code
+        const member = memberData.find(member => member.uic_code === uicCode);
+
+        if (member) {
+            resp.render('memberdetail', {
+                layout: 'memberDetailsIndex',
+                title: 'Member Detail',
+                member: member
+            });
+        } else {
+            resp.status(404).send('Member not found'); //  member not found case
+        }
+    }).catch(error => {
+        resp.status(500).send('Error fetching members'); // handle error case
     });
-  });
+  }); 
 
 
   server.post('/register-checker', function(req, resp) {
