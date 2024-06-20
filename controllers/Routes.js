@@ -5,6 +5,20 @@ const session = require('express-session');
 //schemas
 const personalInfoModel = require('../models/personalInfo')
 
+const multer = require('multer');
+// Configure Multer storage
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/'); // Set the destination folder
+  },
+  filename: (req, file, cb) => {
+    // Preserve the original file name
+    cb(null, `${Date.now()}-${file.originalname}`);
+  }
+});
+
+// Initialize Multer with the storage configuration
+const upload = multer({ storage: storage });
 function add(server) {
   server.use(session({
     secret: '09175019182', // Pls do not call this number. will change to a hash soon.
@@ -49,6 +63,22 @@ function add(server) {
     });
   });
 
+    // POST endpoint to handle file upload
+  server.post('/upload/image', upload.single('imageFile'), (req, res) => {
+    // 'imageFile' should match the name attribute in the FormData object
+
+    if (!req.file) {
+        return res.status(400).json({ error: 'No file uploaded' });
+    }
+
+    // Handle the uploaded file, e.g., save it to a directory, store its path in a database, etc.
+    const filePath = req.file.path;
+    req.session.profilePicturePath = filePath;
+    console.log("C1"+filePath);
+    
+    // Respond with JSON indicating success
+    res.json({ message: 'File uploaded successfully', filePath: filePath });
+  });
 
   server.get('/memberDetail', function(req, resp) {
     const uicCode = req.query.uic_code; // extract uic_code from query parameters
@@ -76,6 +106,7 @@ function add(server) {
     // new instance of model to update
     const newPersonalInfo = new personalInfoModel({
       uic_code: req.body.uic_code,
+      img_path: req.session.profilePicturePath,
       last_name: req.body.lname,
       middle_name: req.body.mname,
       first_name: req.body.fname,
@@ -100,11 +131,6 @@ function add(server) {
       comments: req.body.comments,
     });
 
-    console.log(req.body.entries);
-    console.log(req.body.medications);
-    console.log(req.body.conditions);
-
-    
     responder.checkPersonalInfo(newPersonalInfo).then((arr)=>{
       let pass = 0;
       arr.every(function(element){
@@ -133,6 +159,8 @@ function add(server) {
      
     // save the new instance to the database
   });
+
+  
 
 
 

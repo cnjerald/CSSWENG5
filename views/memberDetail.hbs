@@ -4,7 +4,7 @@
         <div class="profile-details">
             <div class="profile-picture">
                 <div class="pfp-img-container img-container">
-                    <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" id="profile-pic">
+                    <img src="{{ member.img_path }}" id="profile-pic" >
                 </div>
             </div>
             <div class="profile-name">
@@ -149,6 +149,8 @@
 </main>
 
 <script>
+
+
     document.addEventListener("DOMContentLoaded", function() {
         const forms = document.querySelectorAll(".profile-form");
         const nextButton = document.getElementById("next");

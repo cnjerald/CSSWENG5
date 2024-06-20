@@ -17,6 +17,7 @@ const conditionSchema = new mongoose.Schema({
 
 const personalInfoSchema = new mongoose.Schema({
   uic_code: { type: String },
+  img_path: {type: String},
   last_name: { type: String },
   middle_name: { type: String },
   first_name: { type: String },

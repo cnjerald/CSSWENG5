@@ -1,9 +1,10 @@
 //npm init
-//npm i express express-handlebars body-parser mongodb bcrypt express-session mongoose nodemailer
+//npm i express express-handlebars body-parser mongodb bcrypt express-session mongoose nodemailer multer
 // Pls see comment regarding new codes.
 
 const express = require('express');
 const server = express();
+const path = require('path');
 
 const bodyParser = require('body-parser');
 server.use(express.json()); 
@@ -62,8 +63,9 @@ const personalInfo = require('./models/personalInfo');
 
 
 
-server.use(express.static('public'));
 
+server.use(express.static('public'));
+server.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 const Handlebars = require('handlebars');
 
