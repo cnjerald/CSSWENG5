@@ -1,3 +1,19 @@
+<script>
+        function showOptions() {
+        const registeredOptions = document.getElementById('registered-options');
+        const communityOptions = document.getElementById('community-options');
+        const registeredRadio = document.getElementById('registered');
+        const communityRadio = document.getElementById('community-member');
+        
+        if (registeredRadio.checked) {
+            registeredOptions.classList.remove('hidden');
+            communityOptions.classList.add('hidden');
+        } else if (communityRadio.checked) {
+            registeredOptions.classList.add('hidden');
+            communityOptions.classList.remove('hidden');
+        }
+    }
+</script>
 <div class="outerContainer">
     <form id="uploadForm">
         <h2>Upload a profile picture</h2>
@@ -32,15 +48,15 @@
             </div>
         </div>
         <div class="comboBox">
-            <label for="mname" class="left">Middle Name</label><br>
-            <div>
-                <input class="inputBox" type="text" id="mname" name="mname" placeholder="Middle Name" required><br>
-            </div>
-        </div>
-        <div class="comboBox">
             <label for="fname" class="left">First Name</label><br>
             <div>
                 <input class="inputBox" type="text" id="fname" name="fname" placeholder="First Name" required><br>
+            </div>
+        </div>
+                <div class="comboBox">
+            <label for="mname" class="left">Middle Name</label><br>
+            <div>
+                <input class="inputBox" type="text" id="mname" name="mname" placeholder="Middle Name" required><br>
             </div>
         </div>
     </div>
@@ -53,7 +69,11 @@
                     <option value="" disabled selected>Gender</option>
                     <option value="male">Male</option>
                     <option value="female">Female</option>
-                    <option value="other">Other</option>
+                    <option value="heterosexual">Heterosexual</option>
+                    <option value="gay">Gay</option>
+                    <option value="lesbian">Lesbian</option>
+                    <option value="bisexual">Bisexual</option>
+                    <option value="transwoman">Transwoman</option>
                 </select><br>
             </div>
         </div>
@@ -318,6 +338,8 @@
         </div>
     </div>
 
+    
+
     <div class="divider">
         <div class="comboBox">
             <label for="occupation" class="left">Occupation:</label><br>
@@ -332,8 +354,69 @@
             <label for="company" class="left">Company:</label><br>
             <input class="inputBox" type="text" id="company"  name="company" required><br>
         </div>
-
     </div>
+
+
+    <div class="divider">
+        <label for="membership" class="left">Membership Type:</label>
+        <div class="comboBox">
+            
+            <div class="inputBox">
+                <label>
+                    <input type="radio" name="membership" id="registered" onclick="showOptions()">
+                    Registered
+                </label>
+                <label>
+                    <input type="radio" name="membership" id="community-member" onclick="showOptions()">
+                    Community Member
+                </label>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="registered-options" class="hidden divider">
+        <label class="left">Registered Options:</label>
+        <div class="comboBox inputBox">
+            
+            <label>
+                <input type="radio" name="registered-status">
+                Paid
+            </label>
+            <label>
+                <input type="radio" name="registered-status">
+                Not Paid
+            </label>
+        </div>
+    </div>
+
+    <div id="community-options" class="hidden divider">
+        <label class="left">Community Member Options:</label>
+        <div class="comboBox inputBox">
+            <label>
+                <input type="checkbox" name="community-services">
+                Psychological
+            </label>
+            <label>
+                <input type="checkbox" name="community-services">
+                Psychospiritual
+            </label>
+            <label>
+                <input type="checkbox" name="community-services">
+                Temporary Shelter
+            </label>
+            <label>
+                <input type="checkbox" name="community-services">
+                Legal Assistance
+            </label>
+        </div>
+    </div>
+
+
+
+
+
+
     <h2> Education Entries</h2>
     <div id="entries">
         <div class="divider">

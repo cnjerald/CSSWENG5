@@ -303,6 +303,40 @@ function updateMembershipStatus(uic) {
 module.exports.updateMembershipStatus = updateMembershipStatus;
 
 
+function searchFilter(searchString, sex) {
+  let searchQuery = {};
+
+  if (searchString.length > 0) {
+      searchQuery.first_name = { $regex: searchString, $options: 'i' }; // Case-insensitive regex
+  } else {
+      console.log("Empty");
+  }
+
+  if (sex !== "All") {
+      searchQuery.sex = sex.toLowerCase();
+  } else {
+      console.log("All");
+  }
+
+  return new Promise((resolve, reject) => {
+      personalInfoModel.find(searchQuery).lean().then(members => {
+          resolve(members);
+      }).catch(error => {
+          reject(error);
+      });
+  });
+}
+module.exports.searchFilter = searchFilter;
+
+
+
+
+
+
+
+
+
+
 function onlyContainsLetters(str) {
   return /^[A-Za-z]+$/.test(str);
 }

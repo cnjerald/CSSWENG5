@@ -160,6 +160,20 @@ function add(server) {
     // save the new instance to the database
   });
 
+  server.post("/filter_ajax",function(req,resp){
+    var membership = req.body.membership;
+    var payment = req.body.payment;
+    var sex = req.body.sex;
+    var searchRes = req.body.searchRes;
+
+    responder.searchFilter(searchRes,sex).then((members)=>{
+      resp.send({members: members});
+    })
+    
+    
+
+  });
+
   
 
 

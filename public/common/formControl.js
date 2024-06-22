@@ -72,4 +72,6 @@ $(document).ready(function() {
     function enablePageFields(page) {
         $(page).find(':input').prop('disabled', false);
     }
+
+
 });
