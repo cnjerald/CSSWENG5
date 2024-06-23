@@ -8,7 +8,7 @@
                 </div>
             </div>
             <div class="profile-name">
-                <h2 id="profile-name">{{member.first_name}} {{member.last_name}}</h2>
+                <h2 id="profile-name">{{member.name}}</h2>
             </div>
             <div class="profile-note">
                 <h2 class="h2-note">Note</h2>
@@ -27,7 +27,7 @@
                     </div>
                     <div class="detail Name d2">
                         <label class="detail-label l2">Name:</label>
-                        <div class="detail-text x2" id="Name">{{member.last_name}} {{member.first_name}}</div>
+                        <div class="detail-text x2" id="Name">{{member.name}}</div>
                     </div>
                 </div>
 
@@ -100,15 +100,15 @@
                 </div>
 
                 <div class="profile-item">
-                    <div class="detail Occupation last">
+                    <div class="detail Occupation d1">
                         <label class="detail-label l1">Occupation:</label>
                         <div class="detail-text col1" id="Occupation">{{member.occupation}}</div>
                     </div>
-                    <div class="detail Designation last">
+                    <div class="detail Designation d2">
                         <label class="detail-label l2">Designation:</label>
                         <div class="detail-text col2" id="Designation">{{member.designation}}</div>
                     </div>
-                    <div class="detail Company last">
+                    <div class="detail Company d3">
                         <label class="detail-label l3">Company:</label>
                         <div class="detail-text col3" id="Company">{{member.company}}</div>
                     </div>
@@ -122,6 +122,28 @@
 
                 <div class="profile-item">
                     <!-- Health Information items here -->
+                    {{#if member.medications}}
+                    {{#each member.medications}}
+                    <div class="detail Medication d1">
+                        <label class="detail-label l1">Medication:</label>
+                        <div class="detail-text col1" id="Medication">{{this.medication}}</div>
+                    </div>
+                    <div class="detail startDate d2">
+                        <label class="detail-label l2">Start Date:</label>
+                        <div class="detail-text col1" id="startDate">{{this.startDate}}</div>
+                    </div>
+                </div>
+                    {{/each}}
+                    {{/if}}
+                    <div class="profile-item">
+                        {{#if member.conditions}}
+                        {{#each member.conditions}}
+                        <div class="detail Condition d1">
+                            <label class="detail-label l1">Condition:</label>
+                            <div class="detail-text col2" id="Condition">{{member.condition}}</div>
+                        </div>
+                        {{/each}}
+                        {{/if}}
                 </div>
             </div>
         </div>
@@ -131,7 +153,24 @@
                 <div class="profile-info-header"><h2>Contact Information</h2></div>
 
                 <div class="profile-item">
-                    <!-- Contact Information items here -->
+                    <div class="detail ePerson d1">
+                        <label class="detail-label l1">Contact Person in Case of Emergency:</label>
+                        <div class="detail-text col1" id="ePerson">{{member.ePerson}}</div>
+                    </div>
+                    <div class="detail eContact d2">
+                        <label class="detail-label l1">Contact Number:</label>
+                        <div class="detail-text col1" id="eContact">{{member.eContact}}</div>
+                    </div>    
+                </div>
+                <div class="profile-item">
+                    <div class="detail eRelationship d1">
+                        <label class="detail-label l1">Relationship:</label>
+                        <div class="detail-text col1" id="eRelationship">{{member.eRelationship}}</div>
+                    </div> 
+                    <div class="detail eRelationship d2">
+                        <label class="detail-label l1">Contact Address:</label>
+                        <div class="detail-text col1" id="eAddress">{{member.eAddress}}</div>
+                    </div> 
                 </div>
             </div>
         </div>
