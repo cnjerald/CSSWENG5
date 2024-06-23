@@ -14,9 +14,10 @@ $(document).ready(function() {
   
       $.post(
         'filter_ajax', {
-          membership: selectedValues[0],
-          payment: selectedValues[1],
-          sex: selectedValues[2],
+          sex: selectedValues[0],
+          membership: selectedValues[1],
+          membershipDetails: selectedValues[2],
+          sort: selectedValues[6],
           searchRes: selectedValues[7]
         },
         function(data, status) {
@@ -58,9 +59,9 @@ $(document).ready(function() {
             <div class="database-item database-header">
                 <div class="db-item UIC">UIC</div>
                 <div class="db-item Name">Name</div>
-                <div class="db-item Payment">Payment</div>
                 <div class="db-item Sex">Sex</div>
-                <div class="db-item Occupation">Occupation</div>
+                <div class="db-item Payment">Membership</div>
+                <div class="db-item Status">Status</div>
                 <div class="db-item Engagement">Engagement</div>
                 <div class="db-item Contribution">Contribution</div>
                 <div class="db-item Show-More last-child">Show More</div>
@@ -70,21 +71,21 @@ $(document).ready(function() {
         members.forEach(member => {
             var memberHTML = `
                 <div class="database-item database-header">
-                    <div class="db-item UIC">${member.uic_code}</div>
-                    <div class="db-item Name">${member.last_name} ${member.first_name}</div>
-                    <div class="db-item Payment"></div>
-                    <div class="db-item Sex">${member.sex}</div>
-                    <div class="db-item Occupation">${member.occupation}</div>
-                    <div class="db-item Engagement">${member.engagement}</div>
-                    <div class="db-item Contribution">${member.contribution}</div>
-                    <div class="db-item Show-More last-child">
-                        <div class="last-child-item">
-                            <a href="/memberDetail?uic_code=${member.uic_code}">
-                                <span class="last-child-icon material-symbols-outlined">more_horiz</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>`;
+                  <div class="db-item UIC">${member.uic_code}</div>
+                  <div class="db-item Name">${member.name}</div>
+                  <div class="db-item Sex">${member.sex}</div>
+                  <div class="db-item Payment">${member.membership}</div>
+                  <div class="db-item Status">${member.membershipDetails}</div>
+                  <div class="db-item Engagement">Engagement</div>
+                  <div class="db-item Contribution">Contribution</div>
+                  <div class="db-item Show-More last-child">
+                      <div class="last-child-item">
+                          <a href="/memberDetail?uic_code=${member.uic_code}">
+                              <span class="last-child-icon material-symbols-outlined">more_horiz</span>
+                          </a>
+                      </div>
+                  </div>
+              </div>`;
             wrapper.insertAdjacentHTML('beforeend', memberHTML);
         });
     }

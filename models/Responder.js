@@ -173,8 +173,6 @@ function checkPersonalInfo(newPersonalInfo){
     let str_uic = newPersonalInfo.uic_code;
     let char_uic = (str_uic.slice(0, 4)).toUpperCase();
     let num_uic = str_uic.slice(-10);
-    console.log(char_uic);
-    console.log(num_uic);
     array.push(str_uic.length == 14 ? 1 : 0);
     array.push(
         onlyContainsLetters(char_uic) ? 1 : 0
@@ -183,9 +181,7 @@ function checkPersonalInfo(newPersonalInfo){
         onlyContainsNumbers(num_uic) ? 1 : 0
     );
     const fieldsToCheck = [
-        { key: 'last_name', message: 1 },
-        { key: 'middle_name', message: 1 }, 
-        { key: 'first_name', message: 1 }, 
+        { key: 'name', message: 1 },
         { key: 'sex', message: 1 },
         { key: 'birthday', message: 1 },
         { key: 'contact_number', message: 1 },
@@ -303,11 +299,11 @@ function updateMembershipStatus(uic) {
 module.exports.updateMembershipStatus = updateMembershipStatus;
 
 
-function searchFilter(searchString, sex) {
+function searchFilter(searchString, sex, membership, membershipDetails, sort) {
   let searchQuery = {};
 
   if (searchString.length > 0) {
-      searchQuery.first_name = { $regex: searchString, $options: 'i' }; // Case-insensitive regex
+      searchQuery.name = { $regex: searchString, $options: 'i' }; // Case-insensitive regex
   } else {
       console.log("Empty");
   }
@@ -317,15 +313,37 @@ function searchFilter(searchString, sex) {
   } else {
       console.log("All");
   }
+  if (membership !== "All") {
+    searchQuery.membership = membership;
+  } else {
+    console.log("All");
+  }
+  if (membershipDetails !== "All") {
+    searchQuery.membershipDetails = { $regex: membershipDetails, $options: "i" };
+  } else {
+    console.log("All");
+  }
 
   return new Promise((resolve, reject) => {
-      personalInfoModel.find(searchQuery).lean().then(members => {
+      let query = personalInfoModel.find(searchQuery).lean();
+
+      // Add sorting logic
+      if (sort === "Name") {
+          query = query.sort({ name: 1 }); // Sort by name in ascending order
+      } else if (sort === "Sex") {
+          query = query.sort({ sex: 0 }); // Sort by sex in ascending order
+      } else if (sort === "Membership") {
+          query = query.sort({ membership: 1 }); // Sort by membership in ascending order
+      }
+
+      query.then(members => {
           resolve(members);
       }).catch(error => {
           reject(error);
       });
   });
 }
+
 module.exports.searchFilter = searchFilter;
 
 

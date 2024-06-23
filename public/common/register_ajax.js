@@ -6,6 +6,15 @@ $(document).ready(function(){
         var medications = [];
         var conditions = [];
 
+        const membership = getSelectedMembership();
+        let membershipDetails = '';
+    
+        if (membership === 'Registered') {
+            membershipDetails = getRegisteredStatus();
+        } else if (membership === 'Community Member') {
+            membershipDetails = getCommunityServices();
+        }
+
         // Collect education entries
         $("#entries > .divider").each(function(index) {
             var entry = {
@@ -60,6 +69,8 @@ $(document).ready(function(){
                 eRelationship: $("#relationship").val(),
                 eAddress: $("#contactAddress").val(),
                 comments: $("#comments").val(),
+                membership: membership,
+                membershipDetails: membershipDetails
             },
             function(data,status){
                 if (status === "success"){
@@ -95,5 +106,34 @@ $(document).ready(function(){
         )
 
     })
+
+    function getSelectedMembership() {
+        if (document.getElementById('registered').checked) {
+            return 'Registered';
+        } else if (document.getElementById('community-member').checked) {
+            return 'Community Member';
+        }
+        return '';
+    }
+    
+    function getRegisteredStatus() {
+        let status = '';
+        document.getElementsByName('registered-status').forEach(radio => {
+            if (radio.checked) {
+                status = radio.nextSibling.nodeValue.trim();
+            }
+        });
+        return status;
+    }
+    
+    function getCommunityServices() {
+        let services = [];
+        document.getElementsByName('community-services').forEach(checkbox => {
+            if (checkbox.checked) {
+                services.push(checkbox.nextSibling.nodeValue.trim());
+            }
+        });
+        return services.join(', ');
+    }
 
 })

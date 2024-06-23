@@ -18,9 +18,7 @@ const conditionSchema = new mongoose.Schema({
 const personalInfoSchema = new mongoose.Schema({
   uic_code: { type: String },
   img_path: {type: String},
-  last_name: { type: String },
-  middle_name: { type: String },
-  first_name: { type: String },
+  name: {type : String},
   gender: { type: String },
   sex: { type: String },
   birthday: { type: String},
@@ -40,6 +38,8 @@ const personalInfoSchema = new mongoose.Schema({
   eRelationship: { type: String },
   eAddress: { type: String },
   comments: { type: String },
+  membership: {type: String},
+  membershipDetails: {type: String},
   memberUntil: { type: String, default: "newuser" },
   reminderSent: {type:Boolean, default:false}
 }, { versionKey: false });

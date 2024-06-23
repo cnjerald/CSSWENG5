@@ -104,12 +104,11 @@ function add(server) {
 
   server.post('/register-checker', function(req, resp) {
     // new instance of model to update
+
     const newPersonalInfo = new personalInfoModel({
       uic_code: req.body.uic_code,
       img_path: req.session.profilePicturePath,
-      last_name: req.body.lname,
-      middle_name: req.body.mname,
-      first_name: req.body.fname,
+      name : req.body.lname + " " + req.body.fname + " " + req.body.mname,
       gender: req.body.gender,
       sex: req.body.sex,
       birthday: req.body.bday,
@@ -128,7 +127,9 @@ function add(server) {
       eContact: req.body.eContact,
       eRelationship: req.body.eRelationship,
       eAddress: req.body.eAddress,
-      comments: req.body.comments,
+      membership: req.body.membership,
+      membershipDetails: req.body.membershipDetails,
+      comments: req.body.comments
     });
 
     responder.checkPersonalInfo(newPersonalInfo).then((arr)=>{
@@ -161,12 +162,13 @@ function add(server) {
   });
 
   server.post("/filter_ajax",function(req,resp){
-    var membership = req.body.membership;
-    var payment = req.body.payment;
     var sex = req.body.sex;
+    var membership = req.body.membership;
+    var membershipDetails = req.body.membershipDetails;
+    var sort = req.body.sort
     var searchRes = req.body.searchRes;
 
-    responder.searchFilter(searchRes,sex).then((members)=>{
+    responder.searchFilter(searchRes,sex,membership,membershipDetails,sort).then((members)=>{
       resp.send({members: members});
     })
     

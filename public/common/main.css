@@ -56,7 +56,7 @@
     position: sticky;
     top: 0;
     width: 350px;
-    min-height: 100vh;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -85,7 +85,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    position: absolute;
+    position: sticky;
+    width:100%;
 }
 
 .dropdown{
@@ -324,28 +325,42 @@
     width: 100%;
     height: auto;
     font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+    word-wrap: break-word;
 }
 
 .database-header{
     font-weight: bold;
 }
 
-.db-item{
-    height: 50px;
-    padding: 10px;
+.db-item {
+    height: 40px;
     display: flex;
-    justify-content: center;
+    justify-content: left;
     align-items: center;
     border-right: 2px solid gray;
     border-bottom: 2px solid gray;
-    font-size: 18px;
+    font-size: 1vw; /* Adjust this value as needed */
+    overflow: hidden; /* Hide overflowing text */
+    white-space: nowrap; /* Prevent text from wrapping to the next line */
+    text-overflow: ellipsis; /* Add ellipsis (...) to indicate text overflow */
 }
 
-.UIC, .Name{
-    width: 300px;
+.UIC{
+    width: 180px;
+}
+.Name{
+    width:350px;
+}
+.Sex{
+    width:100px;
+}
+.Status{
+    font-size: .7vw; 
+    width:300px;
 }
 
-.Payment, .Sex, .Occupation{
+.Payment, .Occupation{
+    font-size: .8vw; 
     width: 150px;
 }
 
