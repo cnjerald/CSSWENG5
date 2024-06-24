@@ -4,6 +4,7 @@ const fs = require('fs');
 const session = require('express-session');
 //schemas
 const personalInfoModel = require('../models/personalInfo')
+const eventsModel = require("../models/eventsInfo");
 
 const multer = require('multer');
 // Configure Multer storage
@@ -62,6 +63,35 @@ function add(server) {
       });
     });
   });
+
+  server.get('/events',function(req,resp){
+    responder.getEvents().then(eventData =>{
+      resp.render('events',{
+        layout: 'mainMenuIndex',
+        title: 'Events',
+        event: eventData
+      })
+    })
+  })
+
+  server.post('/api/add-event', (req, res) => {
+    const { eventName, eventDate } = req.body;
+
+    console.log(`Received event: ${eventName} on ${eventDate}`);
+    
+    const eventInfo = new eventsModel({
+      name: eventName,
+      date: eventDate
+    })
+
+    eventInfo.save().then(()=>{
+      console.log("Event added");
+    });
+    res.status(200).json({
+        message: 'Event added successfully!',
+        event: { eventName, eventDate }
+    });
+});
 
     // POST endpoint to handle file upload
   server.post('/upload/image', upload.single('imageFile'), (req, res) => {
@@ -172,8 +202,6 @@ function add(server) {
       resp.send({members: members});
     })
     
-    
-
   });
 
   

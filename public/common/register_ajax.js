@@ -86,17 +86,31 @@ $(document).ready(function(){
                         } else {
                             $("label[for='uic']").html("Unique Identifier Code: ").css("color", ""); // Reset color
                         }
-                        
-                        data.arr[3] === 0 ? $("label[for='lname']").html("Last name: This field is required").css("color", "red") : $("label[for='lname']").html("Last name:");
-                        data.arr[4] === 0 ? $("label[for='mname']").html("Middle name: This field is required").css("color", "red") : $("label[for='mname']").html("Middle name:");
-                        data.arr[5] === 0 ? $("label[for='fname']").html("First name: This field is required").css("color", "red") : $("label[for='fname']").html("First name:");
-                        data.arr[6] === 0 ? $("label[for='sex']").html("Sex: This field is required").css("color", "red") : $("label[for='sex']").html("Sex:");
-                        data.arr[7] === 0 ? $("label[for='bday']").html("Birthday: This field is required").css("color", "red") : $("label[for='bday']").html("Birthday:");
-                        data.arr[8] === 0 ? $("label[for='contact-number']").html("Contact Number: This field is required").css("color", "red") : $("label[for='contact-number']").html("Contact Number:");
-                        data.arr[9] === 0 ? $("label[for='email']").html("Email Address: This field is required").css("color", "red") : $("label[for='email']").html("Email Address:");
-                        data.arr[10] === 0 ? $("label[for='civil-status']").html("Civil Status: This field is required").css("color", "red") : $("label[for='civil-status']").html("Civil Status:");
-                        data.arr[11] === 0 ? $("label[for='citizenship']").html("Citizenship: This field is required").css("color", "red") : $("label[for='citizenship']").html("Citizenship:");
-                         
+
+                        if (data.arr[5] === 0) {
+                            $("label[for='bday']").html("Birthday: This field is required").css("color", "red");
+                        } else if (data.arr[10] === 0) {
+                            $("label[for='bday']").html("Birthday: The input is invalid").css("color", "red");
+                        } else {
+                            $("label[for='bday']").html("Birthday:").css("color", "");
+                        }
+
+                        if (data.arr[6] === 0) {
+                            $("label[for='contact-number']").html("Contact Number: This field is required").css("color", "red");
+                        } else if (data.arr[11] === 0) {
+                            $("label[for='contact-number']").html("Contact Number: Should only contain numbers").css("color", "red");
+                        } else {
+                            $("label[for='contact-number']").html("Contact Number:").css("color", "");
+                        }
+
+                        data.arr[3] === 0 ? $("label[for='mname']").html("This field is required").css("color", "red") : $("label[for='mname']").html("Middle name:");
+                        data.arr[3] === 0 ? $("label[for='fname']").html("This field is required").css("color", "red") : $("label[for='fname']").html("First name:");
+                        data.arr[4] === 0 ? $("label[for='sex']").html("Sex: This field is required").css("color", "red") : $("label[for='sex']").html("Sex:");
+                        data.arr[7] === 0 ? $("label[for='email']").html("Email Address: This field is required").css("color", "red") : $("label[for='email']").html("Email Address:");
+                        data.arr[8] === 0 ? $("label[for='civil-status']").html("Civil Status: This field is required").css("color", "red") : $("label[for='civil-status']").html("Civil Status:");
+                        data.arr[9] === 0 ? $("label[for='citizenship']").html("Citizenship: This field is required").css("color", "red") : $("label[for='citizenship']").html("Citizenship:");
+
+                        $('html, body').animate({ scrollTop: 0 }, 'slow');
                         }
                     }
 

@@ -1,0 +1,64 @@
+<main>
+    <div class="main">
+        <div class="database-container">
+            <div class="searchbar-container">
+                <form class="searchbar-form" id="searchbar-form" action="">
+                    <div class="search">
+                        <div class="search-btn-container">
+                            <button class="btn" type="submit">
+                                <span class="search-icon material-symbols-outlined">search</span>
+                            </button>
+                        </div>
+                        <div class="search-input-container">
+                            <input class="search-input" type="search" id="searchEvents" placeholder="Search...">
+                        </div>
+                    </div>
+                    <div class="sort-item">
+                        <button class="item-btn" type="button" id="addEventBtn">Add Event</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="database-wrapper">
+                <div class="database-item database-header">
+                    <div class="db-item UIC">Event Name</div>
+                    <div class="db-item Name">Event Date</div>
+                    <div class="db-item Name">Number of Participants</div>
+                    <div class="db-item Show-More last-child">Show More</div>
+                </div>
+                <!--Member Entry Start-->
+                {{#each event}}
+                <div class="database-item database-header">
+                    <div class="db-item UIC">{{name}}</div>
+                    <div class="db-item Name">{{date}}</div>
+                    <div class="db-item Name">{{attendees}}</div>
+                    <div class="db-item Show-More last-child">
+                        <div class="last-child-item">
+                            <a href="/memberDetail?uic_code={{uic_code}}"><span class="last-child-icon material-symbols-outlined">more_horiz</span></a>
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+                <!--Member Entry End-->
+            </div>
+        </div>
+    </div>
+
+    <!-- Popup Form -->
+    <div id="popupForm" class="popup-form">
+        <div class="popup-content">
+            <span class="close">&times;</span>
+            <h2>Add Event</h2>
+            <form id="eventForm">
+                <label for="eventName">Event Name:</label>
+                <input type="text" id="eventName" name="eventName" required>
+                <label for="eventDate">Event Date:</label>
+                <input type="date" id="eventDate" name="eventDate" required>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+</main>
+<script src="../common/dropdown.js"></script>
+<script src="/js/database-wrapper.js"></script>
+<script src="/js/add-event.js"></script>

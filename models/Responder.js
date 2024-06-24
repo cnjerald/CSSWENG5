@@ -1,6 +1,7 @@
 const { emit } = require('process');
 const mongoose = require('mongoose');
 const personalInfoModel = require('./personalInfo');
+const eventsModel = require('./eventsInfo');
 const nodemailer = require('nodemailer');
 
 const adminSchema = new mongoose.Schema({
@@ -173,12 +174,13 @@ function checkPersonalInfo(newPersonalInfo){
     let str_uic = newPersonalInfo.uic_code;
     let char_uic = (str_uic.slice(0, 4)).toUpperCase();
     let num_uic = str_uic.slice(-10);
-    array.push(str_uic.length == 14 ? 1 : 0);
+
+    array.push(str_uic.length == 14 ? 1 : 0); // arr[0] >UIC Length
     array.push(
-        onlyContainsLetters(char_uic) ? 1 : 0
+        onlyContainsLetters(char_uic) ? 1 : 0 // arr[1] allCharUICpart
     );
     array.push(
-        onlyContainsNumbers(num_uic) ? 1 : 0
+        onlyContainsNumbers(num_uic) ? 1 : 0 // arr[2] allIntUICPart
     );
     const fieldsToCheck = [
         { key: 'name', message: 1 },
@@ -190,8 +192,10 @@ function checkPersonalInfo(newPersonalInfo){
         { key: 'citizenship', message: 1 },
     ];
     fieldsToCheck.forEach(field => {
-      array.push(newPersonalInfo[field.key] && newPersonalInfo[field.key].length > 0 ? field.message : 0);
+      array.push(newPersonalInfo[field.key] && newPersonalInfo[field.key].length > 0 ? field.message : 0); // arr[3-9] checkNull
   });
+  array.push(isValidDate(newPersonalInfo.birthday));
+  array.push(onlyContainsNumbers(newPersonalInfo.contact_number) ? 1 : 0);
 
     resolve(array).catch(errorFn);
   })
@@ -331,7 +335,7 @@ function searchFilter(searchString, sex, membership, membershipDetails, sort) {
       if (sort === "Name") {
           query = query.sort({ name: 1 }); // Sort by name in ascending order
       } else if (sort === "Sex") {
-          query = query.sort({ sex: 0 }); // Sort by sex in ascending order
+          query = query.sort({ sex: -1 }); // Sort by sex in ascending order
       } else if (sort === "Membership") {
           query = query.sort({ membership: 1 }); // Sort by membership in ascending order
       }
@@ -346,6 +350,17 @@ function searchFilter(searchString, sex, membership, membershipDetails, sort) {
 
 module.exports.searchFilter = searchFilter;
 
+  function getEvents(){
+    return new Promise((resolve, reject) => {
+      eventsModel.find({}).lean().then(events => {
+        resolve(events);
+      }).catch(error => {
+        reject(error);
+      });
+    });
+  }
+
+module.exports.getEvents = getEvents;
 
 
 
@@ -363,6 +378,21 @@ function onlyContainsNumbers(str) {
   return /^[0-9]+$/.test(str);
 }
 
+function isValidDate(date) {
+  // Create a new Date object from the input date
+  const inputDate = new Date(date);
+  
+  // Get today's date without the time component
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  
+  // Compare the input date with today's date
+  if (inputDate > today) {
+    return 0;
+  } else {
+    return 1;
+  }
+}
 // Clean Closing
 
 function finalClose(){
