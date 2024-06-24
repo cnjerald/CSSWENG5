@@ -139,15 +139,15 @@
 
         <div class="comboBox">
             <label for="barangay" class="left">Barangay:</label><br>
-            <select id="barangay" class="inputBox" name="barangay">
+            <select id="barangay" class="inputBox" name="barangay"required>
                 <option value="">Select Barangay</option>
             </select>
         </div>
 
         <div class="comboBox">
             <div id="otherLocation" style="display: none;">
-                <label for="otherBarangay">Enter your barangay:</label>
-                <input class="inputBox"type="text" id="barangay" name="barangay" placeholder="Enter Location"required>
+                <label for="otherLocation">Enter your Location:</label>
+                <input class="inputBox"type="text" id="location" name="location" placeholder="Enter Location">
             </div>
         </div>
     <script>
@@ -159,7 +159,7 @@
         var barangays = Array.from({ length: 188 }, (_, index) => index + 1);
 
         var noneOption = document.createElement("option");
-        noneOption.value = "";
+        noneOption.value = "Not in Caloocan";
         noneOption.textContent = "None";
         select.appendChild(noneOption);
 
@@ -460,7 +460,7 @@
         <div class="comboBox inputBox">
             <label>
                 <input type="checkbox" name="community-services">
-                Psychological
+                Psychosocial
             </label>
             <label>
                 <input type="checkbox" name="community-services">

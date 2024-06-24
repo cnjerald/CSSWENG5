@@ -58,6 +58,7 @@ $(document).ready(function(){
                 email_address: $("#email-address").val(),
                 facebook_address: $("#facebook-address").val(),
                 barangay: $("#barangay").val(),
+                location:$("#location").val(),
                 civil_status: $('#civil-status').val(),
                 citizenship: $("#citizenship").val(),
                 occupation: $("#occupation").val(),

@@ -8,7 +8,7 @@
                 </div>
             </div>
             <div class="profile-name">
-                <h2 id="profile-name">{{member.first_name}} {{member.last_name}}</h2>
+                <h2 id="profile-name">{{member.name}}</h2>
             </div>
             <div class="profile-note">
                 <h2 class="h2-note">Note</h2>
@@ -27,7 +27,7 @@
                     </div>
                     <div class="detail Name d2">
                         <label class="detail-label l2">Name:</label>
-                        <div class="detail-text x2" id="Name">{{member.last_name}} {{member.first_name}}</div>
+                        <div class="detail-text x2" id="Name">{{member.name}}</div>
                     </div>
                 </div>
 
@@ -36,12 +36,17 @@
                         <label class="detail-label l1">Birthday:</label>
                         <div class="detail-text x1" id="Birthday">{{member.birthday}}</div>
                     </div>
-                    <div class="detail Address d2">
-                        <label class="detail-label l2">Address:</label>
-                        <div class="detail-text x2" id="Address">{{member.eAddress}}</div>
+                    
+                    <div class="detail Barangay d2">
+                        <label class="detail-label l2">Barangay:</label>
+                        <div class="detail-text x2" id="Barangay">{{member.barangay}}</div>
+                    </div>
+                    <div class="detail Location d3">
+                        <label class="detail-label l3">Location:</label>
+                        <div class="detail-text x3" id="Location">{{member.location}}</div>
                     </div>
                 </div>
-
+    
                 <div class="profile-item">
                     <div class="detail Gender d1">
                         <label class="detail-label l1">Gender:</label>

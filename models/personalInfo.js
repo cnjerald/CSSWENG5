@@ -27,6 +27,7 @@ const personalInfoSchema = new mongoose.Schema({
   email: { type: String },
   fb_account: { type: String },
   barangay: { type: String },
+  location: { type: String },
   civil_status: { type: String },
   citizenship: { type: String },
   occupation: { type: String },

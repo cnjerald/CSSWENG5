@@ -147,6 +147,7 @@ function add(server) {
       email: req.body.email_address,
       fb_account: req.body.facebook_address,
       barangay: req.body.barangay,
+      location: req.body.location,
       civil_status: req.body.civil_status,
       citizenship: req.body.citizenship,
       occupation: req.body.occupation,
