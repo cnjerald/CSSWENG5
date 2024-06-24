@@ -118,7 +118,7 @@
                         <div class="detail-text col3" id="Company">{{member.company}}</div>
                     </div>
                 </div>
-                <button class="edit-btn" type="submit">Edit</button>
+                <a id="editLink" href="/updateMember?uic_code={{member.uic_code}}">Edit</a>
             </div>
         </div>
 
@@ -228,4 +228,8 @@
         //const urlParams = new URLSearchParams(window.location.search);
         // const uicCode = urlParams.get('uic_code');  
     });
+    
+  
+
+
 </script>

@@ -145,6 +145,59 @@ function add(server) {
     });
   }); 
 
+  server.get('/updateMember', function(req, resp) {
+    const uicCode = req.query.uic_code; // extract uic_code from query parameters
+
+    responder.getMembers().then(memberData => {
+        // find the member in memberData array based on uic_code
+        const member = memberData.find(member => member.uic_code === uicCode);
+
+        if (member) {
+            resp.render('updateMember', {
+                layout: 'memberDetailsIndex',
+                title: 'updateMember',
+                member: member
+            });
+        } else {
+            resp.status(404).send('Member not found'); //  member not found case
+        }
+    }).catch(error => {
+        resp.status(500).send('Error fetching members'); // handle error case
+    });
+  }); 
+
+  server.post('/update-member', (req, res) => {
+    const { uic_code, name, birthday, barangay, location, gender, sex, contact_number, email, civil_status, fb_account, occupation, designation, company, entries } = req.body;
+
+    // Assuming `uic_code` uniquely identifies the member to update
+    personalInfoModel.findOneAndUpdate({ uic_code: uic_code }, {
+        name: name,
+        birthday: birthday,
+        barangay: barangay,
+        location: location,
+        gender: gender,
+        sex: sex,
+        contact_number: contact_number,
+        email: email,
+        civil_status: civil_status,
+        fb_account: fb_account,
+        occupation: occupation,
+        designation: designation,
+        company: company,
+        entries: entries
+    }, { new: true })
+    .then(updatedMember => {
+        if (!updatedMember) {
+            return res.status(404).json({ message: 'Member not found' });
+        }
+        console.log('Member details updated:', updatedMember);
+        res.status(200).json({ message: 'Member details updated successfully', member: updatedMember });
+    })
+    .catch(error => {
+        console.error('Error updating member details:', error);
+        res.status(500).json({ message: 'Failed to update member details' });
+    });
+});
   /**
    * This ajax request checks if the input during registration is valid or not.
    */

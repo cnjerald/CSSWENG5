@@ -148,6 +148,43 @@ ul li {
     list-style: none;
 }
 
+/* Basic BNW styling for the Save button */
+#saveButton {
+    background-color: #fff; /* White background */
+    color: #000; /* Black text */
+    padding: 10px 20px; /* Padding around text */
+    border: 1px solid #000; /* Black border */
+    cursor: pointer; /* Cursor style */
+    font-size: 16px; /* Font size */
+    border-radius: 4px; /* Rounded corners */
+    transition: background-color 0.3s ease; /* Smooth background color transition */
+}
+
+/* Hover effect for BNW Save button */
+#saveButton:hover {
+    background-color: #000; /* Black background on hover */
+    color: #fff; /* White text on hover */
+}
+
+#editLink {
+    display: inline-block; /* Display as block element */
+    text-decoration: none; /* Remove underline */
+    background-color: #fff; /* White background */
+    color: #000; /* Black text */
+    padding: 10px 20px; /* Padding around text */
+    border: 1px solid #000; /* Black border */
+    cursor: pointer; /* Cursor style */
+    font-size: 16px; /* Font size */
+    border-radius: 4px; /* Rounded corners */
+    transition: background-color 0.3s ease; /* Smooth background color transition */
+}
+
+/* Hover effect for BNW anchor element */
+#editLink:hover {
+    background-color: #000; /* Black background on hover */
+    color: #fff; /* White text on hover */
+}
+
 .profile-item{
     margin: 15px;
     display: flex;
