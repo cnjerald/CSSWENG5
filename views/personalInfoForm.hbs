@@ -90,6 +90,20 @@
         </div>
 
         <div class="comboBox">
+            <label for="keyPopulation" class="left">Key Population</label><br>
+            <div>
+                <select id="keyPopulation" name="keyPopulation" class="inputBox" required>
+                    <option value="" disabled selected>Key Population</option>
+                    <option value="Msm">Msm</option>
+                    <option value="Women's">Women's</option>
+                    <option value="Sex worker">Sex Worker</option>
+                    <option value="PWID/PWUD">PWID/PWUD</option>
+                    <option value="Youth(15 to 24)">Youth [15 to 24]</option>
+                </select><br>
+            </div>
+        </div>
+
+        <div class="comboBox">
             <label for="bday" class="left">Birthday:</label><br>
             <div>
                 <input type="date" id="bday" name="bday" class="inputBox" required><br>
@@ -122,6 +136,57 @@
     </div>
 
     <div class="divider">
+
+        <div class="comboBox">
+            <label for="barangay" class="left">Barangay:</label><br>
+            <select id="barangay" class="inputBox" name="barangay">
+                <option value="">Select Barangay</option>
+            </select>
+        </div>
+
+        <div class="comboBox">
+            <div id="otherLocation" style="display: none;">
+                <label for="otherBarangay">Enter your barangay:</label>
+                <input class="inputBox"type="text" id="barangay" name="barangay" placeholder="Enter Location"required>
+            </div>
+        </div>
+    <script>
+        function populateBarangays() {
+        
+        var select = document.getElementById("barangay");
+
+        // Array of barangay numbers (assuming they are sequential from 1 to 188)
+        var barangays = Array.from({ length: 188 }, (_, index) => index + 1);
+
+        var noneOption = document.createElement("option");
+        noneOption.value = "";
+        noneOption.textContent = "None";
+        select.appendChild(noneOption);
+
+        // Iterate through the array and create option elements
+        barangays.forEach(function (barangay) {
+            var option = document.createElement("option");
+            option.value = "Barangay " + barangay; 
+            option.textContent = "Barangay " + barangay; 
+            select.appendChild(option);
+        });
+    }
+        function handleBarangayChange() {
+
+        var selectedBarangay = document.getElementById("barangay").value;
+        var otherLocation = document.getElementById("otherLocation");
+
+        if (selectedBarangay === "") {
+            otherLocation.style.display = "block";
+        } else {
+            otherLocation.style.display = "none";
+        }
+    }
+    // call the function to populate the dropdown when the page loads
+    populateBarangays();
+    document.getElementById("barangay").addEventListener("change", handleBarangayChange);
+    </script>
+    
         <div class="comboBox">
             <label for="civil-status" class="left">Civil Status:</label><br>
             <div>
@@ -134,7 +199,7 @@
                 </select><br>
             </div>
         </div>
-
+        
         <div class="comboBox">
             <label for="citizenship" class="left">Citizenship:</label><br>
             <select id="citizenship" class="inputBox" name="citizenship" required>
