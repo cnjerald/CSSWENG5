@@ -33,9 +33,9 @@
                     <div class="db-item Name">{{date}}</div>
                     <div class="db-item Name">{{attendees}}</div>
                     <div class="db-item Show-More last-child">
-                        <div class="last-child-item">
-                            <a href="/memberDetail?uic_code={{uic_code}}"><span class="last-child-icon material-symbols-outlined">more_horiz</span></a>
-                        </div>
+                        <button class="add-attendee-btn" data-event-id="{{id}}">
+                            <span class="material-symbols-outlined">add</span>
+                        </button>
                     </div>
                 </div>
                 {{/each}}
@@ -58,6 +58,20 @@
             </form>
         </div>
     </div>
+
+    <div id="registerAttendeePopup" class="popup-form">
+        <div class="popup-content">
+            <span class="close">&times;</span>
+            <h2>Register Attendee</h2>
+            <form id="registerAttendeeForm">
+                <label for="uicCode">UIC Code:</label>
+                <input type="text" id="uicCode" name="uicCode" required>
+                <input type="hidden" id="eventId" name="eventId">
+                <button type="submit">Register Attendee</button>
+            </form>
+        </div>
+    </div>
+
 </main>
 <script src="../common/dropdown.js"></script>
 <script src="/js/database-wrapper.js"></script>

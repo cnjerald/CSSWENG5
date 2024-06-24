@@ -11,6 +11,8 @@ const adminSchema = new mongoose.Schema({
 
 const loginModel = mongoose.model('adminInfo',adminSchema);
 
+// This section is used as a method to automatically send email reminders to users.
+
 /*  
     Please read this before you put your email for testing.
     This function is responsible for the reminders sent tru email.
@@ -37,6 +39,17 @@ const transporter = nodemailer.createTransport({
     4. It changes the reminderSent of each user to true (This is done first- might be optimzied?)
     5. Email is sent to emailList.
  */
+
+    
+function errorFn(err){
+  console.log('Error found. Please trace!');
+  console.error(err);
+}
+
+function successFn(res){
+  console.log('Database query successful!');
+}
+
 
  function checkOneMonth() {
   let emailList = [];
@@ -86,7 +99,7 @@ module.exports.checkOneMonth = checkOneMonth;
 
 
 
-//Paymongo
+// This section is related to Paymongo
 
 const options = {
     method: 'POST',
@@ -98,42 +111,13 @@ const options = {
     body: JSON.stringify({data: {attributes: {amount: 10000, description: 'Test', remarks: 'Test'}}})
   };
 
-  const options2 = {
-    method: 'GET',
-    headers: {
-      accept: 'application/json',
-      authorization: 'Basic c2tfdGVzdF96bTV1SjdVUG5zQjVHaDd5NzNLaTJhVkQ6'
-    }
-  };
-
-
-
-
-function errorFn(err){
-    console.log('Error found. Please trace!');
-    console.error(err);
-}
-
-function successFn(res){
-    console.log('Database query successful!');
-}
-
-
-
-
-
-// Helper Functions Here
-
-
-// - Sample function that returns the input parameter.
-function sampleFunction(parameter) {
-    return new Promise((resolve, reject) => {
-        resolve(parameter).catch(errorFn);
-    });
-}
-//Export this as a function name.
-module.exports.sampleFunction = sampleFunction;
-
+const options2 = {
+  method: 'GET',
+  headers: {
+    accept: 'application/json',
+    authorization: 'Basic c2tfdGVzdF96bTV1SjdVUG5zQjVHaDd5NzNLaTJhVkQ6'
+  }
+};
 
 // This function generates a payment gateway link for a user.
 function getPaymentLink() {
@@ -166,7 +150,7 @@ function checkPayment(id) {
 }
 module.exports.checkPayment= checkPayment;
 
-
+//This fuction fulfills the ajax request register-checker it checks for invalid inputs during registration.
 function checkPersonalInfo(newPersonalInfo){
   return new Promise((resolve,reject)=>{
     let array = [];
@@ -203,7 +187,7 @@ function checkPersonalInfo(newPersonalInfo){
 }
 module.exports.checkPersonalInfo = checkPersonalInfo;
 
-
+// This function fulfills the ajax request login-checker. It is used to check the username and password of the admin.
 function getUser(username, password) {
   return new Promise((resolve,reject)=>{
 
@@ -220,6 +204,7 @@ function getUser(username, password) {
 }
 module.exports.getUser = getUser;
 
+// This function is a helper function that queries all registered members and their details.
 function getMembers() {
   return new Promise((resolve, reject) => {
     personalInfoModel.find({}).lean().then(members => {
@@ -231,6 +216,7 @@ function getMembers() {
 }
 module.exports.getMembers = getMembers;
 
+// This function is a helper function that checks the membership status of the user.
 function checkMembershipStatus(uic){
   console.log(uic);
   return new Promise((resolve, reject) => {
@@ -246,7 +232,7 @@ function checkMembershipStatus(uic){
 
 module.exports.checkMembershipStatus = checkMembershipStatus;
 
-
+// This function updates the membership status (Expiry date) of the user.
 
 function updateMembershipStatus(uic) {
   return new Promise((resolve, reject) => {
@@ -302,7 +288,7 @@ function updateMembershipStatus(uic) {
 
 module.exports.updateMembershipStatus = updateMembershipStatus;
 
-
+// This function is in charge of the search queries and filter.
 function searchFilter(searchString, sex, membership, membershipDetails, sort) {
   let searchQuery = {};
 
@@ -350,6 +336,7 @@ function searchFilter(searchString, sex, membership, membershipDetails, sort) {
 
 module.exports.searchFilter = searchFilter;
 
+// This function gets all the listed events
   function getEvents(){
     return new Promise((resolve, reject) => {
       eventsModel.find({}).lean().then(events => {
@@ -369,6 +356,7 @@ module.exports.getEvents = getEvents;
 
 
 
+// Helper functions
 
 function onlyContainsLetters(str) {
   return /^[A-Za-z]+$/.test(str);

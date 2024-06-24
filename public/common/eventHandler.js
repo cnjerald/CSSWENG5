@@ -54,4 +54,40 @@ document.addEventListener('DOMContentLoaded', (event) => {
             console.error('Error:', error);
         });
     }
+
+    document.querySelectorAll(".add-attendee-btn").forEach(button => {
+        button.addEventListener("click", function () {
+            const eventId = this.dataset.eventId;
+            document.getElementById("eventId").value = eventId;
+            document.getElementById("registerAttendeePopup").style.display = "block";
+        });
+    });
+
+    // Close popup
+    document.querySelectorAll(".popup-form .close").forEach(closeBtn => {
+        closeBtn.addEventListener("click", function () {
+            this.parentElement.parentElement.style.display = "none";
+        });
+    });
+
+    // Submit attendee registration form
+    document.getElementById("registerAttendeeForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        fetch('/registerAttendee', {
+            method: 'POST',
+            body: formData
+        }).then(response => {
+            if (response.ok) {
+                alert('Attendee registered successfully');
+                document.getElementById("registerAttendeePopup").style.display = "none";
+                // Optionally, refresh the page or update the attendees count dynamically
+            } else {
+                alert('Failed to register attendee');
+            }
+        });
+    });
+
+
+
 });

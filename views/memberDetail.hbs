@@ -12,7 +12,7 @@
             </div>
             <div class="profile-note">
                 <h2 class="h2-note">Note</h2>
-                <p class="note-desc" id="profile-note">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cum totam error officiis fugit illo, ab ducimus corrupti illum maiores iure nemo autem sint. Doloribus magni delectus odio tempore animi omnis?</p>
+                <p class="note-desc" id="profile-note" {{member.comments}}</p>
             </div>
         </div>
 
@@ -118,8 +118,10 @@
                         <div class="detail-text col3" id="Company">{{member.company}}</div>
                     </div>
                 </div>
+                <button class="edit-btn" type="submit">Edit</button>
             </div>
         </div>
+
 
         <div id="health-form" class="profile-form">
             <div class="profile-information">
@@ -149,6 +151,7 @@
                         {{/each}}
                         {{/if}}
                 </div>
+                <button class="edit-btn edit-contact" type="submit">Edit</button>
             </div>
         </div>
 
@@ -176,6 +179,7 @@
                         <div class="detail-text col1" id="eAddress">{{member.eAddress}}</div>
                     </div> 
                 </div>
+                <button class="edit-btn edit-contact" type="submit">Edit</button>
             </div>
         </div>
 
@@ -187,7 +191,9 @@
                 <button id="prev" class="nav-btn"><span class="nav-icon-left material-symbols-outlined">arrow_forward_ios</span></button>
             </div>
         </div>
-
+    </div>
+    <div class="delete-container">
+        <button class="detail-btn delete-btn" type="submit">Delete</button>
     </div>
 </main>
 

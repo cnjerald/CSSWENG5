@@ -32,6 +32,8 @@ function add(server) {
   // See documentation of this function on Responder.js file.
   setInterval(responder.checkOneMonth, 60* 60 * 1000);
 
+  // These section contains all get request for the pages.
+
   // Login as index
   server.get('/', function(req, resp) {
     resp.render('login', {
@@ -39,21 +41,21 @@ function add(server) {
       title: 'login',
     });
   });
-
+  // Registration page
   server.get('/register', function(req, resp) {
     resp.render('personalInfoForm', {
       layout: 'formIndex',
       title: 'test'
     });
   });
-
+  // Payment page
   server.get('/payment', function(req, resp) {
     resp.render('payment', {
       layout: 'paymentIndex',
       title: 'test'
     });
   });
-
+  // Admin main page
   server.get('/mainpage', function(req, resp) {
     responder.getMembers().then(memberData => {
       resp.render('mainpage', {
@@ -63,7 +65,7 @@ function add(server) {
       });
     });
   });
-
+  // Events page
   server.get('/events',function(req,resp){
     responder.getEvents().then(eventData =>{
       resp.render('events',{
@@ -74,25 +76,37 @@ function add(server) {
     })
   })
 
-  server.post('/api/add-event', (req, res) => {
+  //This section contains ajax requests
+
+  /**
+   * This ajax request creates a new event given by the admin.
+   * 
+   */
+  server.post('/api/add-event', async (req, res) => {
     const { eventName, eventDate } = req.body;
 
-    console.log(`Received event: ${eventName} on ${eventDate}`);
-    
-    const eventInfo = new eventsModel({
-      name: eventName,
-      date: eventDate
-    })
+    try {
+        const eventInfo = new eventsModel({
+            name: eventName,
+            date: eventDate,
+            attendees: 0,
+            attendeeCodes: []
+        });
 
-    eventInfo.save().then(()=>{
-      console.log("Event added");
-    });
-    res.status(200).json({
-        message: 'Event added successfully!',
-        event: { eventName, eventDate }
-    });
+        await eventInfo.save();
+        console.log("Event added");
+        res.status(200).json({
+            message: 'Event added successfully!',
+            event: { eventName, eventDate }
+        });
+    } catch (err) {
+        console.error('Error adding event:', err);
+        res.status(500).json({ message: 'Failed to add event' });
+    }
 });
-
+  /**
+   * This ajax request handles the uploading of profile picture during registration.
+   */
     // POST endpoint to handle file upload
   server.post('/upload/image', upload.single('imageFile'), (req, res) => {
     // 'imageFile' should match the name attribute in the FormData object
@@ -131,6 +145,9 @@ function add(server) {
     });
   }); 
 
+  /**
+   * This ajax request checks if the input during registration is valid or not.
+   */
 
   server.post('/register-checker', function(req, resp) {
     // new instance of model to update
@@ -194,6 +211,9 @@ function add(server) {
     // save the new instance to the database
   });
 
+  /**
+   * This ajax request is in charge for search filters on the mainpage.
+   */
   server.post("/filter_ajax",function(req,resp){
     var sex = req.body.sex;
     var membership = req.body.membership;
@@ -206,10 +226,9 @@ function add(server) {
     })
     
   });
-
-  
-
-
+  /**
+   * This ajax request checks if the login details of (ADMIN) is valid or not.
+   */
 
   server.post('/login-checker', function(req, resp) {
  
@@ -233,17 +252,11 @@ function add(server) {
     .catch(error => {
         console.error(error);
     });
-
-});
-
-
-  server.get('/mainmenu', function(req, resp) {
-    resp.render('mainpage', {
-      layout: 'mainpageIndex',
-      title: 'mainpage'
-    });
   });
 
+  /**
+   * This ajax request queries the name and membership status of a member.
+   */
 
   server.post('/membership_request',function(req,resp){
     responder.checkMembershipStatus(req.body.input).then(args =>{
@@ -252,12 +265,7 @@ function add(server) {
       } else{
         console.log("Who are you?");
       }
-
-
     })
- 
-
-
   });
 
   // Ajax payment_request
@@ -280,26 +288,6 @@ function add(server) {
     }
   });
 
-  // Ajax check_payment_status
-  
-  server.post('/payment_request', function(req, resp) {
-    if (req.body.input == '100') {
-      // Confirm receive request
-      console.log("Received request");
-      // GetLink
-      responder.getPaymentLink().then(args => {
-        // Store paymentID in session
-        req.session.paymentID = args.paymentID;
-        // Send link to webpage Async
-        resp.send({ link: args.link });
-      }).catch(error => {
-        console.error("Error in getPaymentLink: ", error);
-        resp.status(500).send({ error: 'Internal Server Error' });
-      });
-    } else {
-      resp.status(400).send({ error: 'Invalid input' });
-    }
-  });
 
   // Ajax check_payment_status
   server.post('/payment_checker', function(req, resp) {
@@ -327,16 +315,6 @@ function add(server) {
   });
 
 
-
-  
-  
-
-  // Use of Function from Responder.
-  responder.sampleFunction("Passed Parameter: Hello World").then(output => {
-    console.log(output);
-  }).catch(error => {
-    console.error("Error in sampleFunction: ", error);
-  });
 }
 
 module.exports.add = add;

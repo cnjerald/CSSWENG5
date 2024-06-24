@@ -103,6 +103,7 @@
             </div>
         </div>
 
+
         <div class="comboBox">
             <label for="bday" class="left">Birthday:</label><br>
             <div>
@@ -136,8 +137,7 @@
     </div>
 
     <div class="divider">
-
-        <div class="comboBox">
+                <div class="comboBox">
             <label for="barangay" class="left">Barangay:</label><br>
             <select id="barangay" class="inputBox" name="barangay"required>
                 <option value="">Select Barangay</option>
@@ -146,47 +146,42 @@
 
         <div class="comboBox">
             <div id="otherLocation" style="display: none;">
-                <label for="otherLocation">Enter your Location:</label>
+                               <label for="otherLocation">Enter your Location:</label>
                 <input class="inputBox"type="text" id="location" name="location" placeholder="Enter Location">
             </div>
         </div>
     <script>
         function populateBarangays() {
         
-        var select = document.getElementById("barangay");
-
-        // Array of barangay numbers (assuming they are sequential from 1 to 188)
-        var barangays = Array.from({ length: 188 }, (_, index) => index + 1);
-
-        var noneOption = document.createElement("option");
-        noneOption.value = "Not in Caloocan";
-        noneOption.textContent = "None";
-        select.appendChild(noneOption);
-
-        // Iterate through the array and create option elements
-        barangays.forEach(function (barangay) {
-            var option = document.createElement("option");
-            option.value = "Barangay " + barangay; 
-            option.textContent = "Barangay " + barangay; 
-            select.appendChild(option);
-        });
-    }
-        function handleBarangayChange() {
-
-        var selectedBarangay = document.getElementById("barangay").value;
-        var otherLocation = document.getElementById("otherLocation");
-
-        if (selectedBarangay === "") {
-            otherLocation.style.display = "block";
-        } else {
-            otherLocation.style.display = "none";
+            var select = document.getElementById("barangay");
+            // Array of barangay numbers (assuming they are sequential from 1 to 188)
+            var barangays = Array.from({ length: 188 }, (_, index) => index + 1);
+            var noneOption = document.createElement("option");
+            noneOption.value = "Not in Caloocan";
+            noneOption.textContent = "None";
+            select.appendChild(noneOption);
+            // Iterate through the array and create option elements
+            barangays.forEach(function (barangay) {
+                var option = document.createElement("option");
+                option.value = "Barangay " + barangay; 
+                option.textContent = "Barangay " + barangay; 
+                select.appendChild(option);
+            });
         }
-    }
-    // call the function to populate the dropdown when the page loads
-    populateBarangays();
-    document.getElementById("barangay").addEventListener("change", handleBarangayChange);
-    </script>
-    
+            function handleBarangayChange() {
+            var selectedBarangay = document.getElementById("barangay").value;
+            var otherLocation = document.getElementById("otherLocation");
+            if (selectedBarangay === "") {
+                otherLocation.style.display = "block";
+            } else {
+                otherLocation.style.display = "none";
+            }
+        }
+        // call the function to populate the dropdown when the page loads
+        populateBarangays();
+        document.getElementById("barangay").addEventListener("change", handleBarangayChange);
+        </script>
+
         <div class="comboBox">
             <label for="civil-status" class="left">Civil Status:</label><br>
             <div>
@@ -199,7 +194,7 @@
                 </select><br>
             </div>
         </div>
-        
+
         <div class="comboBox">
             <label for="citizenship" class="left">Citizenship:</label><br>
             <select id="citizenship" class="inputBox" name="citizenship" required>
