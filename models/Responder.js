@@ -349,8 +349,80 @@ module.exports.searchFilter = searchFilter;
 
 module.exports.getEvents = getEvents;
 
+function getEventDetails(name){
+  return new Promise((resolve,reject)=>{
+    const searchString = {name : name};
+    eventsModel.findOne(searchString).lean().then(event =>{
+      resolve(event);
+    }).catch(err =>{
+      reject(err);
+    })
+  })
+}
 
+module.exports.getEventDetails = getEventDetails;
 
+function registerMemberToEvent(eventName, memberName) {
+  console.log("NAME! " + memberName);
+
+  return new Promise((resolve, reject) => {
+    getEventDetails(eventName)
+      .then(event => {
+        let attendeeCount = event.attendees;
+        let participants = event.participants;
+
+        if (!participants.includes(memberName)) {
+          participants.push(memberName); // Modify the array directly
+
+          eventsModel.updateOne(
+            { _id: event._id },
+            { attendees: attendeeCount + 1, participants: participants }
+          )
+          .then(() => {
+            resolve(event);
+          })
+          .catch(error => {
+            console.error(error);
+            reject(error);
+          });
+        } else {
+          resolve(event);
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        reject(error);
+      });
+  });
+}
+module.exports.registerMemberToEvent = registerMemberToEvent;
+
+function getRegisteredMembers(eventName) {
+  return new Promise((resolve, reject) => {
+      getEventDetails(eventName).then(event => {
+          let promises = [];
+          event.participants.forEach(names => {
+              let promise = personalInfoModel.findOne({ name: names }).lean().then(user => {
+                  if (user != undefined && user._id != null) {
+                      console.log("DB1 " + user.name);
+                      console.log("DB1 " + user.uic_code);
+                      return user;
+                  }
+              });
+              promises.push(promise);
+          });
+          Promise.all(promises).then(results => {
+              resolve(results.filter(user => user != undefined));
+          }).catch(err => {
+              reject(err);
+          });
+      }).catch(err => {
+          reject(err);
+      });
+  });
+}
+
+module.exports.getRegisteredMembers = getRegisteredMembers;
 
 
 

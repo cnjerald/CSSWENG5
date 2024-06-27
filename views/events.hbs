@@ -1,3 +1,18 @@
+    <style>
+        /* Basic styles to ensure the button text is visible */
+        #add-btn {
+            font-size: 16px;
+            padding: 10px 20px;
+            color: white;
+            background-color: blue;
+            border: none;
+            cursor: pointer;
+        }
+
+        #add-btn:hover {
+            background-color: darkblue;
+        }
+    </style>
 <main>
     <div class="main">
         <div class="database-container">
@@ -24,7 +39,7 @@
                     <div class="db-item UIC">Event Name</div>
                     <div class="db-item Name">Event Date</div>
                     <div class="db-item Name">Number of Participants</div>
-                    <div class="db-item Show-More last-child">Show More</div>
+                    <div class="db-item Show-More last-child">Add Member</div>
                 </div>
                 <!--Member Entry Start-->
                 {{#each event}}
@@ -60,15 +75,29 @@
     </div>
 
     <div id="registerAttendeePopup" class="popup-form">
-        <div class="popup-content">
+        <div class="popup-add">
             <span class="close">&times;</span>
-            <h2>Register Attendee</h2>
-            <form id="registerAttendeeForm">
-                <label for="uicCode">UIC Code:</label>
-                <input type="text" id="uicCode" name="uicCode" required>
-                <input type="hidden" id="eventId" name="eventId">
-                <button type="submit">Register Attendee</button>
-            </form>
+            <h2 class="addUser">Register Attendee</h2>
+            <div class="addUser">
+                <label for="person">Name:</label>
+                <input id="person" name="person" class="inputBox" type="text" placeholder="Type to search..." list="attendeeNames"><br>
+                <datalist id="attendeeNames"></datalist>
+                <input type="button" value="Add" id="add-btn">
+            </div>
+            <h2 class="addUser">Current Registered Users</h2>
+            <div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th> Name </th>
+                            <th> UIC </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Registered members will be populated here -->
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
@@ -76,3 +105,4 @@
 <script src="../common/dropdown.js"></script>
 <script src="/js/database-wrapper.js"></script>
 <script src="/js/add-event.js"></script>
+

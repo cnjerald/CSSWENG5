@@ -69,7 +69,7 @@ function add(server) {
   server.get('/events',function(req,resp){
     responder.getEvents().then(eventData =>{
       resp.render('events',{
-        layout: 'mainMenuIndex',
+        layout: 'eventIndex',
         title: 'Events',
         event: eventData
       })
@@ -367,7 +367,52 @@ function add(server) {
     }
   });
 
+  server.post('/event_ajax', function(req, resp) {
+    const arr = [];
+    console.log(req.body.eventName);
 
+    responder.getEventDetails(req.body.eventName).then(event => {
+        console.log("EventMembers: " + event.participants);
+        console.log("Parti: " + event.attendees);
+
+        responder.getMembers().then(members => {
+            members.forEach(member => {
+                if (!event.participants.includes(member.name)) {
+                    // If not, push to arr
+                    arr.push(member);
+                }
+            });
+            responder.getRegisteredMembers(event.name).then(registeredMembers =>{
+              resp.send({ members: arr ,registeredMembers : registeredMembers});
+            })
+
+        }).catch(err => {
+            console.error('Error getting members:', err);
+            resp.status(500).send('Internal Server Error');
+        });
+    }).catch(err => {
+        console.error('Error getting event details:', err);
+        resp.status(500).send('Internal Server Error');
+    });
+});
+  server.post('/event_user_ajax', function(req, resp) {
+    responder.registerMemberToEvent(req.body.eventName, req.body.attendeeName).then(event => {
+        return responder.getEventDetails(req.body.eventName).then(eventDetails => {
+            return responder.getMembers().then(members => {
+                const arr = members.filter(member => !eventDetails.participants.includes(member.name));
+                return { arr, eventDetails };
+            });
+        });
+    }).then(({ arr, eventDetails }) => {
+        console.log("continue " + arr);
+        return responder.getRegisteredMembers(eventDetails.name).then(members => {
+            resp.send({ registeredMembers: members, members: arr });
+        });
+    }).catch(err => {
+        console.error("Err", err);
+        resp.status(500).send("Internal Server Error");
+    });
+  });
 }
 
 module.exports.add = add;
