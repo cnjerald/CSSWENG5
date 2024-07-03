@@ -113,8 +113,8 @@ function add(server) {
 
     if (!req.file) {
         return res.status(400).json({ error: 'No file uploaded' });
+        
     }
-
     // Handle the uploaded file, e.g., save it to a directory, store its path in a database, etc.
     const filePath = req.file.path;
     req.session.profilePicturePath = filePath;
@@ -122,6 +122,26 @@ function add(server) {
     
     // Respond with JSON indicating success
     res.json({ message: 'File uploaded successfully', filePath: filePath });
+  });
+
+  server.post('/upload/cancel', (req, res) => {
+    const filePath = req.session.profilePicturePath;
+  
+    if (filePath) {
+      // Delete the file from the server
+      fs.unlink(filePath, (err) => {
+        if (err) {
+          console.error('Error deleting file:', err);
+          return res.status(500).json({ error: 'Error deleting file' });
+        }
+  
+        // Update the session
+        req.session.profilePicturePath = null;
+        res.json({ message: 'Upload canceled and file deleted' });
+      });
+    } else {
+      res.status(400).json({ error: 'No file to delete' });
+    }
   });
 
   server.get('/memberDetail', function(req, resp) {
@@ -204,7 +224,7 @@ function add(server) {
 
   server.post('/register-checker', function(req, resp) {
     // new instance of model to update
-
+    console.log("PHotoCheck" + req.session.profilePicturePath);
     const newPersonalInfo = new personalInfoModel({
       uic_code: req.body.uic_code,
       img_path: req.session.profilePicturePath,

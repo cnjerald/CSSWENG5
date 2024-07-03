@@ -178,9 +178,11 @@ function checkPersonalInfo(newPersonalInfo){
     fieldsToCheck.forEach(field => {
       array.push(newPersonalInfo[field.key] && newPersonalInfo[field.key].length > 0 ? field.message : 0); // arr[3-9] checkNull
   });
-  array.push(isValidDate(newPersonalInfo.birthday));
-  array.push(onlyContainsNumbers(newPersonalInfo.contact_number) ? 1 : 0);
-
+  array.push(isValidDate(newPersonalInfo.birthday)); // 10
+  array.push(onlyContainsNumbers(newPersonalInfo.contact_number) ? 1 : 0); // 11
+  array.push(isValidEmail(newPersonalInfo.email)? 1 : 0); // 12
+  array.push((newPersonalInfo.img_path && newPersonalInfo.img_path.length > 1) ? 1 : 0); // 13
+  console.log(array);
     resolve(array).catch(errorFn);
   })
   
@@ -304,12 +306,21 @@ function searchFilter(searchString, sex, membership, membershipDetails, sort) {
       console.log("All");
   }
   if (membership !== "All") {
-    searchQuery.membership = membership;
+    if(membership == "Community"){
+      searchQuery.membership = "Community Member"
+    } else{
+      searchQuery.membership = membership;
+    }
   } else {
     console.log("All");
   }
   if (membershipDetails !== "All") {
-    searchQuery.membershipDetails = { $regex: membershipDetails, $options: "i" };
+    if(membershipDetails === "Paid" || membershipDetails === "Not Paid"){
+      searchQuery.membershipDetails = membershipDetails;
+    } else{
+      searchQuery.membershipDetails = { $regex: membershipDetails, $options: "i" };
+    }
+    
   } else {
     console.log("All");
   }
@@ -453,8 +464,20 @@ function isValidDate(date) {
     return 1;
   }
 }
-// Clean Closing
 
+
+function isValidEmail(email) {
+  // Regular expression to validate email format
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+
+function checkPicture(profilePicturePath) {
+  return (profilePicturePath === null || profilePicturePath === undefined) ? 0 : 1;
+}
+
+
+// Clean Closing
 function finalClose(){
   console.log('Close connection at the end!');
   mongoose.connection.close();

@@ -32,8 +32,24 @@ $(document).ready(function() {
 
     // Handle cancel button click
     document.getElementById('cancelButton').addEventListener('click', function(event) {
-        document.getElementById('imageFile').value = ''; // Clear the file input
+        // Prevent the default form submission behavior
+        event.preventDefault();
+    
+        // Clear the file input
+        document.getElementById('imageFile').value = '';
         console.log('Upload canceled');
-        // Optionally update UI to indicate cancellation
+    
+        // Send a request to update the session with a null profile picture path
+        fetch('/upload/cancel', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ action: 'cancel' })
+        })
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => console.error('Error:', error));
     });
+    
 });
