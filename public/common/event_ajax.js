@@ -3,13 +3,17 @@ $(document).ready(function() {
     document.querySelectorAll('.add-attendee-btn').forEach(button => {
         button.addEventListener('click', function() {
             // Find the closest database item
+            const eventId = button.getAttribute('data-event-id');
+            console.log('Event ID:', eventId);  // For debugging
+
             const databaseItem = button.closest('.database-item');
+
             if (databaseItem) {
                 const nameElement = databaseItem.querySelector('.UIC');
                 if (nameElement) {
                     const name = nameElement.textContent;
                     selectedEvent = name;
-                    $.post("event_ajax", {eventName: name}, function(data, status) {
+                    $.post("event_ajax", {eventName: name, _id: eventId}, function(data, status) {
                         if (status === "success") {
                             // Get the member names from the data
                             const memberNames = data.members.map(member => member.name);

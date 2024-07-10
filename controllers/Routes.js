@@ -43,11 +43,13 @@ function add(server) {
   });
   // Registration page
   server.get('/register', function(req, resp) {
+    req.session.profilePicturePath = null; // Reset the session variable
+    req.session.signiturePath = null;
     resp.render('personalInfoForm', {
-      layout: 'formIndex',
-      title: 'test'
+        layout: 'formIndex',
+        title: 'test'
     });
-  });
+});
   // Payment page
   server.get('/payment', function(req, resp) {
     resp.render('payment', {
@@ -126,6 +128,42 @@ function add(server) {
 
   server.post('/upload/cancel', (req, res) => {
     const filePath = req.session.profilePicturePath;
+  
+    if (filePath) {
+      // Delete the file from the server
+      fs.unlink(filePath, (err) => {
+        if (err) {
+          console.error('Error deleting file:', err);
+          return res.status(500).json({ error: 'Error deleting file' });
+        }
+  
+        // Update the session
+        req.session.profilePicturePath = null;
+        res.json({ message: 'Upload canceled and file deleted' });
+      });
+    } else {
+      res.status(400).json({ error: 'No file to delete' });
+    }
+  });
+
+  server.post('/upload/imageSigniture', upload.single('imageFileSigniture'), (req, res) => {
+    // 'imageFile' should match the name attribute in the FormData object
+
+    if (!req.file) {
+        return res.status(400).json({ error: 'No file uploaded' });
+        
+    }
+    // Handle the uploaded file, e.g., save it to a directory, store its path in a database, etc.
+    const filePath = req.file.path;
+    req.session.signiturePath = filePath;
+    console.log("C1"+filePath);
+    
+    // Respond with JSON indicating success
+    res.json({ message: 'File uploaded successfully', signiturePath: filePath });
+  });
+
+  server.post('/upload/cancelSigniture', (req, res) => {
+    const filePath = req.session.signiturePath;
   
     if (filePath) {
       // Delete the file from the server
@@ -224,10 +262,11 @@ function add(server) {
 
   server.post('/register-checker', function(req, resp) {
     // new instance of model to update
-    console.log("PHotoCheck" + req.session.profilePicturePath);
+    console.log("Check" + req.body.renewalDate);
     const newPersonalInfo = new personalInfoModel({
       uic_code: req.body.uic_code,
       img_path: req.session.profilePicturePath,
+      sig_path: req.session.signiturePath,
       name : req.body.lname + " " + req.body.fname + " " + req.body.mname,
       gender: req.body.gender,
       sex: req.body.sex,
@@ -252,7 +291,8 @@ function add(server) {
       eAddress: req.body.eAddress,
       membership: req.body.membership,
       membershipDetails: req.body.membershipDetails,
-      comments: req.body.comments
+      comments: req.body.comments,
+      renewalDate: req.body.renewalDate
     });
 
     responder.checkPersonalInfo(newPersonalInfo).then((arr)=>{
@@ -387,10 +427,12 @@ function add(server) {
     }
   });
 
+  // Get event participants.
   server.post('/event_ajax', function(req, resp) {
     const arr = [];
-    console.log(req.body.eventName);
-
+    console.log("TEST1!" + req.body._id);
+    console.log("TEST2!" + req.body.eventName);
+    
     responder.getEventDetails(req.body.eventName).then(event => {
         console.log("EventMembers: " + event.participants);
         console.log("Parti: " + event.attendees);
@@ -414,7 +456,10 @@ function add(server) {
         console.error('Error getting event details:', err);
         resp.status(500).send('Internal Server Error');
     });
-});
+  });
+
+  // Ajax add users to event
+
   server.post('/event_user_ajax', function(req, resp) {
     responder.registerMemberToEvent(req.body.eventName, req.body.attendeeName).then(event => {
         return responder.getEventDetails(req.body.eventName).then(eventDetails => {

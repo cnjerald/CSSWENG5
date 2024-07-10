@@ -73,7 +73,8 @@ $(document).ready(function(){
                 eAddress: $("#contactAddress").val(),
                 comments: $("#comments").val(),
                 membership: membership,
-                membershipDetails: membershipDetails
+                membershipDetails: membershipDetails,
+                renewalDate: $("#payment_date").val()
             },
             function(data,status){
                 if (status === "success"){
