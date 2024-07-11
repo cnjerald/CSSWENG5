@@ -169,7 +169,7 @@ function add(server) {
   server.post('/update-member', (req, res) => {
     const { uic_code, name, birthday, barangay, location, gender, sex, contact_number, email, civil_status, fb_account, occupation, designation, company, entries } = req.body;
 
-    // Assuming `uic_code` uniquely identifies the member to update
+    // assuming `uic_code` uniquely identifies the member to update
     personalInfoModel.findOneAndUpdate({ uic_code: uic_code }, {
         name: name,
         birthday: birthday,

@@ -1,10 +1,10 @@
 <main>
     <div class="main">
-
+      <div id="first-box" class="profile-form box-style"> 
         <div class="profile-details">
             <div class="profile-picture">
                 <div class="pfp-img-container img-container">
-                    <img src="{{ member.img_path }}" id="profile-pic" >
+                    <img src="{{member.img_path}}" id="profile-pic" alt="Profile Picture">
                 </div>
             </div>
             <div class="profile-name">
@@ -12,224 +12,161 @@
             </div>
             <div class="profile-note">
                 <h2 class="h2-note">Note</h2>
-                <p class="note-desc" id="profile-note" {{member.comments}}</p>
+                <p class="note-desc" id="profile-note">{{member.comments}}</p>
             </div>
         </div>
-
-        <div id="personal-form" class="profile-form">
+</div> 
+        <div id="personal-form" class="profile-form box-style">
             <div class="profile-information">
                 <div class="profile-info-header"><h2>Personal Information</h2></div>
 
                 <div class="profile-item">
-                    <div class="detail UIC d1">
+                    <div class="details">
                         <label class="detail-label l1">UIC:</label>
-                        <div class="detail-text x1" id="UIC">{{member.uic_code}}</div>
+                        <div class="detail-text col1" id="UIC">{{member.uic_code}}</div>
                     </div>
-                    <div class="detail Name d2">
+                    <div class="details">
                         <label class="detail-label l2">Name:</label>
-                        <div class="detail-text x2" id="Name">{{member.name}}</div>
+                        <div class="detail-text col2" id="Name">{{member.name}}</div>
                     </div>
                 </div>
 
                 <div class="profile-item">
-                    <div class="detail Birthday d1">
+                    <div class="details">
                         <label class="detail-label l1">Birthday:</label>
-                        <div class="detail-text x1" id="Birthday">{{member.birthday}}</div>
+                        <div class="detail-text col1" id="Birthday">{{member.birthday}}</div>
                     </div>
                     
-                    <div class="detail Barangay d2">
+                    <div class="details">
                         <label class="detail-label l2">Barangay:</label>
-                        <div class="detail-text x2" id="Barangay">{{member.barangay}}</div>
+                        <div class="detail-text col2" id="Barangay">{{member.barangay}}</div>
                     </div>
-                    <div class="detail Location d3">
+                    <div class="details">
                         <label class="detail-label l3">Location:</label>
-                        <div class="detail-text x3" id="Location">{{member.location}}</div>
+                        <div class="detail-text col3" id="Location">{{member.location}}</div>
                     </div>
                 </div>
     
                 <div class="profile-item">
-                    <div class="detail Gender d1">
+                    <div class="details">
                         <label class="detail-label l1">Gender:</label>
-                        <div class="detail-text x1" id="Gender">{{member.gender}}</div>
+                        <div class="detail-text col1" id="Gender">{{member.gender}}</div>
                     </div>
-                    <div class="detail Sex d2">
+                    <div class="details">
                         <label class="detail-label l2">Sex:</label>
-                        <div class="detail-text x2" id="Sex">{{member.sex}}</div>
+                        <div class="detail-text col2" id="Sex">{{member.sex}}</div>
                     </div>
-                </div>
-
-                <div class="profile-item">
-                    <div class="detail Contact last">
-                        <label class="detail-label l1">Contact:</label>
-                        <div class="detail-text col1" id="Contact">{{member.contact_number}}</div>
-                    </div>
-                    <div class="detail Email last">
-                        <label class="detail-label l2">Email:</label>
-                        <div class="detail-text col2" id="Email">{{member.email}}</div>
-                    </div>
-                    <div class="detail Civil last">
+                    <div class="details">
                         <label class="detail-label l3">Civil Status:</label>
                         <div class="detail-text col3" id="Civil">{{member.civil_status}}</div>
                     </div>
                 </div>
 
                 <div class="profile-item">
-                    <div class="detail Facebook last">
+                    <div class="details">
+                        <label class="detail-label l1">Contact:</label>
+                        <div class="detail-text col1" id="Contact">{{member.contact_number}}</div>
+                    </div>
+                    <div class="details">
+                        <label class="detail-label l2">Email:</label>
+                        <div class="detail-text col2" id="Email">{{member.email}}</div>
+                    </div>
+
+                    <div class="details">
                         <label class="detail-label l1">Facebook:</label>
                         <div class="detail-text col1" id="Facebook">{{member.fb_account}}</div>
                     </div>
-                    <div class="detail Education last">
-                        <label class="detail-label l2">Education:</label>
-                        <div class="detail-text col2" id="Education">
-                             {{#if member.entries}}
-                        <ul>
-                            {{#each member.entries}}
-                        <li>
-                            <strong>Course:</strong> {{this.course}}
-                            <strong>Education Year:</strong> {{this.educationYear}}
-                        </li>
-                            {{/each}}
-                        </ul>
-                            {{/if}}
-                        </div>
-                        
-                    </div>
-                    <div class="detail School_Attended last">
+                    
+                </div>
+
+                <div class="profile-item">
+                    <div><h2>Education</h2></div>
+                    <div class="detail-text col2" id="Education">
                         {{#if member.entries}}
-                        {{#each member.entries}}
-                        <label class="detail-label l3">School Attended:</label>
-                        <div class="detail-text col3" id="School_Attended">{{this.school}}</div>
-                        {{/each}}
+                            {{#each member.entries}}
+                            <div class="education-entry details">
+                                <label class="detail-label l1">Course:</label>
+                                <div class="detail-text col3" id="course">{{this.course}}</div>
+
+                                <label class="detail-label l1">Education Year:</label>
+                                <div class="detail-text col3" id="educationYear">{{this.educationYear}}</div>
+
+                                <label class="detail-label l1">School Attended:</label>
+                                <div class="detail-text col3" id="School_Attended">{{this.school}}</div>
+                            </div>
+                            {{/each}}
                         {{/if}}
                     </div>
                 </div>
 
                 <div class="profile-item">
-                    <div class="detail Occupation last">
+                    <div class="details">
                         <label class="detail-label l1">Occupation:</label>
                         <div class="detail-text col1" id="Occupation">{{member.occupation}}</div>
                     </div>
-                    <div class="detail Designation last">
+                    <div class="details">
                         <label class="detail-label l2">Designation:</label>
                         <div class="detail-text col2" id="Designation">{{member.designation}}</div>
                     </div>
-                    <div class="detail Company last">
+                    <div class="details">
                         <label class="detail-label l3">Company:</label>
                         <div class="detail-text col3" id="Company">{{member.company}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="health-form" class="profile-form box-style">
+            <div class="profile-information">
+                <div class="profile-info-header"><h2>Health Information</h2></div>
+
+                <div class="profile-item">
+                    <div class="detail-text col2" id="health">
+                    {{#if member.medications}}
+                        {{#each member.medications}}
+                            <div class="medication-entry details">
+                                <label class="detail-label l1">Medication:</label>
+                                <div class="detail-text col1" id="Medication">{{this.medication}}</div>
+                        
+                                <label class="detail-label l2">Start Date:</label>
+                                <div class="detail-text col1" id="startDate">{{this.startDate}}</div>
+                        
+                                <label class="detail-label l1">Condition:</label>
+                                <div class="detail-text col2" id="Condition">{{this.condition}}</div>
+                            </div>
+                        {{/each}}
+                    {{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="contact-form" class="profile-form box-style">
+            <div class="profile-information">
+                <div class="profile-info-header"><h2>Contact Information</h2></div>
+
+                <div class="profile-item">
+                    <div class="details">
+                        <label class="detail-label l1">Contact Person:</label>
+                        <div class="detail-text col1" id="ePerson">{{member.ePerson}}</div>
+                    </div>
+                    <div class="details">
+                        <label class="detail-label l1">Contact Number:</label>
+                        <div class="detail-text col1" id="eContact">{{member.eContact}}</div>
+                    </div>
+                </div>
+                <div class="profile-item">
+                    <div class="details">
+                        <label class="detail-label l1">Relationship:</label>
+                        <div class="detail-text col1" id="eRelationship">{{member.eRelationship}}</div>
+                    </div>
+                    <div class="details">
+                        <label class="detail-label l1">Contact Address:</label>
+                        <div class="detail-text col1" id="eAddress">{{member.eAddress}}</div>
                     </div>
                 </div>
                 <a id="editLink" href="/updateMember?uic_code={{member.uic_code}}">Edit</a>
             </div>
         </div>
-
-
-        <div id="health-form" class="profile-form">
-            <div class="profile-information">
-                <div class="profile-info-header"><h2>Health Information</h2></div>
-
-                <div class="profile-item">
-                    {{#if member.medications}}
-                    {{#each member.medications}}
-                    <div class="detail Medication d1">
-                        <label class="detail-label l1">Medication:</label>
-                        <div class="detail-text col1" id="Medication">{{this.medication}}</div>
-                    </div>
-                    <div class="detail startDate d2">
-                        <label class="detail-label l2">Start Date:</label>
-                        <div class="detail-text col1" id="startDate">{{this.startDate}}</div>
-                    </div>
-                </div>
-                    {{/each}}
-                    {{/if}}
-                    <div class="profile-item">
-                        {{#if member.conditions}}
-                        {{#each member.conditions}}
-                        <div class="detail Condition d1">
-                            <label class="detail-label l1">Condition:</label>
-                            <div class="detail-text col2" id="Condition">{{member.condition}}</div>
-                        </div>
-                        {{/each}}
-                        {{/if}}
-                </div>
-                <button class="edit-btn edit-contact" type="submit">Edit</button>
-            </div>
-        </div>
-
-        <div id="contact-form" class="profile-form">
-            <div class="profile-information">
-                <div class="profile-info-header"><h2>Contact Information</h2></div>
-
-                <div class="profile-item">
-                    <div class="detail ePerson d1">
-                        <label class="detail-label l1">Contact Person in Case of Emergency:</label>
-                        <div class="detail-text col1" id="ePerson">{{member.ePerson}}</div>
-                    </div>
-                    <div class="detail eContact d2">
-                        <label class="detail-label l1">Contact Number:</label>
-                        <div class="detail-text col1" id="eContact">{{member.eContact}}</div>
-                    </div>    
-                </div>
-                <div class="profile-item">
-                    <div class="detail eRelationship d1">
-                        <label class="detail-label l1">Relationship:</label>
-                        <div class="detail-text col1" id="eRelationship">{{member.eRelationship}}</div>
-                    </div> 
-                    <div class="detail eRelationship d2">
-                        <label class="detail-label l1">Contact Address:</label>
-                        <div class="detail-text col1" id="eAddress">{{member.eAddress}}</div>
-                    </div> 
-                </div>
-                <button class="edit-btn edit-contact" type="submit">Edit</button>
-            </div>
-        </div>
-
-        <div class="form-navigate">
-            <div class="nav-arrow nav-right">
-                <button id="next" class="nav-btn"><span class="nav-icon-right material-symbols-outlined">arrow_back_ios</span></button>
-            </div>
-            <div class="nav-arrow nav-left">
-                <button id="prev" class="nav-btn"><span class="nav-icon-left material-symbols-outlined">arrow_forward_ios</span></button>
-            </div>
-        </div>
-    </div>
-    <div class="delete-container">
-        <button class="detail-btn delete-btn" type="submit">Delete</button>
     </div>
 </main>
-
-<script>
-
-
-    document.addEventListener("DOMContentLoaded", function() {
-        const forms = document.querySelectorAll(".profile-form");
-        const nextButton = document.getElementById("next");
-        const prevButton = document.getElementById("prev");
-        let currentFormIndex = 0;
-
-        forms[currentFormIndex].classList.add("active");
-
-        prevButton.addEventListener("click", function() {
-            if (currentFormIndex < forms.length - 1) {
-                forms[currentFormIndex].classList.remove("active");
-                currentFormIndex++;
-                forms[currentFormIndex].classList.add("active");
-            }
-        });
-
-        nextButton.addEventListener("click", function() {
-            if (currentFormIndex > 0) {
-                forms[currentFormIndex].classList.remove("active");
-                currentFormIndex--;
-                forms[currentFormIndex].classList.add("active");
-            }
-        });
-
-        // Extract UIC code from URL
-        //const urlParams = new URLSearchParams(window.location.search);
-        // const uicCode = urlParams.get('uic_code');  
-    });
-    
-  
-
-
-</script>

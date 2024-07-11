@@ -1,0 +1,125 @@
+body{
+    background-color:var(--clr-primary-bg-dm);
+}
+
+.main {
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    gap: 35px;
+    height: auto;
+    width: 100%;
+}
+
+h2 {
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+
+.profile-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    gap: 25px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.profile-picture img {
+    height: 150px;
+    width: 200px;
+}
+
+.profile-form {
+    margin:auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border: 5px solid #ccc;
+    background-color: #fff;
+    width: 100%;
+    max-width: 1000px;
+}
+
+.box-style {
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin: 10px;
+    border-radius: 8px;
+}
+
+.profile-information {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-bottom: 15px;
+    width: 100%;
+    gap: 15px;
+}
+
+.profile-item {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    margin-bottom: 15px;
+    width: 100%;
+    gap: 10px;
+}
+
+.details {
+    padding:10px;
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    margin-right: 10px;
+    min-width: 100px; 
+    gap: 20px;
+}
+
+.detail-label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 1.2em;
+    
+}
+
+.detail-text {
+    margin-bottom: 10px;
+}
+
+.profile-info-header h2 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#editLink {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    text-align: center;
+}
+
+#first-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border: 2px solid #ccc;
+    background-color: #fff;
+    width: 100%;
+    max-width: 400px;
+}
