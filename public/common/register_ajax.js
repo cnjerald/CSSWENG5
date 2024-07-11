@@ -73,7 +73,8 @@ $(document).ready(function(){
                 eAddress: $("#contactAddress").val(),
                 comments: $("#comments").val(),
                 membership: membership,
-                membershipDetails: membershipDetails
+                membershipDetails: membershipDetails,
+                renewalDate: $("#payment_date").val()
             },
             function(data,status){
                 if (status === "success"){
@@ -106,10 +107,23 @@ $(document).ready(function(){
                             $("label[for='contact-number']").html("Contact Number:").css("color", "");
                         }
 
+                        if(data.arr[7] === 0) {
+                            $("label[for='email']").html("Email Address: This field is required").css("color", "red");
+                        } else if (data.arr[12] === 0 ){
+                            $("label[for='email']").html("Email Address: Invalid Email Format").css("color", "red")
+                        } else{
+                            $("label[for='email']").html("Email Address:").css("color", "");
+                        }
+                        console.log(data.arr[13]);
+                        if(data.arr[13] === 0) {
+                            $("label[for='prof_pic']").html("No photo selected.").css("color", "red");
+                        } else{
+                            $("label[for='prof_pic']").html("Upload a profile picture").css("color", "");
+                        }
+
                         data.arr[3] === 0 ? $("label[for='mname']").html("This field is required").css("color", "red") : $("label[for='mname']").html("Middle name:");
                         data.arr[3] === 0 ? $("label[for='fname']").html("This field is required").css("color", "red") : $("label[for='fname']").html("First name:");
                         data.arr[4] === 0 ? $("label[for='sex']").html("Sex: This field is required").css("color", "red") : $("label[for='sex']").html("Sex:");
-                        data.arr[7] === 0 ? $("label[for='email']").html("Email Address: This field is required").css("color", "red") : $("label[for='email']").html("Email Address:");
                         data.arr[8] === 0 ? $("label[for='civil-status']").html("Civil Status: This field is required").css("color", "red") : $("label[for='civil-status']").html("Civil Status:");
                         data.arr[9] === 0 ? $("label[for='citizenship']").html("Citizenship: This field is required").css("color", "red") : $("label[for='citizenship']").html("Citizenship:");
 

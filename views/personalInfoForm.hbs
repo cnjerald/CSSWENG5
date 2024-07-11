@@ -1,29 +1,43 @@
 <script>
-        function showOptions() {
+function showOptions() {
         const registeredOptions = document.getElementById('registered-options');
         const communityOptions = document.getElementById('community-options');
+        const paidOptions = document.getElementById('paid-options');
         const registeredRadio = document.getElementById('registered');
         const communityRadio = document.getElementById('community-member');
+        const paidRadio = document.getElementById('paid');
+        const notPaidRadio = document.getElementById('not-paid');
         
         if (registeredRadio.checked) {
             registeredOptions.classList.remove('hidden');
             communityOptions.classList.add('hidden');
+            
+            if (paidRadio && paidRadio.checked) {
+                paidOptions.classList.remove('hidden');
+            } else if (notPaidRadio && notPaidRadio.checked) {
+                paidOptions.classList.add('hidden');
+            }
         } else if (communityRadio.checked) {
             registeredOptions.classList.add('hidden');
             communityOptions.classList.remove('hidden');
+            paidOptions.classList.add('hidden');
         }
     }
 </script>
 <div class="outerContainer">
     <form id="uploadForm">
-        <h2>Upload a profile picture</h2>
+        <h2> <label for="prof_pic">Upload a profile picture </label> </h2>
         <input type="file" accept="image/*" id="imageFile" name="imageFile">
         <button type="button" id="cancelButton">X</button>
     </form>
+    <form id="testForm">
+        <h2> <label for="eSigniture_pic">Upload a profile picture </label> </h2>
+        <input type="file" accept="image/*" id="imageFileSigniture" name="imageFileSigniture">
+        <button type="button" id="cancelButtonSigniture">X</button>
+    </form>
 
-    <p id="status"></p>
-    <p> Todo: ESigniture</p>
-   
+
+
     <h1> Personal Information </h1>
     <div class="divider">
         <div class="comboBox">
@@ -158,7 +172,7 @@
             var barangays = Array.from({ length: 188 }, (_, index) => index + 1);
             var noneOption = document.createElement("option");
             noneOption.value = "Not in Caloocan";
-            noneOption.textContent = "None";
+            noneOption.textContent = "Not in Caloocan";
             select.appendChild(noneOption);
             // Iterate through the array and create option elements
             barangays.forEach(function (barangay) {
@@ -171,7 +185,7 @@
             function handleBarangayChange() {
             var selectedBarangay = document.getElementById("barangay").value;
             var otherLocation = document.getElementById("otherLocation");
-            if (selectedBarangay === "") {
+            if (selectedBarangay === "Not in Caloocan") {
                 otherLocation.style.display = "block";
             } else {
                 otherLocation.style.display = "none";
@@ -416,11 +430,9 @@
         </div>
     </div>
 
-
     <div class="divider">
         <label for="membership" class="left">Membership Type:</label>
         <div class="comboBox">
-            
             <div class="inputBox">
                 <label>
                     <input type="radio" name="membership" id="registered" onclick="showOptions()">
@@ -431,20 +443,18 @@
                     Community Member
                 </label>
             </div>
-
         </div>
     </div>
 
     <div id="registered-options" class="hidden divider">
         <label class="left">Registered Options:</label>
         <div class="comboBox inputBox">
-            
             <label>
-                <input type="radio" name="registered-status">
+                <input type="radio" name="registered-status" id="paid" onclick="showOptions()">
                 Paid
             </label>
             <label>
-                <input type="radio" name="registered-status">
+                <input type="radio" name="registered-status" id="not-paid" onclick="showOptions()">
                 Not Paid
             </label>
         </div>
@@ -470,6 +480,11 @@
                 Legal Assistance
             </label>
         </div>
+    </div>
+
+    <div id="paid-options" class="hidden divider">
+        <label for="payment_date">Payment Date:</label>
+        <input type="date" id="payment_date" name="payment_date">
     </div>
 
 

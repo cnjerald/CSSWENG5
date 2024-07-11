@@ -178,9 +178,11 @@ function checkPersonalInfo(newPersonalInfo){
     fieldsToCheck.forEach(field => {
       array.push(newPersonalInfo[field.key] && newPersonalInfo[field.key].length > 0 ? field.message : 0); // arr[3-9] checkNull
   });
-  array.push(isValidDate(newPersonalInfo.birthday));
-  array.push(onlyContainsNumbers(newPersonalInfo.contact_number) ? 1 : 0);
-
+  array.push(isValidDate(newPersonalInfo.birthday)); // 10
+  array.push(onlyContainsNumbers(newPersonalInfo.contact_number) ? 1 : 0); // 11
+  array.push(isValidEmail(newPersonalInfo.email)? 1 : 0); // 12
+  array.push((newPersonalInfo.img_path && newPersonalInfo.img_path.length > 1) ? 1 : 0); // 13
+  console.log(array);
     resolve(array).catch(errorFn);
   })
   
@@ -304,12 +306,21 @@ function searchFilter(searchString, sex, membership, membershipDetails, sort) {
       console.log("All");
   }
   if (membership !== "All") {
-    searchQuery.membership = membership;
+    if(membership == "Community"){
+      searchQuery.membership = "Community Member"
+    } else{
+      searchQuery.membership = membership;
+    }
   } else {
     console.log("All");
   }
   if (membershipDetails !== "All") {
-    searchQuery.membershipDetails = { $regex: membershipDetails, $options: "i" };
+    if(membershipDetails === "Paid" || membershipDetails === "Not Paid"){
+      searchQuery.membershipDetails = membershipDetails;
+    } else{
+      searchQuery.membershipDetails = { $regex: membershipDetails, $options: "i" };
+    }
+    
   } else {
     console.log("All");
   }
@@ -349,8 +360,80 @@ module.exports.searchFilter = searchFilter;
 
 module.exports.getEvents = getEvents;
 
+function getEventDetails(name){
+  return new Promise((resolve,reject)=>{
+    const searchString = {name : name};
+    eventsModel.findOne(searchString).lean().then(event =>{
+      resolve(event);
+    }).catch(err =>{
+      reject(err);
+    })
+  })
+}
 
+module.exports.getEventDetails = getEventDetails;
 
+function registerMemberToEvent(eventName, memberName) {
+  console.log("NAME! " + memberName);
+
+  return new Promise((resolve, reject) => {
+    getEventDetails(eventName)
+      .then(event => {
+        let attendeeCount = event.attendees;
+        let participants = event.participants;
+
+        if (!participants.includes(memberName)) {
+          participants.push(memberName); // Modify the array directly
+
+          eventsModel.updateOne(
+            { _id: event._id },
+            { attendees: attendeeCount + 1, participants: participants }
+          )
+          .then(() => {
+            resolve(event);
+          })
+          .catch(error => {
+            console.error(error);
+            reject(error);
+          });
+        } else {
+          resolve(event);
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        reject(error);
+      });
+  });
+}
+module.exports.registerMemberToEvent = registerMemberToEvent;
+
+function getRegisteredMembers(eventName) {
+  return new Promise((resolve, reject) => {
+      getEventDetails(eventName).then(event => {
+          let promises = [];
+          event.participants.forEach(names => {
+              let promise = personalInfoModel.findOne({ name: names }).lean().then(user => {
+                  if (user != undefined && user._id != null) {
+                      console.log("DB1 " + user.name);
+                      console.log("DB1 " + user.uic_code);
+                      return user;
+                  }
+              });
+              promises.push(promise);
+          });
+          Promise.all(promises).then(results => {
+              resolve(results.filter(user => user != undefined));
+          }).catch(err => {
+              reject(err);
+          });
+      }).catch(err => {
+          reject(err);
+      });
+  });
+}
+
+module.exports.getRegisteredMembers = getRegisteredMembers;
 
 
 
@@ -381,8 +464,20 @@ function isValidDate(date) {
     return 1;
   }
 }
-// Clean Closing
 
+
+function isValidEmail(email) {
+  // Regular expression to validate email format
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+
+function checkPicture(profilePicturePath) {
+  return (profilePicturePath === null || profilePicturePath === undefined) ? 0 : 1;
+}
+
+
+// Clean Closing
 function finalClose(){
   console.log('Close connection at the end!');
   mongoose.connection.close();

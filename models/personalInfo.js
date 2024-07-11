@@ -18,6 +18,7 @@ const conditionSchema = new mongoose.Schema({
 const personalInfoSchema = new mongoose.Schema({
   uic_code: { type: String },
   img_path: {type: String},
+  sig_path: {type: String},
   name: {type : String},
   gender: { type: String },
   sex: { type: String },
@@ -43,7 +44,7 @@ const personalInfoSchema = new mongoose.Schema({
   comments: { type: String },
   membership: {type: String},
   membershipDetails: {type: String},
-  memberUntil: { type: String, default: "newuser" },
+  renewalDate: { type: String, default: "newuser" },
   reminderSent: {type:Boolean, default:false}
 }, { versionKey: false });
 
