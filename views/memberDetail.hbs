@@ -18,8 +18,8 @@
 </div> 
         <div id="personal-form" class="profile-form box-style">
             <div class="profile-information">
-                <div class="profile-info-header"><h2>Personal Information</h2></div>
-
+                <div class="title-header"><h2>PERSONAL INFORMATION</h2></div>
+                
                 <div class="profile-item">
                     <div class="details">
                         <label class="detail-label l1">UIC:</label>
@@ -28,6 +28,10 @@
                     <div class="details">
                         <label class="detail-label l2">Name:</label>
                         <div class="detail-text col2" id="Name">{{member.name}}</div>
+                    </div>
+                    <div class="details">
+                        <label class="detail-label l2"></label>
+                        <div class="detail-text col2" id="Name"></div>
                     </div>
                 </div>
 
@@ -79,25 +83,28 @@
                     
                 </div>
 
-                <div class="profile-item">
-                    <div><h2>Education</h2></div>
-                    <div class="detail-text col2" id="Education">
+                <div id="title-header"><h2>Education</h2></div>
+                <div class="border"></div>
+
+                    <div class="profile-item">
                         {{#if member.entries}}
                             {{#each member.entries}}
-                            <div class="education-entry details">
+                            <div class="details">
                                 <label class="detail-label l1">Course:</label>
                                 <div class="detail-text col3" id="course">{{this.course}}</div>
-
+                            </div>   
+                            <div class="details">
                                 <label class="detail-label l1">Education Year:</label>
                                 <div class="detail-text col3" id="educationYear">{{this.educationYear}}</div>
-
+                            </div> 
+                            <div class="details">
                                 <label class="detail-label l1">School Attended:</label>
                                 <div class="detail-text col3" id="School_Attended">{{this.school}}</div>
                             </div>
                             {{/each}}
                         {{/if}}
                     </div>
-                </div>
+                
 
                 <div class="profile-item">
                     <div class="details">
@@ -118,32 +125,34 @@
 
         <div id="health-form" class="profile-form box-style">
             <div class="profile-information">
-                <div class="profile-info-header"><h2>Health Information</h2></div>
+                <div class="title-header"><h2>HEALTH INFORMATION</h2></div>
 
-                <div class="profile-item">
-                    <div class="detail-text col2" id="health">
+                <div class="profile-item" id="Health">
                     {{#if member.medications}}
                         {{#each member.medications}}
-                            <div class="medication-entry details">
+                            <div class="details">
                                 <label class="detail-label l1">Medication:</label>
                                 <div class="detail-text col1" id="Medication">{{this.medication}}</div>
-                        
+                            </div>
+                            <div class="details">
                                 <label class="detail-label l2">Start Date:</label>
                                 <div class="detail-text col1" id="startDate">{{this.startDate}}</div>
-                        
+                            </div>
+                            <div class="details">
                                 <label class="detail-label l1">Condition:</label>
                                 <div class="detail-text col2" id="Condition">{{this.condition}}</div>
                             </div>
+                </div>
                         {{/each}}
                     {{/if}}
-                    </div>
-                </div>
             </div>
+                
         </div>
+        
 
         <div id="contact-form" class="profile-form box-style">
             <div class="profile-information">
-                <div class="profile-info-header"><h2>Contact Information</h2></div>
+                <div class="title-header"><h2>CONTACT INFORMATION</h2></div>
 
                 <div class="profile-item">
                     <div class="details">
@@ -170,3 +179,7 @@
         </div>
     </div>
 </main>
+
+<script>
+    document.getElementById('')
+</script>

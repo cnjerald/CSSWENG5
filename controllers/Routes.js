@@ -225,9 +225,9 @@ function add(server) {
   }); 
 
   server.post('/update-member', (req, res) => {
-    const { uic_code, name, birthday, barangay, location, gender, sex, contact_number, email, civil_status, fb_account, occupation, designation, company, entries } = req.body;
+    const { uic_code, name, birthday, barangay, location, gender, sex, contact_number, email, civil_status, fb_account, occupation, designation, company, entries, medications, ePerson, eContact, eRelationship, eAddress } = req.body;
 
-    // assuming `uic_code` uniquely identifies the member to update
+    // Assuming `uic_code` uniquely identifies the member to update
     personalInfoModel.findOneAndUpdate({ uic_code: uic_code }, {
         name: name,
         birthday: birthday,
@@ -242,7 +242,12 @@ function add(server) {
         occupation: occupation,
         designation: designation,
         company: company,
-        entries: entries
+        entries: entries,
+        medications: medications,
+        ePerson: ePerson,
+        eContact: eContact,
+        eRelationship: eRelationship,
+        eAddress: eAddress
     }, { new: true })
     .then(updatedMember => {
         if (!updatedMember) {
@@ -256,6 +261,7 @@ function add(server) {
         res.status(500).json({ message: 'Failed to update member details' });
     });
 });
+
   /**
    * This ajax request checks if the input during registration is valid or not.
    */
