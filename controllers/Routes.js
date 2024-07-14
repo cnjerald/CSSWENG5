@@ -203,7 +203,7 @@ function add(server) {
     });
   }); 
 
-  server.get('/updateMember', function(req, resp) {
+  server.get('/new_updateMember', function(req, resp) {
     const uicCode = req.query.uic_code; // extract uic_code from query parameters
 
     responder.getMembers().then(memberData => {
@@ -211,7 +211,7 @@ function add(server) {
         const member = memberData.find(member => member.uic_code === uicCode);
 
         if (member) {
-            resp.render('updateMember', {
+            resp.render('new_updateMember', {
                 layout: 'memberDetailsIndex',
                 title: 'updateMember',
                 member: member

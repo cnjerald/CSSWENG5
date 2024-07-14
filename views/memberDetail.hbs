@@ -11,8 +11,8 @@
                 <h2 id="profile-name">{{member.name}}</h2>
             </div>
             <div class="profile-note">
-                <h2 class="h2-note">Note</h2>
-                <p class="note-desc" id="profile-note">{{member.comments}}</p>
+                <div><h2 class="h2-note">Note</h2></div>
+               <div> <p class="note-desc" id="profile-note">{{member.comments}}</p></div>
             </div>
         </div>
 </div> 
@@ -165,7 +165,7 @@
                         <div class="detail-text col1" id="eAddress">{{member.eAddress}}</div>
                     </div>
                 </div>
-                <a id="editLink" href="/updateMember?uic_code={{member.uic_code}}">Edit</a>
+                <a id="editLink" href="/new_updateMember?uic_code={{member.uic_code}}">Edit</a>
             </div>
         </div>
     </div>
