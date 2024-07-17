@@ -1,5 +1,5 @@
 <main>
-    <div class="main">
+    <div class="outer-container">
       <div id="first-box" class="profile-form box-style"> 
         <div class="profile-details">
             <div class="profile-picture">
@@ -15,7 +15,7 @@
                <div> <p class="note-desc" id="profile-note">{{member.comments}}</p></div>
             </div>
         </div>
-</div> 
+    </div> 
         <div id="personal-form" class="profile-form box-style">
             <div class="profile-information">
                 <div class="title-header"><h2>PERSONAL INFORMATION</h2></div>
@@ -23,67 +23,103 @@
                 <div class="profile-item">
                     <div class="details">
                         <label class="detail-label l1">UIC:</label>
-                        <div class="detail-text col1" id="UIC">{{member.uic_code}}</div>
+                        <div class="uneditable" id="UIC">{{member.uic_code}}</div>
                     </div>
+
                     <div class="details">
                         <label class="detail-label l2">Name:</label>
                         <input type="text" id="NameInput" class="input-field" value="{{member.name}}" onfocus="clearInput(this)">
                     </div>
+
                     <div class="details">
-                        <label class="INVISIBLE DIV"></label>
+                        <label class="detail-label l2"></label>
+                        <div class="detail-text col2" id="FILLER_DIV"></div>
                     </div>
                 </div>
 
                 <div class="profile-item">
                     <div class="details">
                         <label class="detail-label l1">Birthday:</label>
-                         <input type="text" id="BirthdayInput" class="input-field" value="{{member.birthday}}" onfocus="clearInput(this)">
+                        <input type="date" id="BirthdayInput" name="bday" class="inputBox" value="{{member.birthday}}">
                     </div>
                     
                     <div class="details">
                         <label class="detail-label l2">Barangay:</label>
-                       <input type="text" id="BarangayInput" class="input-field" value="{{member.barangay}}" onfocus="clearInput(this)">
-                    </div>
-                    <div class="details">
-                        <label class="detail-label l3">Location:</label>
-                        <input type="text" id="LocationInput" class="input-field" value="{{member.location}}" onfocus="clearInput(this)">
-                    </div>
-                </div>
-    
-                <div class="profile-item">
-                    <div class="details">
-                        <label class="detail-label l1">Gender:</label>
-                        <div>
-                            <select id="GenderInput" name="gender" class="inputBox">
-                                <option value="" disabled selected>{{member.gender}}</option>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
-                                <option value="heterosexual">Heterosexual</option>
-                                <option value="gay">Gay</option>
-                                <option value="lesbian">Lesbian</option>
-                                <option value="bisexual">Bisexual</option>
-                                <option value="transwoman">Transwoman</option>
-                            </select>
-                        </div>
-                    </div>
-                   
-                    <div class="details">
-                        <div><label class="detail-label l2">Sex:</label></div>
-                        <select id="SexInput" name="sex" class="inputBox" required>
-                            <option value="" disabled selected>{{member.sex}}</option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
+                         <select id="BarangayInput" class="inputBox" name="barangay">
+                             <option value="">Select Barangay</option>
                         </select>
                     </div>
                     <div class="details">
+                        <label class="detail-label l3">Location:</label>
+                        <input class="inputBox"type="text" id="LocationInput" name="location" placeholder="Enter Location">
+                    </div>
+                    
+                </div>
+                
+    <script>
+        function populateBarangays() {
+        
+            var select = document.getElementById("BarangayInput");
+            // Array of barangay numbers (assuming they are sequential from 1 to 188)
+            var barangays = Array.from({ length: 188 }, (_, index) => index + 1);
+            var noneOption = document.createElement("option");
+            noneOption.value = "Not in Caloocan";
+            noneOption.textContent = "Not in Caloocan";
+            select.appendChild(noneOption);
+            // Iterate through the array and create option elements
+            barangays.forEach(function (barangay) {
+                var option = document.createElement("option");
+                option.value = "Barangay " + barangay; 
+                option.textContent = "Barangay " + barangay; 
+                select.appendChild(option);
+            });
+        }
+            function handleBarangayChange() {
+            var selectedBarangay = document.getElementById("BarangayInput").value;
+            var otherLocation = document.getElementById("otherLocation");
+            if (selectedBarangay === "Not in Caloocan") {
+                otherLocation.style.display = "block";
+            } else {
+                otherLocation.style.display = "none";
+            }
+        }
+        // call the function to populate the dropdown when the page loads
+        populateBarangays();
+        document.getElementById("barangay").addEventListener("change", handleBarangayChange);
+    </script>
+
+                <div class="profile-item">
+                    <div class="details">
+                        <label class="detail-label l1">Gender:</label>
+                        <select id="GenderInput" name="gender" class="inputBox">
+                            <option value="" disabled selected></option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="heterosexual">Heterosexual</option>
+                            <option value="gay">Gay</option>
+                            <option value="lesbian">Lesbian</option>
+                            <option value="bisexual">Bisexual</option>
+                            <option value="transwoman">Transwoman</option>
+                        </select>
+                    </div>
+                    <div class="details">
+                        <label class="detail-label l2">Sex:</label>
+                            <select id="SexInput" name="sex" class="inputBox">
+                                <option value="" disabled selected></option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                    </div>
+                    
+                    <div class="details">
                         <label class="detail-label l3">Civil Status:</label>
-                        <select id="CivilInput" class="inputBox" name="civil-status" value="{{member.civil_status}}" required>
-                            <option value="" disabled selected>Select your civil status</option>
+                        <select id="CivilInput" class="inputBox" name="civil-status">
+                            <option value="" disabled selected></option>
                             <option value="single">Single</option>
                             <option value="married">Married</option>
                             <option value="divorced">Divorced</option>
                             <option value="widowed">Widowed</option>
-                        </select><br>
+                        </select>
                     </div>
                 </div>
 
@@ -94,7 +130,7 @@
                     </div>
                     <div class="details">
                         <label class="detail-label l2">Email:</label>
-                         <input type="text" id="EmailInput" class="input-field" value="{{member.email}}" onfocus="clearInput(this)"> 
+                        <input type="text" id="EmailInput" class="input-field" value="{{member.email}}" onfocus="clearInput(this)">
                     </div>
 
                     <div class="details">
@@ -104,46 +140,44 @@
                     
                 </div>
 
-                <div><h2>Education</h2></div>
-                <div class="border"></div>
-
                 <div class="profile-item">
-                              
+                    <div class="details">
+                        <label class="detail-label l1">Occupation:</label>
+                        <input type="text" id="OccupationInput" class="input-field" value="{{member.occupation}}" onfocus="clearInput(this)">
+                    </div>
+
+                    <div class="details">
+                        <label class="detail-label l2">Designation:</label>
+                        <input type="text" id="DesignationInput" class="input-field" value="{{member.designation}}" onfocus="clearInput(this)">
+                    </div>
+
+                    <div class="details">
+                        <label class="detail-label l3">Company:</label>
+                        <input type="text" id="CompanyInput" class="input-field" value="{{member.company}}" onfocus="clearInput(this)">
+                    </div>
+                </div>
+
+                <div class="education-title"><h2>Education</h2></div>
+                
+
+                    <div class="profile-item">
                         {{#if member.entries}}
                             {{#each member.entries}}
                             <div class="details">
                                 <label class="detail-label l1">Course:</label>
                                 <input type="text" id="CourseInput" class="input-field" value="{{this.course}}" onfocus="clearInput(this)">
-                            </div>
-
+                            </div>   
                             <div class="details">
                                 <label class="detail-label l1">Education Year:</label>
                                 <input type="text" id="EducationYearInput" class="input-field" value="{{this.educationYear}}" onfocus="clearInput(this)">
-                            </div>
-
+                            </div> 
                             <div class="details">
                                 <label class="detail-label l1">School Attended:</label>
                                 <input type="text" id="SchoolAttendedInput" class="input-field" value="{{this.school}}" onfocus="clearInput(this)">
                             </div>
                             {{/each}}
                         {{/if}}
-                    
-                </div>
-
-                <div class="profile-item">
-                    <div class="details">
-                        <label class="detail-label l1">Occupation:</label>
-                        <input type="text" id="OccupationInput" class="input-field" value="{{member.occupation}}" onfocus="clearInput(this)">
-                    </div>
-                    <div class="details">
-                        <label class="detail-label l2">Designation:</label>
-                        <input type="text" id="DesignationInput" class="input-field" value="{{member.designation}}" onfocus="clearInput(this)">
-                    </div>
-                    <div class="details">
-                        <label class="detail-label l3">Company:</label>
-                        <input type="text" id="CompanyInput" class="input-field" value="{{member.company}}" onfocus="clearInput(this)">
-                    </div>
-                </div>
+                    </div>  
             </div>
         </div>
 
@@ -151,8 +185,7 @@
             <div class="profile-information">
                 <div class="title-header"><h2>HEALTH INFORMATION</h2></div>
 
-                <div class="profile-item">
-                    
+                <div class="profile-item" id="Health">
                     {{#if member.medications}}
                         {{#each member.medications}}
                             <div class="details">
@@ -161,18 +194,19 @@
                             </div>
                             <div class="details">
                                 <label class="detail-label l2">Start Date:</label>
-                                <input type="text" id="StartDateInput" class="input-field" value="{{this.startDate}}" onfocus="clearInput(this)">
+                                <input type="text" id="StartDateInput" class="input-field" value="{{this.StartDate}}" onfocus="clearInput(this)">
                             </div>
                             <div class="details">
                                 <label class="detail-label l1">Condition:</label>
                                 <input type="text" id="ConditionInput" class="input-field" value="{{this.condition}}" onfocus="clearInput(this)">
                             </div>
+                </div>
                         {{/each}}
                     {{/if}}
-                    
-                </div>
             </div>
+                
         </div>
+        
 
         <div id="contact-form" class="profile-form box-style">
             <div class="profile-information">
@@ -181,7 +215,7 @@
                 <div class="profile-item">
                     <div class="details">
                         <label class="detail-label l1">Contact Person:</label>
-                         <input type="text" id="ePersonInput" class="input-field" value="{{member.ePerson}}" onfocus="clearInput(this)">
+                        <input type="text" id="ePersonInput" class="input-field" value="{{member.ePerson}}" onfocus="clearInput(this)">
                     </div>
                     <div class="details">
                         <label class="detail-label l1">Contact Number:</label>
@@ -195,14 +229,18 @@
                     </div>
                     <div class="details">
                         <label class="detail-label l1">Contact Address:</label>
-                        <input type="text" id="eAddressInput" class="input-field" value="{{member.eContact}}" onfocus="clearInput(this)">
+                        <input type="text" id="eAddressInput" class="input-field" value="{{member.eAddress}}" onfocus="clearInput(this)">
                     </div>
                 </div>
-                <a id="saveButton" href="/memberDetail?uic_code={{member.uic_code}}">Save</a>
+                <a id="saveButton" href="/new_updateMember?uic_code={{member.uic_code}}">Save</a>
             </div>
         </div>
     </div>
 </main>
+
+
+                       
+            
 
 <script>
     function clearInput(input) {
@@ -213,7 +251,7 @@
         document.getElementById('saveButton').addEventListener('click', function(event) {
             event.preventDefault(); // Prevent default link behavior
 
-            const uicCode = document.getElementById('UIC').textContent.trim();
+            const uicCode = document.getElementById('UIC').innerText.trim();
             const name = document.getElementById('NameInput').value;
             const birthday = document.getElementById('BirthdayInput').value;
             const barangay = document.getElementById('BarangayInput').value;
@@ -224,6 +262,8 @@
             const email = document.getElementById('EmailInput').value;
             const civilStatus = document.getElementById('CivilInput').value;
             const facebook = document.getElementById('FacebookInput').value;
+
+
 
             // Collecting Education Information
             const courseInputs = document.querySelectorAll('#CourseInput');

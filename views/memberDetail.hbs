@@ -1,5 +1,5 @@
 <main>
-    <div class="main">
+    <div class="outer-container">
       <div id="first-box" class="profile-form box-style"> 
         <div class="profile-details">
             <div class="profile-picture">
@@ -15,7 +15,7 @@
                <div> <p class="note-desc" id="profile-note">{{member.comments}}</p></div>
             </div>
         </div>
-</div> 
+    </div> 
         <div id="personal-form" class="profile-form box-style">
             <div class="profile-information">
                 <div class="title-header"><h2>PERSONAL INFORMATION</h2></div>
@@ -83,8 +83,23 @@
                     
                 </div>
 
-                <div id="title-header"><h2>Education</h2></div>
-                <div class="border"></div>
+                <div class="profile-item">
+                    <div class="details">
+                        <label class="detail-label l1">Occupation:</label>
+                        <div class="detail-text col1" id="Occupation">{{member.occupation}}</div>
+                    </div>
+                    <div class="details">
+                        <label class="detail-label l2">Designation:</label>
+                        <div class="detail-text col2" id="Designation">{{member.designation}}</div>
+                    </div>
+                    <div class="details">
+                        <label class="detail-label l3">Company:</label>
+                        <div class="detail-text col3" id="Company">{{member.company}}</div>
+                    </div>
+                </div>
+
+                <div class="education-title"><h2>Education</h2></div>
+                
 
                     <div class="profile-item">
                         {{#if member.entries}}
@@ -103,23 +118,7 @@
                             </div>
                             {{/each}}
                         {{/if}}
-                    </div>
-                
-
-                <div class="profile-item">
-                    <div class="details">
-                        <label class="detail-label l1">Occupation:</label>
-                        <div class="detail-text col1" id="Occupation">{{member.occupation}}</div>
-                    </div>
-                    <div class="details">
-                        <label class="detail-label l2">Designation:</label>
-                        <div class="detail-text col2" id="Designation">{{member.designation}}</div>
-                    </div>
-                    <div class="details">
-                        <label class="detail-label l3">Company:</label>
-                        <div class="detail-text col3" id="Company">{{member.company}}</div>
-                    </div>
-                </div>
+                    </div>  
             </div>
         </div>
 
@@ -174,12 +173,43 @@
                         <div class="detail-text col1" id="eAddress">{{member.eAddress}}</div>
                     </div>
                 </div>
-                <a id="editLink" href="/new_updateMember?uic_code={{member.uic_code}}">Edit</a>
+                <div class="buttons">
+                    <a id="editButton" href="/new_updateMember?uic_code={{member.uic_code}}">Update User Information</a>
+                    <a id="editButton" href="#" onclick="deleteUser()">Delete User</a>
+                </div>
             </div>
         </div>
     </div>
 </main>
 
 <script>
-    document.getElementById('')
+    function deleteUser() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const uic_code = urlParams.get('uic_code');
+
+        if (confirm('Are you sure you want to delete this user?')) {
+            fetch('/delete-member', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ uic_code })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(result => {
+                console.log('Member deleted successfully:', result);
+                // Redirect to member list or handle UI updates as needed
+                window.location.href = '/mainpage'; // Example: Redirect to main page after deletion
+            })
+            .catch(error => {
+                console.error('Error deleting member:', error);
+                alert('Failed to delete member');
+            });
+        }
+    }
 </script>
