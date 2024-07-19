@@ -52,41 +52,59 @@ $(document).ready(function() {
     });
 
     function renderMembers(members) {
-        var wrapper = document.querySelector('.database-wrapper');
-        wrapper.innerHTML = ''; // Clear previous content
+      var wrapper = document.querySelector('.database-wrapper');
+      wrapper.innerHTML = ''; // Clear previous content
+  
+      var tableHeader = `
+          <table>
+              <thead>
+                  <tr>
+                      <th class="index"></th>
+                      <th class="Name">Name</th>
+                      <th class="Sex">Sex</th>
+                      <th class="Payment">Membership</th>
+                      <th class="Status">Status</th>
+                      <th class="index"></th>
+                  </tr>
+              </thead>
+              <tbody>
+              </tbody>
+          </table>`;
+      wrapper.insertAdjacentHTML('beforeend', tableHeader);
+  
+      var tbody = wrapper.querySelector('tbody');
+  
+      members.forEach((member, index) => {
+        // Construct the status content using template literals
+        const statusContent = `
+            ${member.membershipDetails}
+            ${member.membershipDetails === 'Paid' ? ` - Payment Date: ${member.renewalDate}` : ''}
+        `;
     
-        var header = `
-            <div class="database-item database-header">
-                <div class="db-item UIC">UIC</div>
-                <div class="db-item Name">Name</div>
-                <div class="db-item Sex">Sex</div>
-                <div class="db-item Payment">Membership</div>
-                <div class="db-item Status">Status</div>
-                <div class="db-item Engagement">Engagement</div>
-                <div class="db-item Contribution">Contribution</div>
-                <div class="db-item Show-More last-child">Show More</div>
-            </div>`;
-        wrapper.insertAdjacentHTML('beforeend', header);
+        // Create the member row with the updated status content
+        const memberRow = `
+            <tr>
+                <td class="index">${index + 1}</td>
+                <td class="Name">${member.name}</td>
+                <td class="Sex">${member.sex.charAt(0).toUpperCase() + member.sex.slice(1)}</td>
+                <td class="Payment">${member.membership}</td>
+                <td class="Status">${statusContent}</td>
+                <td class="index"><a href="/memberDetail?uic_code=${member.uic_code}">View</a></td>
+            </tr>`;
+        
+        tbody.insertAdjacentHTML('beforeend', memberRow);
+    });
     
-        members.forEach(member => {
-            var memberHTML = `
-                <div class="database-item database-header">
-                  <div class="db-item UIC">${member.uic_code}</div>
-                  <div class="db-item Name">${member.name}</div>
-                  <div class="db-item Sex">${member.sex}</div>
-                  <div class="db-item Payment">${member.membership}</div>
-                  <div class="db-item Status">${member.membershipDetails}</div>
-                  <div class="db-item Engagement">Engagement</div>
-                  <div class="db-item Contribution">Contribution</div>
-                  <div class="db-item Show-More last-child">
-                      <div class="last-child-item">
-                          <a href="/memberDetail?uic_code=${member.uic_code}">
-                              <span class="last-child-icon material-symbols-outlined">more_horiz</span>
-                          </a>
-                      </div>
-                  </div>
-              </div>`;
-            wrapper.insertAdjacentHTML('beforeend', memberHTML);
-        });
-    }
+  }
+
+
+
+
+
+
+
+
+
+
+    
   });

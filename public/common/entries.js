@@ -15,6 +15,15 @@ $(document).ready(function() {
         addEntry('#conditions', 'condition', null, null, conditionIndex++);
     });
 
+    // Automatically move focus to the next input field when maxlength is reached
+    $('.uic-box').on('input', function() {
+        var maxLength = parseInt($(this).attr('maxlength'));
+        var currentLength = $(this).val().length;
+        if (currentLength === maxLength) {
+            $(this).next('.uic-box').focus();
+        }
+    });
+
     function addMedicationEntry() {
         let entry = $('<div class="divider"></div>');
 

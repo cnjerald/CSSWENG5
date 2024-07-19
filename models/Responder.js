@@ -2,7 +2,9 @@ const { emit } = require('process');
 const mongoose = require('mongoose');
 const personalInfoModel = require('./personalInfo');
 const eventsModel = require('./eventsInfo');
+const paymentModel = require('./paymentInfo');
 const nodemailer = require('nodemailer');
+const { query } = require('express');
 
 const adminSchema = new mongoose.Schema({
   username : { type: String },
@@ -97,59 +99,6 @@ function successFn(res){
 
 module.exports.checkOneMonth = checkOneMonth;
 
-
-
-// This section is related to Paymongo
-
-const options = {
-    method: 'POST',
-    headers: {
-      accept: 'application/json',
-      'content-type': 'application/json',
-      authorization: 'Basic c2tfdGVzdF96bTV1SjdVUG5zQjVHaDd5NzNLaTJhVkQ6'
-    },
-    body: JSON.stringify({data: {attributes: {amount: 10000, description: 'Test', remarks: 'Test'}}})
-  };
-
-const options2 = {
-  method: 'GET',
-  headers: {
-    accept: 'application/json',
-    authorization: 'Basic c2tfdGVzdF96bTV1SjdVUG5zQjVHaDd5NzNLaTJhVkQ6'
-  }
-};
-
-// This function generates a payment gateway link for a user.
-function getPaymentLink() {
-
-  return new Promise((resolve, reject) => {
-    fetch('https://api.paymongo.com/v1/links', options)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Failed to fetch payment link');
-        }
-        return response.json();
-      })
-      .then(response => resolve({link : response.data.attributes.checkout_url, paymentID: response.data.attributes.reference_number}))
-      .catch(err => {
-        console.error(err);
-        reject(err); // Propagate the error to the promise consumer
-      });
-  });
-}
-module.exports.getPaymentLink = getPaymentLink;
-
-// This function checks if the payment status. Returns promise 'unpaid' or 'paid'
-function checkPayment(id) {
-  return new Promise((resolve, reject) => {
-    fetch(`https://api.paymongo.com/v1/links/${id}`, options2)
-      .then(response => response.json())
-      .then(response => resolve({status : response.data.attributes.status}))
-      .catch(err => reject(err)); // Properly propagate the error
-  });
-}
-module.exports.checkPayment= checkPayment;
-
 //This fuction fulfills the ajax request register-checker it checks for invalid inputs during registration.
 function checkPersonalInfo(newPersonalInfo){
   return new Promise((resolve,reject)=>{
@@ -219,76 +168,47 @@ function getMembers() {
 module.exports.getMembers = getMembers;
 
 // This function is a helper function that checks the membership status of the user.
-function checkMembershipStatus(uic){
-  console.log(uic);
-  return new Promise((resolve, reject) => {
-    personalInfoModel.findOne({uic_code: uic}).lean().then((function(user){
-      if(user != undefined && user._id != null){
-        resolve({name: user.last_name + ", " + user.first_name, memberUntil: user.memberUntil, uic: user.uic_code})
-      } else{
-        resolve(undefined);
+async function checkMembershipStatus() {
+  try {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);  // Set to the beginning of the day
+
+    const users = await personalInfoModel.find({ membership: "Registered" }).lean();
+
+    const updatePromises = users.map(user => {
+      const renewalDate = new Date(user.renewalDate);
+      const renewalDatePlusOneYear = new Date(renewalDate.setFullYear(renewalDate.getFullYear() + 1));
+      console.log("Today" + today);
+      console.log("RenDate+1y" + renewalDatePlusOneYear);
+      let updateOperation;
+
+      if (renewalDatePlusOneYear < today) {
+        updateOperation = personalInfoModel.updateOne(
+          { _id: user._id },  // Query to match the specific user
+          { $set: { membershipDetails: "Expired" } }  // Update operation
+        );
+      } else {
+        updateOperation = personalInfoModel.updateOne(
+          { _id: user._id },  // Query to match the specific user
+          { $set: { membershipDetails: "Paid" } }  // Update operation
+        );
       }
-    }))
-  });
+
+      return updateOperation.catch(err => {
+        console.error(`Error updating user ${user._id}:`, err);
+      });
+    });
+
+    await Promise.all(updatePromises);  // Wait for all updates to complete
+    console.log('Membership status check and updates completed.');
+  } catch (err) {
+    console.error('Error fetching or updating users:', err);
+  }
 }
+
 
 module.exports.checkMembershipStatus = checkMembershipStatus;
 
-// This function updates the membership status (Expiry date) of the user.
-
-function updateMembershipStatus(uic) {
-  return new Promise((resolve, reject) => {
-    personalInfoModel.findOne({ uic_code: uic }).lean().then((user) => {
-      if (user != undefined && user._id != null) {
-        let today = new Date();
-
-        // Extract the year, month, and day from the Date object
-        let year = today.getFullYear() + 1; // plus 1 because i want it to be the next year.
-        let month = today.getMonth() + 1; 
-        let day = today.getDate();
-
-        // Format the date as a string (e.g., YYYY-MM-DD)
-        let formattedDate = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-
-        if (user.memberUntil == 'newuser') {
-          personalInfoModel.updateOne({ _id: user._id }, { memberUntil: formattedDate })
-            .then((result) => {
-              resolve(result);
-            }).catch((err) => {
-              reject(err);
-            });
-        } else {
-          let memberUntilDate = new Date(user.memberUntil);
-
-          if (today <= memberUntilDate) {
-            // Extend membership by 1 year from current expiration
-            memberUntilDate.setFullYear(memberUntilDate.getFullYear() + 1);
-          } else {
-            // Extend membership by 1 year from today
-            memberUntilDate = new Date(today);
-            memberUntilDate.setFullYear(today.getFullYear() + 1);
-          }
-
-          // Format the new membership date
-          let newFormattedDate = `${memberUntilDate.getFullYear()}-${String(memberUntilDate.getMonth() + 1).padStart(2, '0')}-${String(memberUntilDate.getDate()).padStart(2, '0')}`;
-
-          personalInfoModel.updateOne({ _id: user._id }, { memberUntil: newFormattedDate })
-            .then((result) => {
-              resolve(result);
-            }).catch((err) => {
-              reject(err);
-            });
-        }
-      } else {
-        reject(new Error('User not found'));
-      }
-    }).catch((err) => {
-      reject(err);
-    });
-  });
-}
-
-module.exports.updateMembershipStatus = updateMembershipStatus;
 
 // This function is in charge of the search queries and filter.
 function searchFilter(searchString, sex, membership, membershipDetails, sort) {
@@ -360,9 +280,9 @@ module.exports.searchFilter = searchFilter;
 
 module.exports.getEvents = getEvents;
 
-function getEventDetails(name){
+function getEventDetails(id){
   return new Promise((resolve,reject)=>{
-    const searchString = {name : name};
+    const searchString = {_id : id};
     eventsModel.findOne(searchString).lean().then(event =>{
       resolve(event);
     }).catch(err =>{
@@ -373,47 +293,51 @@ function getEventDetails(name){
 
 module.exports.getEventDetails = getEventDetails;
 
-function registerMemberToEvent(eventName, memberName) {
-  console.log("NAME! " + memberName);
-
+function registerMemberToEvent(eventid, memberName) {
   return new Promise((resolve, reject) => {
-    getEventDetails(eventName)
+    getEventDetails(eventid)
       .then(event => {
-        let attendeeCount = event.attendees;
-        let participants = event.participants;
-
-        if (!participants.includes(memberName)) {
-          participants.push(memberName); // Modify the array directly
-
-          eventsModel.updateOne(
-            { _id: event._id },
-            { attendees: attendeeCount + 1, participants: participants }
-          )
-          .then(() => {
-            resolve(event);
+        if(event){
+          let attendeeCount = event.attendees;
+          let participants = event.participants;
+          personalInfoModel.findOne({name: memberName}).lean().then(member=>{
+            if (!participants.includes(member._id)) {
+              participants.push(member._id); // Modify the array directly
+    
+              eventsModel.updateOne(
+                { _id: event._id },
+                { attendees: attendeeCount + 1, participants: participants }
+              )
+              .then(() => {
+                resolve(event);
+              })
+              .catch(error => {
+                console.error(error);
+                reject(error);
+              });
+            } else {
+              resolve(event);
+            }
           })
           .catch(error => {
             console.error(error);
             reject(error);
           });
-        } else {
-          resolve(event);
         }
-      })
-      .catch(error => {
-        console.error(error);
-        reject(error);
-      });
+
+
+        })
+
   });
 }
 module.exports.registerMemberToEvent = registerMemberToEvent;
 
-function getRegisteredMembers(eventName) {
+function getRegisteredMembers(eventid) {
   return new Promise((resolve, reject) => {
-      getEventDetails(eventName).then(event => {
+      getEventDetails(eventid).then(event => {
           let promises = [];
           event.participants.forEach(names => {
-              let promise = personalInfoModel.findOne({ name: names }).lean().then(user => {
+              let promise = personalInfoModel.findOne({ _id: names }).lean().then(user => {
                   if (user != undefined && user._id != null) {
                       console.log("DB1 " + user.name);
                       console.log("DB1 " + user.uic_code);
@@ -435,8 +359,150 @@ function getRegisteredMembers(eventName) {
 
 module.exports.getRegisteredMembers = getRegisteredMembers;
 
+function getPayments(){
+  return new Promise((resolve,reject)=>{
+    paymentModel.find({}).lean().then(payments =>{
+      return(payments);
+    })
+  })
+}
+module.exports.getPayments = getPayments;
 
 
+function groupByDate(payments) {
+  const grouped = {};
+
+  payments.forEach(payment => {
+    const date = new Date(payment.new_renewalDate);
+    const year = date.getFullYear();
+    const month = date.toLocaleString('default', { month: 'long' });
+
+    // Use a string with an underscore prefix for the year to ensure proper sorting
+    const yearKey = `Year_${year}`;
+
+    if (!grouped[yearKey]) {
+      grouped[yearKey] = {};
+    }
+    if (!grouped[yearKey][month]) {
+      grouped[yearKey][month] = [];
+    }
+    grouped[yearKey][month].push(payment);
+  });
+
+  // Convert the grouped object to an array for sorting
+  const sortedGrouped = Object.entries(grouped)
+    .sort(([a], [b]) => b.localeCompare(a))  // Sort years in descending order
+    .reduce((acc, [yearKey, months]) => {
+      acc[yearKey] = {};
+      Object.entries(months)
+        .sort(([a], [b]) => {
+          const monthA = new Date(Date.parse(a + " 1, 2000")).getMonth();
+          const monthB = new Date(Date.parse(b + " 1, 2000")).getMonth();
+          return monthB - monthA;  // Sort months from December to January
+        })
+        .forEach(([month, payments]) => {
+          acc[yearKey][month] = payments;
+        });
+      return acc;
+    }, {});
+
+  return sortedGrouped;
+}
+module.exports.groupByDate= groupByDate;
+
+function getRegisteredmembership() {
+
+  return new Promise((resolve,reject)=>{
+    personalInfoModel.find({membership: "Registered"}).lean().then(users=>{
+      resolve(users);
+    })
+  })
+
+}
+module.exports.getRegisteredmembership = getRegisteredmembership;
+
+
+function querySelectedMembership(name, uic) {
+  return new Promise((resolve, reject) => {
+    personalInfoModel.findOne({ name: name, uic_code: uic }).lean().then(user => {
+      if (!user) {
+        return reject(new Error('User not found'));
+      }
+      const query = paymentModel.find({ user: user._id }).lean();
+      query.sort({ new_renewalDate: -1 }).then(payments => {
+        resolve(payments);
+      }).catch(err => {
+        reject(err);
+      });
+    }).catch(err => {
+      reject(err);
+    });
+  });
+}
+module.exports.querySelectedMembership = querySelectedMembership;
+
+
+const getUserID = async (name, uic) => {
+
+  try {
+    const user = await personalInfoModel.findOne({ name: name, uic_code: uic }).lean();
+    if (!user) {
+      throw new Error('User not found');
+    }
+    return user._id;
+  } catch (error) {
+    throw error;
+  }
+};
+
+module.exports.getUserID = getUserID;
+
+async function updateMembershipRecord(id, latestDate) {
+  try {
+    const user = await personalInfoModel.findOne({_id: id}).lean();
+    if (user) {
+      console.log("Does this work? " + user.name);
+      
+      // Convert dates to comparable formats
+      const latest = new Date(latestDate);
+      const renewal = new Date(user.renewalDate);
+      console.log(latest);
+      console.log(renewal);
+
+      // Compare dates
+      if (latest != renewal) {
+        console.log("Hello World.");
+
+        // Format the latest date to YYYY-MM-DD
+        const formattedLatestDate = latest.toISOString().split('T')[0];
+
+        await personalInfoModel.updateOne({_id: user._id}, {renewalDate: formattedLatestDate});
+        console.log("Renewal date updated.");
+      } else {
+        console.log("No update needed. Latest date is not greater than renewal date.");
+      }
+    } else {
+      console.log("User not found.");
+    }
+  } catch (err) {
+    console.error("Error finding user:", err);
+  }
+}
+module.exports.updateMembershipRecord = updateMembershipRecord;
+
+function deletePayment_ajax(id) {
+  paymentModel.findOneAndDelete({ _id: id }).lean().then(transaction => {
+      if (transaction) {
+          console.log("Transaction deleted:", transaction);
+      } else {
+          console.log("Transaction not found.");
+      }
+  }).catch(err => {
+      console.error("Error deleting transaction:", err);
+  });
+}
+
+module.exports.deletePayment_ajax = deletePayment_ajax;
 
 
 // Helper functions

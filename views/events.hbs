@@ -34,28 +34,51 @@
                 </form>
             </div>
 
+
+
             <div class="database-wrapper">
-                <div class="database-item database-header">
-                    <div class="db-item UIC">Event Name</div>
-                    <div class="db-item Name">Event Date</div>
-                    <div class="db-item Name">Number of Participants</div>
-                    <div class="db-item Show-More last-child">Add Member</div>
-                </div>
-                <!--Member Entry Start-->
-                {{#each event}}
-                <div class="database-item database-header">
-                    <div class="db-item UIC">{{name}}</div>
-                    <div class="db-item Name">{{date}}</div>
-                    <div class="db-item Name">{{attendees}}</div>
-                    <div class="db-item Show-More last-child">
-                    <button class="add-attendee-btn" data-event-id="{{_id}}">
-                        <span class="material-symbols-outlined">add</span>
-                    </button>
-                    </div>
-                </div>
-                {{/each}}
-                <!--Member Entry End-->
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="UIC">Event Name</th>
+                            <th class="Name">Event Date</th>
+                            <th class="Name">Number of Participants</th>
+                            <th class="Show-More last-child">Add Member</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!--Member Entry Start-->
+                        {{#each event}}
+                        <tr>
+                            <td class="UIC">{{name}}</td>
+                            <td class="Name">{{date}}</td>
+                            <td class="Name">{{attendees}}</td>
+                            <td class="Show-More last-child">
+                                <button class="add-attendee-btn" data-event-id="{{_id}}">
+                                    <span class="material-symbols-outlined">add</span>
+                                </button>
+                            </td>
+                        </tr>
+                        {{/each}}
+                        <!--Member Entry End-->
+                    </tbody>
+                </table>
             </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         </div>
     </div>
 
@@ -102,7 +125,7 @@
     </div>
 
 </main>
-<script src="../common/dropdown.js"></script>
-<script src="/js/database-wrapper.js"></script>
+
+
 <script src="/js/add-event.js"></script>
 

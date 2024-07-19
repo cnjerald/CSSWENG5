@@ -1,194 +1,188 @@
-<main>
-        <div class="main">
+<script src="https://cdn.jsdelivr.net/npm/handlebars@4.7.7/dist/handlebars.min.js"></script>
 
-            <div class="aside">
-                <div class="aside-header">Search Filter</div>
-                
-                <div class="dropdown-container">
+<main class="main">
+    <div class="aside">
+        <div class="aside-header">Search Filter</div>
+            <div class="dropdown-container">
+                <div class="dropdown-label">Sex</div>
 
-                        <div class="dropdown-label">Sex</div>
-                        <div class="dropdown">
-                            <div class="select">
-                                <span class="selected">All</span>
-                                <div class="caret"></div>
-                            </div>
-                            <ul class="menu">
-                                <li class="active">All</li>
-                                <li>Male</li>
-                                <li>Female</li>
-                            </ul>
-                        </div>
-
-                        <div class="dropdown-label">Membership Type</div>
-                        <div class="dropdown">
-                            <div class="select">
-                                <span class="selected">All</span>
-                                <div class="caret"></div>
-                            </div>
-                            <ul class="menu">
-                                <li class="active">All</li>
-                                <li>Registered</li>
-                                <li>Community</li>
-                            </ul>
-                        </div>
-
-                        <div class="dropdown-label">Membership Details</div>
-                        <div class="dropdown">
-                            <div class="select">
-                                <span class="selected">All</span>
-                                <div class="caret"></div>
-                            </div>
-                            <ul class="menu">
-                                <li class="active">All</li>
-                                <li>Paid</li>
-                                <li>Not Paid</li>
-                                <li>Psychosocial</li>
-                                <li>Psychospiritual</li>
-                                <li>Temporary Shelter</li>
-                                <li>Legal Assistance</li>
-                            </ul>
-                        </div>
-                        <div class="dropdown-label">Soon</div>
-                        <div class="dropdown">
-                            <div class="select">
-                                <span class="selected">All</span>
-                                <div class="caret"></div>
-                            </div>
-                            <ul class="menu">
-                                <li class="active">All</li>
-                                <li>Psychosocial</li>
-                                <li>Psychospiritual</li>
-                                <li>Temporary Shelter</li>
-                                <li>Legal Assistance</li>
-                            </ul>
-                        </div>
-
-                        <div class="dropdown-label">Soon3</div>
-                        <div class="dropdown">
-                            <div class="select">
-                                <span class="selected">All</span>
-                                <div class="caret"></div>
-                            </div>
-                            <ul class="menu">
-                                <li class="active">All</li>
-                                <li>0 per week</li>
-                                <li>1-2 per week</li>
-                                <li>3-5 per week</li>
-                                <li>5-6 per week</li>
-                                <li>7 per week</li>
-                            </ul>
-                        </div>
-
-                        <div class="dropdown-label">Soon4</div>
-                        <div class="dropdown">
-                            <div class="select">
-                                <span class="selected">All</span>
-                                <div class="caret"></div>
-                            </div>
-                            <ul class="menu">
-                                <li class="active">All</li>
-                                <li>None</li>
-                                <li>Very Seldom</li>
-                                <li>Seldom</li>
-                                <li>Often</li>
-                                <li>Frequent</li>
-                                <li>Very Frequent</li>
-                            </ul>
-                        </div>
-
+                <div class="dropdown">
+                    <div class="select">
+                        <span class="selected">All</span>
+                        <div class="caret"></div>
+                    </div>
+                    <ul class="menu">
+                        <li class="active">All</li>
+                        <li>Male</li>
+                        <li>Female</li>
+                    </ul>
                 </div>
 
-            </div>
-
-            <div class="database-container">
-
-                <div class="searchbar-container">
-                    <form id="searchbar-form" action="">
-                        <div class="search">
-                            <div class="search-btn-container">
-                                <button class="btn" type="submit">
-                                    <span class="search-icon material-symbols-outlined">search</span>
-                                </button>
-                            </div>
-                            <div class="search-input-container">
-                                <input class="search-input" type="search" id="search" placeholder="Search...">
-                            </div>
-                        </div>
-                    </form>
+                <div class="dropdown-label">Membership Type</div>
+                <div class="dropdown">
+                    <div class="select">
+                        <span class="selected">All</span>
+                        <div class="caret"></div>
+                    </div>
+                    <ul class="menu">
+                        <li class="active">All</li>
+                        <li>Registered</li>
+                        <li>Community</li>
+                    </ul>
                 </div>
 
-                <div class="sort-container">
-                    
-                    <div class="sort-item">
-                        <div class="sort-label"><p>Sort By:</p></div>
-                        <div class="dropdown dropdown-sort">
-                            <div class="select select-sort">
-                                <span class="selected selected-sort">Newest</span>
-                                <div class="caret caret-sort"></div>
-                            </div>
-                            <ul class="menu menu-sort">
-                                <li class="active active-sort">Newest</li>
-                                <li>Name</li>
-                                <li>Membership</li>
-                                <li>Payment</li>
-                                <li>Sex</li>
-                                <li>Occupation</li>
-                                <li>Engagement</li>
-                                <li>Contributions</li>
-                                <li>Oldest</li>
-                            </ul>
-                        </div>
-                    </div>
+                <div class="dropdown-label">Membership Details</div>
 
-                    <div class="sort-item">
-                        <div class="sort-label"><p>Items per page:</p></div>
-                        <div class="items-container">
-                            <button class="item-btn" data-size="small">10</button>
-                            <button class="item-btn" data-size="medium">20</button>
-                            <button class="item-btn" data-size="large">35</button>
-                        </div>
+                <div class="dropdown">
+                    <div class="select">
+                        <span class="selected">All</span>
+                        <div class="caret"></div>
                     </div>
-
+                    <ul class="menu">
+                        <li class="active">All</li>
+                        <li>Paid</li>
+                        <li>Not Paid</li>
+                        <li>Psychosocial</li>
+                        <li>Psychospiritual</li>
+                        <li>Temporary Shelter</li>
+                        <li>Legal Assistance</li>
+                    </ul>
+                </div>
+                <div class="dropdown-label">Soon</div>
+                <div class="dropdown">
+                    <div class="select">
+                        <span class="selected">All</span>
+                        <div class="caret"></div>
+                    </div>
+                    <ul class="menu">
+                        <li class="active">All</li>
+                        <li>Psychosocial</li>
+                        <li>Psychospiritual</li>
+                        <li>Temporary Shelter</li>
+                        <li>Legal Assistance</li>
+                    </ul>
                 </div>
 
-                <div class="database-wrapper">
-                    <div class="database-item database-header">
-                        <div class="db-item UIC">UIC</div>
-                        <div class="db-item Name">Name</div>
-                        <div class="db-item Sex">Sex</div>
-                        <div class="db-item Payment">Membership</div>
-                        <div class="db-item Status">Status</div>
-                        <div class="db-item Engagement">Engagement</div>
-                        <div class="db-item Contribution">Contribution</div>
-                        <div class="db-item Show-More last-child">Show More</div>
+                <div class="dropdown-label">Soon3</div>
+                <div class="dropdown">
+                    <div class="select">
+                        <span class="selected">All</span>
+                        <div class="caret"></div>
                     </div>
-
-                    <!--Member Entry Start-->
-                    {{#each member}}
-                    <div class="database-item database-header">
-                        <div class="db-item UIC">{{uic_code}}</div>
-                        <div class="db-item Name">{{name}}</div>
-                        <div class="db-item Sex">{{sex}}</div>
-                        <div class="db-item Payment">{{membership}}</div>
-                        <div class="db-item Status">{{membershipDetails}}</div>
-                        <div class="db-item Engagement">{{engagement}}</div>
-                        <div class="db-item Contribution">{{contribution}}</div>
-                        <div class="db-item Show-More last-child">
-                            <div class="last-child-item">
-                                         <!--reference to member detail-->
-                                <a href="/memberDetail?uic_code={{uic_code}}"><span class="last-child-icon material-symbols-outlined">more_horiz</span></a>
-                            </div>
-                        </div>
-                    </div>
-                    {{/each}}
-
-                    
-                    <!--Member Entry End-->
-
+                    <ul class="menu">
+                        <li class="active">All</li>
+                        <li>0 per week</li>
+                        <li>1-2 per week</li>
+                        <li>3-5 per week</li>
+                        <li>5-6 per week</li>
+                        <li>7 per week</li>
+                    </ul>
                 </div>
 
-            </div>
+                <div class="dropdown-label">Soon4</div>
+                <div class="dropdown">
+                    <div class="select">
+                        <span class="selected">All</span>
+                        <div class="caret"></div>
+                    </div>
+                    <ul class="menu">
+                        <li class="active">All</li>
+                        <li>None</li>
+                        <li>Very Seldom</li>
+                        <li>Seldom</li>
+                        <li>Often</li>
+                        <li>Frequent</li>
+                        <li>Very Frequent</li>
+                    </ul>
+                </div>
         </div>
-    </main>
+    </div>
+
+    <div class="database-container">
+        <div class="searchbar-container">
+            <form id="searchbar-form" action="">
+                <div class="search">
+                    <div class="search-btn-container">
+                        <button class="btn" type="submit">
+                            <span class="search-icon material-symbols-outlined">search</span>
+                        </button>
+                    </div>
+                    <div class="search-input-container">
+                        <input class="search-input" type="search" id="search" placeholder="Search...">
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="sort-container">
+            
+            <div class="sort-item">
+                <div class="sort-label"><p>Sort By:</p></div>
+                <div class="dropdown dropdown-sort">
+                    <div class="select select-sort">
+                        <span class="selected selected-sort">Newest</span>
+                        <div class="caret caret-sort"></div>
+                    </div>
+                    <ul class="menu menu-sort">
+                        <li class="active active-sort">Newest</li>
+                        <li>Name</li>
+                        <li>Membership</li>
+                        <li>Payment</li>
+                        <li>Sex</li>
+                        <li>Occupation</li>
+                        <li>Engagement</li>
+                        <li>Contributions</li>
+                        <li>Oldest</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="sort-item">
+                <div class="items-container">
+                    <button class="item-btn" onclick="location.href='/register'">Add User</button>
+                </div>
+            </div>
+
+        </div>
+            
+        <div class="database-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="index"></th>
+                        <th class="Name">Name</th>
+                        <th class="Sex">Sex</th>
+                        <th class="Payment">Membership</th>
+                        <th class="Status">Status</th>
+
+                        <th class="index"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each member}}
+                    <tr>
+                        <td class="index">{{incrementedIndex @index}}</td>
+                        <td class="Name">{{name}}</td>
+                        <td class="Sex">{{capitalizeFirst sex}}</td>
+                        <td class="Payment">{{membership}}</td>
+                        <td class="Status">
+                        {{membershipDetails}}
+                        {{#ifEither membershipDetails}}
+                        - Payment Date : {{renewalDate}}
+                        {{/ifEither}}
+                        </td>
+
+                        <td class="index"><a href="/memberDetail?uic_code={{uic_code}}">View</a></td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</main>
+
+
     <script src="../common/dropdown.js"></script>
-    <script src="/js/database-wrapper.js"></script>
+
+    

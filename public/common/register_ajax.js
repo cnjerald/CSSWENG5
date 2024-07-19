@@ -1,5 +1,4 @@
-$(document).ready(function(){
-   
+$(document).ready(function(){   
     $("#submit-btn").click(function(){
 
         var entries = [];
@@ -79,7 +78,7 @@ $(document).ready(function(){
             function(data,status){
                 if (status === "success"){
                     if(data.msg === 'Data saved successfully'){
-                        window.location.href = "/"; // Redirect to home page
+                        window.location.href = "/mainpage"; // Redirect to home page
                     } else{
                         if (data.arr[0] === 0) {
                             $("label[for='uic']").html("Unique Identifier Code: Insufficient characters").css("color", "red");

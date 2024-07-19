@@ -63,7 +63,7 @@
     position: sticky;
     top: 0;
     width: 350px;
-    height: 100vh;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -74,16 +74,15 @@
 .main{
     display: flex;
     flex-direction: row;
-    align-items: start;
+    height: 100%;
 }
 
 .aside-header{
     margin-top: 45px;
-    font-size: 2em;
+    font-size: 3em;
     font-family: Arial, Helvetica, sans-serif;
     color: var(--clr-accent2);
     position: absolute;
-    white-space: nowrap;
 }
 
 .dropdown-container{
@@ -191,9 +190,9 @@
 
 .database-container{
     width: 100%;
+    height: 100%;
     margin: 50px 10px 10px 10px;
-    display: flex;
-    flex-direction: column;
+    display: block;
 }
 
 .search{
@@ -252,7 +251,7 @@
 
 .sort-container{
     display: flex;
-    justify-content: space-between;
+    justify-content: left;
     align-items: center;
     font-family: Arial, Helvetica, sans-serif;
 }
@@ -314,68 +313,71 @@
     background-color: var(--clr-white);
 }
 
-.database-wrapper{
+.items-container{
+    margin: 25px 0px 0px 10px;
     display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
-    margin: 25px 0px 0px 0px;
-    border: 2px solid gray;
-    width: 1600px;
-    height: auto;
-    max-height: 1050px;
-    overflow: hidden;
+    gap: 15px;
 }
 
-.database-item{
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
+.item-btn{
+    width: auto;
+    height: 35px;
+    font-size: 1em;
+    font-weight: bold;
+    background-color: var(--clr-weak-white);
+    transition: var(--transition-speed);
+}
+
+.item-btn:hover{
+    background-color: var(--clr-white);
+}
+
+
+table {
+    border-collapse: collapse; 
+    table-layout: fixed; 
     width: 100%;
-    height: auto;
-    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
-    word-wrap: break-word;
 }
 
-.database-header{
+th, td {
+    border: 1px solid gray;
+    text-align: center;
+    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+    word-wrap: break-word; 
+    height: 40px;
+}
+
+th {
     font-weight: bold;
 }
 
-.db-item {
-    height: 40px;
-    display: flex;
-    justify-content: left;
-    align-items: center;
-    border-right: 2px solid gray;
-    border-bottom: 2px solid gray;
-    font-size: 1vw; /* Adjust this value as needed */
-    overflow: hidden; /* Hide overflowing text */
-    white-space: nowrap; /* Prevent text from wrapping to the next line */
-    text-overflow: ellipsis; /* Add ellipsis (...) to indicate text overflow */
-}
+.index{
+    width: 4vh;
 
-.UIC{
-    width: 180px;
 }
 .Name{
-    width:350px;
+    width:50vh;
+
 }
 .Sex{
-    width:100px;
+    width:7vh;
 }
-.Status{
-    font-size: .7vw; 
-    width:300px;
+
+.Status {
+    width: 65vh;
+
+    overflow-wrap: break-word; /* Break long words */
+    white-space: normal; /* Allow the text to wrap to the next line */
 }
 
 .Payment, .Occupation{
     font-size: .8vw; 
-    width: 150px;
+    width: 18vh;
 }
 
-.Engagement, .Contribution{
-    width: 200px;
-}
+
 
 .Show-More{
     flex: 1;
@@ -442,3 +444,11 @@
     display: flex;
     align-items: center;
 }
+
+h2,h3{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin:2.5%
+}
+

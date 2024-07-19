@@ -5,6 +5,7 @@ const session = require('express-session');
 //schemas
 const personalInfoModel = require('../models/personalInfo')
 const eventsModel = require("../models/eventsInfo");
+const paymentModel = require("../models/paymentInfo");
 
 const multer = require('multer');
 // Configure Multer storage
@@ -20,6 +21,23 @@ const storage = multer.diskStorage({
 
 // Initialize Multer with the storage configuration
 const upload = multer({ storage: storage });
+
+const isAuth = (req, res, next) => {
+  if(req.session.isAuth){
+      next();
+  }else{
+      res.redirect('/');  
+  }
+}
+
+const isAuthLogin = (req, res, next) => {
+  if(req.session.isAuth){
+      res.redirect('/mainpage');
+  }else{
+      next();
+  }
+}
+
 function add(server) {
   server.use(session({
     secret: '09175019182', // Pls do not call this number. will change to a hash soon.
@@ -35,40 +53,75 @@ function add(server) {
   // These section contains all get request for the pages.
 
   // Login as index
-  server.get('/', function(req, resp) {
+  server.get('/', isAuthLogin, function(req, resp) {
     resp.render('login', {
       layout: 'loginIndex',
       title: 'login',
     });
   });
+
+  // Logout.
+  server.get('/logout', function (req, resp) {
+      req.session.curUserData = null;
+    
+    req.session.destroy((err) => {
+        if(err) throw err;
+        resp.redirect('/');
+    });
+  });
+
   // Registration page
-  server.get('/register', function(req, resp) {
+  server.get('/renew', isAuth, async function(req, resp) {
+    try {
+        const payments = await paymentModel.find({}).lean();
+        const groupedPayments = responder.groupByDate(payments);
+
+        resp.render('renewPage', {
+            layout: 'renewIndex',
+            title: 'Renew',
+            renewals: groupedPayments
+        });
+    } catch (error) {
+        console.error("Error fetching payments:", error);
+        resp.status(500).send("Internal Server Error");
+    }
+});
+
+
+  // Registration page
+  server.get('/register',isAuth, function(req, resp) {
     req.session.profilePicturePath = null; // Reset the session variable
     req.session.signiturePath = null;
     resp.render('personalInfoForm', {
         layout: 'formIndex',
-        title: 'test'
-    });
-});
-  // Payment page
-  server.get('/payment', function(req, resp) {
-    resp.render('payment', {
-      layout: 'paymentIndex',
-      title: 'test'
+        title: 'Register'
     });
   });
+
   // Admin main page
-  server.get('/mainpage', function(req, resp) {
-    responder.getMembers().then(memberData => {
-      resp.render('mainpage', {
-        layout: 'mainMenuIndex',
-        title: 'temp',
-        member: memberData,
+  server.get('/mainpage', isAuth, function(req, resp) {
+    // Call checkMembershipStatus and wait for it to complete
+    responder.checkMembershipStatus()
+      .then(() => {
+        // Fetch member data after the membership status check is complete
+        return responder.getMembers();
+      })
+      .then(memberData => {
+        // Render the page with member data
+        resp.render('mainpage', {
+          layout: 'mainMenuIndex',
+          title: 'Mainpage',
+          member: memberData,
+        });
+      })
+      .catch(err => {
+        // Handle any errors that occurred in checkMembershipStatus or getMembers
+        console.error('Error in /mainpage route:', err);
+        resp.status(500).send('Internal Server Error');
       });
-    });
   });
   // Events page
-  server.get('/events',function(req,resp){
+  server.get('/events',isAuth, function(req,resp){
     responder.getEvents().then(eventData =>{
       resp.render('events',{
         layout: 'eventIndex',
@@ -260,25 +313,30 @@ function add(server) {
         console.error('Error updating member details:', error);
         res.status(500).json({ message: 'Failed to update member details' });
     });
-});
+  });
 
-  // DELETE route to delete a member based on uic_code
+// DELETE route to delete a member based on uic_code
   server.delete('/delete-member', (req, res) => {
-    const uic_code = req.body;
+  const uic_code = req.body;
 
-    personalInfoModel.findOneAndDelete(uic_code)
-        .then(deletedMember => {
-            if (!deletedMember) {
-                return res.status(404).json({ message: 'Member not found' });
-            }
-            console.log('Member deleted:', deletedMember);
-            res.status(200).json({ message: 'Member deleted successfully' });
-        })
-        .catch(error => {
-            console.error('Error deleting member:', error);
-            res.status(500).json({ message: 'Failed to delete member' });
-        });
-    });
+  personalInfoModel.findOneAndDelete(uic_code)
+      .then(deletedMember => {
+          if (!deletedMember) {
+              return res.status(404).json({ message: 'Member not found' });
+          }
+          console.log('Member deleted:', deletedMember);
+          res.status(200).json({ message: 'Member deleted successfully' });
+      })
+      .catch(error => {
+          console.error('Error deleting member:', error);
+          res.status(500).json({ message: 'Failed to delete member' });
+      });
+  });
+
+
+
+
+
 
   /**
    * This ajax request checks if the input during registration is valid or not.
@@ -332,9 +390,44 @@ function add(server) {
       if (pass === 0){
         newPersonalInfo.save()
           .then(() => {
+
+            if (newPersonalInfo.renewalDate) {
+              const today = new Date(); // Get today's date
+              const year = today.getFullYear();
+              const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed, so add 1
+              const day = String(today.getDate()).padStart(2, '0');
+              const hours = String(today.getHours()).padStart(2, '0');
+              const minutes = String(today.getMinutes()).padStart(2, '0');
+              const seconds = String(today.getSeconds()).padStart(2, '0');
+
+              const formattedDate = `${year}/${month}/${day} - ${hours}:${minutes}:${seconds}`;
+
+            
+              const paymentInfo = new paymentModel({
+                admin: req.session.curUserMail,
+                date_created: formattedDate,
+                user: newPersonalInfo._id,
+                new_renewalDate: newPersonalInfo.renewalDate
+              });
+            
+              // Save paymentInfo first, then save newPersonalInfo
+              paymentInfo.save()
+                .then(() => {
+                  return newPersonalInfo.save();
+                })
+                .then(() => {
+                  console.log('Payment and personal info saved successfully.');
+                  // Add any further processing or response handling here
+                })
+                .catch(err => {
+                  console.error('Error saving payment info or personal info:', err);
+                  // Handle error response here, e.g., send an error response to the client
+                  resp.status(500).send('Internal Server Error');
+                });
+            }
+
             console.log('personal info created');
             resp.send({msg:'Data saved successfully'});
-            
           })
           .catch((error) => {
             console.error('Error saving data: ', error);
@@ -371,14 +464,15 @@ function add(server) {
  
     let userEmail = req.body.username;
     let userPassword = req.body.password;
-    console.log(userEmail);
-    console.log(userPassword);
-    req.session.curUserMail = req.body.email;
+    
+    req.session.curUserMail = userEmail;
 
     responder.getUser(userEmail, userPassword)
     .then(user => {
         if (user != null){
-            resp.redirect('/mainpage');
+          
+          req.session.isAuth = true;
+          resp.redirect('/mainpage');
         } else {
           resp.render('login', {
             layout: 'loginIndex',
@@ -391,84 +485,28 @@ function add(server) {
     });
   });
 
-  /**
-   * This ajax request queries the name and membership status of a member.
-   */
 
-  server.post('/membership_request',function(req,resp){
-    responder.checkMembershipStatus(req.body.input).then(args =>{
-      if(args != undefined){
-        resp.send({name: args.name, memberUntil: args.memberUntil})
-      } else{
-        console.log("Who are you?");
-      }
-    })
-  });
-
-  // Ajax payment_request
-  server.post('/payment_request', function(req, resp) {
-    if (req.body.input == '100') {
-      // Confirm receive request
-      console.log("Received request");
-      // GetLink
-      responder.getPaymentLink().then(args => {
-        // Store paymentID in session
-        req.session.paymentID = args.paymentID;
-        // Send link to webpage Async
-        resp.send({ link: args.link });
-      }).catch(error => {
-        console.error("Error in getPaymentLink: ", error);
-        resp.status(500).send({ error: 'Internal Server Error' });
-      });
-    } else {
-      resp.status(400).send({ error: 'Invalid input' });
-    }
-  });
-
-
-  // Ajax check_payment_status
-  server.post('/payment_checker', function(req, resp) {
-    if (req.body.input == '200') {
-      if (req.session.paymentID != null) {
-        // Confirm receive request
-        console.log("Received check request");
-        // Send to responder to check status
-        responder.checkPayment(req.session.paymentID).then(args => {
-          console.log("Debugger" + req.body.uic);
-          if(args.status == 'paid'){
-            responder.updateMembershipStatus(req.body.uic);
-          } 
-          resp.send({ paymentStatus: args.status });
-        }).catch(error => {
-          console.error("Error in checkPayment: ", error);
-          resp.status(500).send({ error: 'Internal Server Error' });
-        });
-      } else {
-        resp.status(400).send({ error: 'Payment ID is not set' });
-      }
-    } else {
-      resp.status(400).send({ error: 'Invalid input' });
-    }
-  });
 
   // Get event participants.
   server.post('/event_ajax', function(req, resp) {
     const arr = [];
     console.log("TEST1!" + req.body._id);
-    console.log("TEST2!" + req.body.eventName);
-    
-    responder.getEventDetails(req.body.eventName).then(event => {
-        console.log("EventMembers: " + event.participants);
-        console.log("Parti: " + event.attendees);
 
+
+    responder.getEventDetails(req.body._id).then(event => {
         responder.getMembers().then(members => {
             members.forEach(member => {
-                if (!event.participants.includes(member.name)) {
+              const memberIdStr = member._id.toString(); // Convert ObjectId to string
+                if (!event.participants.includes(memberIdStr)) {
                     // If not, push to arr
+                    console.log("This member is included.");
                     arr.push(member);
                 }
             });
-            responder.getRegisteredMembers(event.name).then(registeredMembers =>{
+            arr.forEach(test=>{
+              console.log("AAAAAA" + test._id);
+            })
+            responder.getRegisteredMembers(event._id).then(registeredMembers =>{
               resp.send({ members: arr ,registeredMembers : registeredMembers});
             })
 
@@ -485,16 +523,19 @@ function add(server) {
   // Ajax add users to event
 
   server.post('/event_user_ajax', function(req, resp) {
-    responder.registerMemberToEvent(req.body.eventName, req.body.attendeeName).then(event => {
-        return responder.getEventDetails(req.body.eventName).then(eventDetails => {
+    responder.registerMemberToEvent(req.body._id, req.body.attendeeName).then(event => {
+        return responder.getEventDetails(req.body._id).then(eventDetails => {
             return responder.getMembers().then(members => {
-                const arr = members.filter(member => !eventDetails.participants.includes(member.name));
+                const arr = members.filter(member => {
+                    const memberIdStr = member._id.toString(); // Convert ObjectId to string
+                    return !eventDetails.participants.includes(memberIdStr);
+                });
                 return { arr, eventDetails };
             });
         });
     }).then(({ arr, eventDetails }) => {
         console.log("continue " + arr);
-        return responder.getRegisteredMembers(eventDetails.name).then(members => {
+        return responder.getRegisteredMembers(req.body._id).then(members => {
             resp.send({ registeredMembers: members, members: arr });
         });
     }).catch(err => {
@@ -502,6 +543,93 @@ function add(server) {
         resp.status(500).send("Internal Server Error");
     });
   });
+
+
+  server.post('/ajax_getRegisteredMembership', function(req,resp){
+    responder.getRegisteredmembership().then(members=>{
+      resp.send({members: members});
+    }).catch(err =>{
+      console.error("Err",err);
+      resp.status(500).send("Internal Server Error");
+    })
+  })
+
+  server.post('/ajax_querySelectedMembership',function(req,resp){
+    responder.querySelectedMembership(req.body.name,req.body.uic).then(transactions =>{
+      resp.send({transactions});
+    }).catch(err=>{
+      console.error("Err",err);
+      resp.status(500).send("Internal Server Error");
+    })
+  })
+
+  server.post('/addPayment_ajax',function(req,resp){
+    console.log(req.body.uic)
+    console.log(req.body.name)
+    console.log(req.body.paymentDate)
+
+    responder.getUserID(req.body.name,req.body.uic).then(id=>{
+      if (id){
+        const today = new Date(); // Get today's date
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed, so add 1
+        const day = String(today.getDate()).padStart(2, '0');
+        const hours = String(today.getHours()).padStart(2, '0');
+        const minutes = String(today.getMinutes()).padStart(2, '0');
+        const seconds = String(today.getSeconds()).padStart(2, '0');
+    
+        const formattedDate = `${year}/${month}/${day} - ${hours}:${minutes}:${seconds}`;
+  
+        let newPayment = new paymentModel({
+          admin: req.session.curUserMail,
+          date_created: formattedDate,
+          user: id,
+          new_renewalDate: req.body.paymentDate
+        })
+        newPayment.save();
+
+        responder.querySelectedMembership(req.body.name,req.body.uic).then(transactions =>{
+
+          if (transactions.length > 0) {
+            const firstTransaction = transactions[0]['new_renewalDate'];
+            responder.updateMembershipRecord(id,firstTransaction);
+          } 
+          responder.checkMembershipStatus().then(()=>{
+            resp.send({transactions});
+          })
+          
+          
+        }).catch(err=>{
+          console.error("Err",err);
+          resp.status(500).send("Internal Server Error");
+        })
+      }
+    });
+  })
+
+  server.post('/deletePayment_ajax',function(req,resp){
+    responder.deletePayment_ajax(req.body.id);
+    
+    responder.getUserID(req.body.name,req.body.uic).then(id=>{
+      responder.querySelectedMembership(req.body.name,req.body.uic).then(transactions =>{
+
+        if (transactions.length > 0) {
+          const firstTransaction = transactions[0]['new_renewalDate'];
+          responder.updateMembershipRecord(id,firstTransaction);
+        } 
+        responder.checkMembershipStatus().then(()=>{
+          resp.send({transactions});
+        })
+      }).catch(err=>{
+        console.error("Err",err);
+        resp.status(500).send("Internal Server Error");
+      })
+      
+    })
+
+  });
+
+  
 }
 
 module.exports.add = add;

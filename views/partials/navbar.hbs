@@ -8,36 +8,54 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 
+<style>
+    .a-logout {
+  cursor: pointer; /* Change cursor to a pointer when hovering over the link */
+}
+
+.a-logout:hover {
+  text-decoration: underline; /* Optional: Adds an underline on hover for better visual feedback */
+}
+
+/* Optional: Style for .logout and .logout-icon */
+.logout {
+  /* Add any additional styles for the logout container */
+}
+
+.logout-icon {
+  /* Add any additional styles for the icon */
+}
+</style>
+
+
 <nav>
     <div class="header">
+       
         <a class="a-header" href="/mainpage">
-            <div class="header-logo img-container">
-                <img src="/images/logo.jpg">
-            </div>
-            <div class="header-label">
-                <p>GABAY</p>
-            </div>
+        <div class="header-label">
+            <p>Mainpage</p>
+        </div>
 
-            <a class="a-header" href="/mainpage">
-            <div class="header-label">
-                <p>Mainpage</p>
-            </div>
-            
-            <a class="a-header" href="/events">
-            <div class="header-label">
-                <p>Events</p>
-            </div>
+        <a class="a-header" href="/renew">
+        <div class="header-label">
+            <p>Payments</p>
+        </div>
+        
+        <a class="a-header" href="/events">
+        <div class="header-label">
+            <p>Events</p>
+        </div>
 
-            <a class="a-header" href="/mainpage">
-            <div class="header-label">
-                <p>Donations</p>
-            </div>
+        <a class="a-header" href="/mainpage">
+        <div class="header-label">
+            <p>Donations</p>
+        </div>
 
-        </a>
+        
       
         <div class="header-item">
             <div class="logout">
-                <a class="a-logout" href="/">
+                <a class="a-logout"  onclick="window.location.href='/logout'">
                     <span>Log Off</span>
                     <span class="logout-icon material-symbols-outlined">logout</span>
                 </a>
@@ -45,3 +63,4 @@
         </div>
     </div>
 </nav>
+

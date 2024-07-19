@@ -67,30 +67,23 @@ server.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 const Handlebars = require('handlebars');
 
-Handlebars.registerHelper('times', function(n, block) {
-  var accum = '';
-  for(var i = 1; i <= n; ++i)
-      accum += block.fn(i);
-  return accum;
+
+Handlebars.registerHelper('incrementedIndex', function(index) {
+  return index + 1;
 });
 
-
-// Register the nested loop helper
-Handlebars.registerHelper('nestedLoop', function(count, options) {
-  var ret = "";
-
-  // Validate input
-  if (typeof count !== 'number' || count < 0) {
-      throw new Error("Invalid input: Count must be a non-negative number");
+Handlebars.registerHelper('capitalizeFirst', function(word) {
+  if (typeof word === 'string' && word.length > 0) {
+    return word.charAt(0).toUpperCase() + word.slice(1);
   }
+  return word;
+});
 
-  // Outer loop
-  for (var i = 1; i <= count; i++) {
-      // Pass outer loop index to inner loop
-      ret += options.fn({ outerIndex: i });
+Handlebars.registerHelper('ifEither', function(value, options) {
+  if (value === 'Paid' || value === 'Expired') {
+    return options.fn(this);  // Render the block
   }
-
-  return ret;
+  return options.inverse(this);  // Render the inverse block
 });
 
 
