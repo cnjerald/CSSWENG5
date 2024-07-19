@@ -28,6 +28,7 @@ npm i express express-handlebars body-parser mongodb bcrypt express-session mong
 
 
 # Changelog.
+July 19, 2024 - Payment Page, Update Member
 
 June 27, 2024 - Events Page
 
@@ -45,5 +46,6 @@ June 10, 2024 - Registration page, Login page, Payment Page, Main Menu, Member D
 
 
 # Bug Fixes.
+July 19, 2024 - Bug fixes on events
 
 June 24, 2024 - Error handling on registration page.
