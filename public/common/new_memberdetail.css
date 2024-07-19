@@ -55,6 +55,10 @@ h2 {
 .profile-info{
     display: flex;
     flex-direction: column;
+	width: 100%;
+	justify-content:left;
+	align-items: left;
+	text-align:left;
 }
 
 .profile-note p{

@@ -319,20 +319,19 @@ function add(server) {
   server.delete('/delete-member', (req, res) => {
   const uic_code = req.body;
 
-  personalInfoModel.findOneAndDelete(uic_code)
-      .then(deletedMember => {
-          if (!deletedMember) {
-              return res.status(404).json({ message: 'Member not found' });
-          }
-          console.log('Member deleted:', deletedMember);
-          res.status(200).json({ message: 'Member deleted successfully' });
-      })
-      .catch(error => {
-          console.error('Error deleting member:', error);
-          res.status(500).json({ message: 'Failed to delete member' });
-      });
+    personalInfoModel.findOneAndDelete(uic_code)
+    .then(deletedMember => {
+        if (!deletedMember) {
+            return res.status(404).json({ message: 'Member not found' });
+        }
+        console.log('Member deleted:', deletedMember);
+        res.status(200).json({ message: 'Member deleted successfully' });
+    })
+    .catch(error => {
+        console.error('Error deleting member:', error);
+        res.status(500).json({ message: 'Failed to delete member' });
+    });
   });
-
 
 
 

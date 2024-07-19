@@ -8,11 +8,8 @@ const entrySchema = new mongoose.Schema({
 
 const medicationSchema = new mongoose.Schema({
   medication: { type: String },
-  startDate: { type: String }
-}, { _id: false });
-
-const conditionSchema = new mongoose.Schema({
-  condition: { type: String }
+  startDate: { type: String },
+  condition: {type: String}
 }, { _id: false });
 
 const personalInfoSchema = new mongoose.Schema({
@@ -36,7 +33,6 @@ const personalInfoSchema = new mongoose.Schema({
   company: { type: String },
   entries: [entrySchema], 
   medications: [medicationSchema], 
-  conditions: [conditionSchema], 
   ePerson: { type: String },
   eContact: { type: String },
   eRelationship: { type: String },
@@ -51,3 +47,4 @@ const personalInfoSchema = new mongoose.Schema({
 const personalInfoModel = mongoose.model('personalInfo', personalInfoSchema);
 
 module.exports = personalInfoModel;
+
