@@ -1,21 +1,25 @@
 <main>
     <div class="outer-container">
-      <div id="first-box" class="profile-form box-style"> 
-        <div class="profile-details">
-            <div class="profile-picture">
-                <div class="pfp-img-container img-container">
-                    <img src="{{member.img_path}}" id="profile-pic" alt="Profile Picture">
+        <div id="first-box" class="profile-form box-style"> 
+            <div class="profile-details">
+                <div class="profile-picture">
+                    <div class="pfp-img-container img-container">
+                        <img src="{{member.img_path}}" id="profile-pic" alt="Profile Picture">
+                    </div>
+                </div>
+                <div class="profile-info">
+                    <div class="profile-name">
+                        <h2 id="profile-name">{{member.name}}</h2>
+                    </div>
+                    <div class="profile-note">
+                        <div> 
+                            <p class="note-desc" id="profile-note">{{member.comments}}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="profile-name">
-                <h2 id="profile-name">{{member.name}}</h2>
-            </div>
-            <div class="profile-note">
-                <div><h2 class="h2-note">Note</h2></div>
-               <div> <p class="note-desc" id="profile-note">{{member.comments}}</p></div>
-            </div>
-        </div>
-    </div> 
+        </div> 
+
         <div id="personal-form" class="profile-form box-style">
             <div class="profile-information">
                 <div class="title-header"><h2>PERSONAL INFORMATION</h2></div>
@@ -158,8 +162,7 @@
                 </div>
 
                 <div class="education-title"><h2>Education</h2></div>
-                
-
+            
                     <div class="profile-item">
                         {{#if member.entries}}
                             {{#each member.entries}}
@@ -207,7 +210,6 @@
                 
         </div>
         
-
         <div id="contact-form" class="profile-form box-style">
             <div class="profile-information">
                 <div class="title-header"><h2>CONTACT INFORMATION</h2></div>
@@ -237,10 +239,6 @@
         </div>
     </div>
 </main>
-
-
-                       
-            
 
 <script>
     function clearInput(input) {
