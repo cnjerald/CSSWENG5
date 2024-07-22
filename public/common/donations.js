@@ -63,7 +63,7 @@ if (!$('#input-section').length) {
     // Add a payment date input and a submit button above the table
     var inputSection = "<div id='input-section'>" +
                         "Amount: <input type='text' id='donation-amount'>" +
-                        "<button id='submit-date'>Submit</button>" +
+                        "<button id='submit-amount'>Submit</button>" +
                         "</div>";
         tbody.before(inputSection);
     }
@@ -105,10 +105,10 @@ if (!$('#input-section').length) {
         });
 
         // Remove any existing click event listener for the submit button to avoid duplication
-        $('#submit-date').off('click');
+        $('#submit-amount').off('click');
 
         // Add click event listener for the submit button
-        $('#submit-date').click(function() {
+        $('#submit-amount').click(function() {
             var donation = $('#donation-amount').val();
             var input = $("#person").val();
             var input_uic = input.slice(input.length - 15, input.length - 1);
