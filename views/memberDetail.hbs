@@ -148,6 +148,20 @@
                 </div>
                 <div class="profile-item" id="Health">
                             <div class="details">
+                                <label class="detail-label l1">Attending Physician:</label>
+                                <div class="detail-text col1" id="Physician">{{this.physician}}</div>
+                            </div>
+                            <div class="details">
+                                <label class="detail-label l2">Date of Diagnosis:</label>
+                                <div class="detail-text col1" id="dod">{{this.dod}}</div>
+                            </div>
+                            <div class="details">
+                                <label class="detail-label l1">Treatment Hub:</label>
+                                <div class="detail-text col2" id="TreatmentHub">{{this.treatmentHub}}</div>
+                            </div>
+                </div>
+                <div class="profile-item" id="Health">
+                            <div class="details">
                                 <label class="detail-label l1">Regimen:</label>
                                 <div class="detail-text col1" id="Regimen">{{this.regimen}}</div>
                             </div>
@@ -157,7 +171,7 @@
                             </div>
                             <div class="details">
                                 <label class="detail-label l1">Contact Person:</label>
-                                <div class="detail-text col2" id="ContactPerson">{{this.contactperson}}</div>
+                                <div class="detail-text col2" id="ContactPerson">{{this.contact}}</div>
                             </div>
                 </div>
                         {{/each}}
