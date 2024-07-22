@@ -117,3 +117,7 @@ option {
 #add-btn:hover {
     background-color: darkblue;
 }
+
+#eventDate{
+    line-height: normal;
+}
