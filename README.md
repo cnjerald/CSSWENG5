@@ -28,6 +28,8 @@ npm i express express-handlebars body-parser mongodb bcrypt express-session mong
 
 
 # Changelog.
+July 22, 2024 - Donations Page
+
 July 19, 2024 - Payment Page, Update Member
 
 June 27, 2024 - Events Page
