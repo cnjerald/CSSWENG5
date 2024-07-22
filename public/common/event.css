@@ -118,6 +118,15 @@ option {
     background-color: darkblue;
 }
 
+#submit-date{
+    font-size: 12px;
+    padding:10px;
+    color: white;
+    background-color: blue;
+    border: none;
+    cursor: pointer;
+}
+
 #eventDate{
     line-height: normal;
 }
