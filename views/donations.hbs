@@ -1,0 +1,83 @@
+<main>
+    <div class="main">
+
+        <div class="database-container">
+            <div class="searchbar-container">
+                <form class="searchbar-form" id="searchbar-form" action="">
+                    <div class="search">
+                        <div class="search-btn-container">
+                            <button class="btn" type="submit">
+                                <span class="search-icon material-symbols-outlined">search</span>
+                            </button>
+                        </div>
+                        <div class="search-input-container">
+                            <input class="search-input" type="search" id="searchEvents" placeholder="Search...">
+                        </div>
+                    </div>
+                    <div class="sort-item">
+                        <button class="item-btn" type="button" id="addEventBtn">Add Donation</button>
+                    </div>
+                </form>
+            </div>
+
+
+
+            <div class="database-wrapper">
+                {{#each renewals}}
+                    <h2>{{@key}}</h2> <!-- Year Header -->
+                    {{#each this}}
+                        <h3>{{@key}}</h3> <!-- Month Header -->
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="Admin">Admin</th>
+                                    <th class="Date_Created">Date Created</th>
+                                    <th class="User">User</th>
+                                    <th class="Renewal_Date">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each this}}
+                                    <tr>
+                                        <td class="Admin">{{admin}}</td>
+                                        <td class="Date_Created">{{date_created}}</td>
+                                        <td class="User">{{user}}</td>
+                                        <td class="Renewal_Date">{{amount}}</td>
+                                    </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    {{/each}}
+                {{/each}}
+            </div>
+        </div>
+    </div>
+
+
+    <div id="registerAttendeePopup" class="popup-form">
+        <div class="popup-add">
+            <span class="close">&times;</span>
+            <h2 class="addUser">Attendee Donation</h2>
+            <div class="addUser">
+                <label for="person">Name:</label>
+                <input id="person" name="person" class="inputBox" type="text" placeholder="Type to search..." list="attendeeNames"><br>
+                <datalist id="attendeeNames"></datalist>
+                <input type="button" value="Query" id="add-btn">
+            </div>
+            <h2 class="addUser">User Donation History</h2>
+            <div>
+                <table>
+                    <thead>
+                    </thead>
+                    <tbody id="payment-history">
+                        <!-- Registered members will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<script src="/common/donations.js"></script>
+

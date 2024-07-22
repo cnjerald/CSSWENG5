@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const personalInfoModel = require('./personalInfo');
 const eventsModel = require('./eventsInfo');
 const paymentModel = require('./paymentInfo');
+const donationModel = require("./donationsInfo");
 const nodemailer = require('nodemailer');
 const { query } = require('express');
 
@@ -176,27 +177,28 @@ async function checkMembershipStatus() {
     const users = await personalInfoModel.find({ membership: "Registered" }).lean();
 
     const updatePromises = users.map(user => {
-      const renewalDate = new Date(user.renewalDate);
-      const renewalDatePlusOneYear = new Date(renewalDate.setFullYear(renewalDate.getFullYear() + 1));
-      console.log("Today" + today);
-      console.log("RenDate+1y" + renewalDatePlusOneYear);
-      let updateOperation;
-
-      if (renewalDatePlusOneYear < today) {
-        updateOperation = personalInfoModel.updateOne(
-          { _id: user._id },  // Query to match the specific user
-          { $set: { membershipDetails: "Expired" } }  // Update operation
-        );
-      } else {
-        updateOperation = personalInfoModel.updateOne(
-          { _id: user._id },  // Query to match the specific user
-          { $set: { membershipDetails: "Paid" } }  // Update operation
-        );
+      if(user.renewalDate){
+        const renewalDate = new Date(user.renewalDate);
+        const renewalDatePlusOneYear = new Date(renewalDate.setFullYear(renewalDate.getFullYear() + 1));
+        let updateOperation;
+  
+        if (renewalDatePlusOneYear < today) {
+          updateOperation = personalInfoModel.updateOne(
+            { _id: user._id },  // Query to match the specific user
+            { $set: { membershipDetails: "Expired" } }  // Update operation
+          );
+        } else {
+          updateOperation = personalInfoModel.updateOne(
+            { _id: user._id },  // Query to match the specific user
+            { $set: { membershipDetails: "Paid" } }  // Update operation
+          );
+        }
+  
+        return updateOperation.catch(err => {
+          console.error(`Error updating user ${user._id}:`, err);
+        });
       }
 
-      return updateOperation.catch(err => {
-        console.error(`Error updating user ${user._id}:`, err);
-      });
     });
 
     await Promise.all(updatePromises);  // Wait for all updates to complete
@@ -410,6 +412,47 @@ function groupByDate(payments) {
 }
 module.exports.groupByDate= groupByDate;
 
+function groupByDateDonations(donations) {
+  const grouped = {};
+
+  donations.forEach(donation => {
+    const date = new Date(donation.date_created.replace(/-/g, '/')); // Handle date format
+    const year = date.getFullYear();
+    const month = date.toLocaleString('default', { month: 'long' });
+
+    const yearKey = `Year_${year}`;
+
+    if (!grouped[yearKey]) {
+      grouped[yearKey] = {};
+    }
+    if (!grouped[yearKey][month]) {
+      grouped[yearKey][month] = [];
+    }
+    grouped[yearKey][month].push(donation);
+  });
+
+  // Convert the grouped object to an array for sorting
+  const sortedGrouped = Object.entries(grouped)
+    .sort(([a], [b]) => b.localeCompare(a))  // Sort years in descending order
+    .reduce((acc, [yearKey, months]) => {
+      acc[yearKey] = {};
+      Object.entries(months)
+        .sort(([a], [b]) => {
+          const monthA = new Date(Date.parse(a + " 1, 2000")).getMonth();
+          const monthB = new Date(Date.parse(b + " 1, 2000")).getMonth();
+          return monthB - monthA;  // Sort months from December to January
+        })
+        .forEach(([month, donations]) => {
+          acc[yearKey][month] = donations;
+        });
+      return acc;
+    }, {});
+
+  return sortedGrouped;
+}
+
+module.exports.groupByDateDonations = groupByDateDonations;
+
 function getRegisteredmembership() {
 
   return new Promise((resolve,reject)=>{
@@ -503,6 +546,39 @@ function deletePayment_ajax(id) {
 }
 
 module.exports.deletePayment_ajax = deletePayment_ajax;
+
+function queryDonations(name, uic){
+  return new Promise((resolve, reject) => {
+    personalInfoModel.findOne({ name: name, uic_code: uic }).lean().then(user => {
+      if (!user) {
+        return reject(new Error('User not found'));
+      }
+      const query = donationModel.find({ user: user._id }).lean();
+      query.sort({ date_created: -1 }).then(donations => {
+        resolve(donations);
+      }).catch(err => {
+        reject(err);
+      });
+    }).catch(err => {
+      reject(err);
+    });
+  });
+}
+module.exports.queryDonations = queryDonations;
+
+function deleteDonation_ajax(id) {
+  donationModel.findOneAndDelete({ _id: id }).lean().then(donation => {
+      if (donation) {
+          console.log("Transaction deleted:", donation);
+      } else {
+          console.log("Transaction not found.");
+      }
+  }).catch(err => {
+      console.error("Error deleting transaction:", err);
+  });
+}
+
+module.exports.deleteDonation_ajax = deleteDonation_ajax;
 
 
 // Helper functions

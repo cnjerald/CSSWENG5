@@ -6,6 +6,7 @@ const session = require('express-session');
 const personalInfoModel = require('../models/personalInfo')
 const eventsModel = require("../models/eventsInfo");
 const paymentModel = require("../models/paymentInfo");
+const donationModel = require("../models/donationsInfo");
 
 const multer = require('multer');
 // Configure Multer storage
@@ -87,7 +88,6 @@ function add(server) {
     }
 });
 
-
   // Registration page
   server.get('/register',isAuth, function(req, resp) {
     req.session.profilePicturePath = null; // Reset the session variable
@@ -130,6 +130,24 @@ function add(server) {
       })
     })
   })
+
+  // Donations Page
+
+  server.get('/donations', isAuth, async function(req, resp) {
+    try {
+        const donations = await donationModel.find({}).lean();
+        const groupedDonations = responder.groupByDateDonations(donations);
+        console.log(groupedDonations);
+        resp.render('donations', {
+            layout: 'donationsIndex',
+            title: 'donations',
+            renewals: groupedDonations
+        });
+    } catch (error) {
+        console.error("Error fetching payments:", error);
+        resp.status(500).send("Internal Server Error");
+    }
+  });
 
   //This section contains ajax requests
 
@@ -235,7 +253,7 @@ function add(server) {
     }
   });
 
-  server.get('/memberDetail', function(req, resp) {
+  server.get('/memberDetail',isAuth, function(req, resp) {
     const uicCode = req.query.uic_code; // extract uic_code from query parameters
 
     responder.getMembers().then(memberData => {
@@ -256,7 +274,7 @@ function add(server) {
     });
   }); 
 
-  server.get('/new_updateMember', function(req, resp) {
+  server.get('/new_updateMember',isAuth, function(req, resp) {
     const uicCode = req.query.uic_code; // extract uic_code from query parameters
 
     responder.getMembers().then(memberData => {
@@ -553,6 +571,9 @@ function add(server) {
     })
   })
 
+
+
+
   server.post('/ajax_querySelectedMembership',function(req,resp){
     responder.querySelectedMembership(req.body.name,req.body.uic).then(transactions =>{
       resp.send({transactions});
@@ -563,9 +584,7 @@ function add(server) {
   })
 
   server.post('/addPayment_ajax',function(req,resp){
-    console.log(req.body.uic)
-    console.log(req.body.name)
-    console.log(req.body.paymentDate)
+
 
     responder.getUserID(req.body.name,req.body.uic).then(id=>{
       if (id){
@@ -627,6 +646,72 @@ function add(server) {
     })
 
   });
+
+  server.post('/ajax_getAllMembers', function(req,resp){
+    responder.getMembers().then(members=>{
+      resp.send({members: members});
+    }).catch(err =>{
+      console.error("Err",err);
+      resp.status(500).send("Internal Server Error");
+    })
+  })
+
+  server.post('/ajax_queryMemberDonations',function(req,resp){
+    responder.queryDonations(req.body.name,req.body.uic).then(donations =>{
+      resp.send({donations});
+    }).catch(err=>{
+      console.error("Err",err);
+      resp.status(500).send("Internal Server Error");
+    })
+  })
+
+  
+  server.post('/addDonation_ajax',function(req,resp){
+
+
+    responder.getUserID(req.body.name,req.body.uic).then(id=>{
+      if (id){
+        const today = new Date(); // Get today's date
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed, so add 1
+        const day = String(today.getDate()).padStart(2, '0');
+        const hours = String(today.getHours()).padStart(2, '0');
+        const minutes = String(today.getMinutes()).padStart(2, '0');
+        const seconds = String(today.getSeconds()).padStart(2, '0');
+    
+        const formattedDate = `${year}/${month}/${day} - ${hours}:${minutes}:${seconds}`;
+  
+        let newDonation = new donationModel({
+          admin: req.session.curUserMail,
+          date_created: formattedDate,
+          user: id,
+          amount: parseFloat(req.body.donationAmount)
+        });
+        newDonation.save();
+
+        responder.queryDonations(req.body.name,req.body.uic).then(donations=>{
+          resp.send({donations})
+
+        }).catch(err=>{
+          console.error("Err",err);
+          resp.status(500).send("Internal Server Error");
+        })
+      }
+    });
+  })
+
+  
+  server.post('/deleteDonation_ajax',function(req,resp){
+    responder.deleteDonation_ajax(req.body.id);
+    responder.queryDonations(req.body.name,req.body.uic).then(donations=>{
+      resp.send({donations})
+    }).catch(err=>{
+      console.error("Err",err);
+      resp.status(500).send("Internal Server Error");
+    })
+  });
+   
+
 
   
 }
