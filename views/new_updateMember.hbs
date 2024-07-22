@@ -1,0 +1,346 @@
+<main>
+    <div class="outer-container">
+        <div id="first-box" class="profile-form box-style"> 
+            <div class="profile-details">
+                <div class="profile-picture">
+                    <div class="pfp-img-container img-container">
+                        <img src="{{member.img_path}}" id="profile-pic" alt="Profile Picture">
+                    </div>
+                </div>
+                <div class="profile-info">
+                    <div class="profile-name">
+                        <h2 id="profile-name">{{member.name}}</h2>
+                    </div>
+                    <div class="profile-note">
+                        <div> 
+                            <p class="note-desc" id="profile-note">{{member.comments}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
+
+        <div id="personal-form" class="profile-form box-style">
+            <div class="profile-information">
+                <div class="title-header"><h2>PERSONAL INFORMATION</h2></div>
+                
+                <div class="profile-item">
+                    <div class="details">
+                        <label class="detail-label l1">UIC:</label>
+                        <div class="uneditable" id="UIC">{{member.uic_code}}</div>
+                    </div>
+
+                    <div class="details">
+                        <label class="detail-label l2">Name:</label>
+                        <input type="text" id="NameInput" class="input-field" value="{{member.name}}" onfocus="clearInput(this)">
+                    </div>
+
+                    <div class="details">
+                        <label class="detail-label l2"></label>
+                        <div class="detail-text col2" id="FILLER_DIV"></div>
+                    </div>
+                </div>
+
+                <div class="profile-item">
+                    <div class="details">
+                        <label class="detail-label l1">Birthday:</label>
+                        <input type="date" id="BirthdayInput" name="bday" class="inputBox" value="{{member.birthday}}">
+                    </div>
+                    
+                    <div class="details">
+                        <label class="detail-label l2">Barangay:</label>
+                         <select id="BarangayInput" class="inputBox" name="barangay">
+                             <option value="">Select Barangay</option>
+                        </select>
+                    </div>
+                    <div class="details">
+                        <label class="detail-label l3">Location:</label>
+                        <input class="inputBox"type="text" id="LocationInput" name="location" placeholder="Enter Location">
+                    </div>
+                    
+                </div>
+                
+    <script>
+        function populateBarangays() {
+        
+            var select = document.getElementById("BarangayInput");
+            // Array of barangay numbers (assuming they are sequential from 1 to 188)
+            var barangays = Array.from({ length: 188 }, (_, index) => index + 1);
+            var noneOption = document.createElement("option");
+            noneOption.value = "Not in Caloocan";
+            noneOption.textContent = "Not in Caloocan";
+            select.appendChild(noneOption);
+            // Iterate through the array and create option elements
+            barangays.forEach(function (barangay) {
+                var option = document.createElement("option");
+                option.value = "Barangay " + barangay; 
+                option.textContent = "Barangay " + barangay; 
+                select.appendChild(option);
+            });
+        }
+            function handleBarangayChange() {
+            var selectedBarangay = document.getElementById("BarangayInput").value;
+            var otherLocation = document.getElementById("otherLocation");
+            if (selectedBarangay === "Not in Caloocan") {
+                otherLocation.style.display = "block";
+            } else {
+                otherLocation.style.display = "none";
+            }
+        }
+        // call the function to populate the dropdown when the page loads
+        populateBarangays();
+        document.getElementById("barangay").addEventListener("change", handleBarangayChange);
+    </script>
+
+                <div class="profile-item">
+                    <div class="details">
+                        <label class="detail-label l1">Gender:</label>
+                        <select id="GenderInput" name="gender" class="inputBox">
+                            <option value="" disabled selected></option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="heterosexual">Heterosexual</option>
+                            <option value="gay">Gay</option>
+                            <option value="lesbian">Lesbian</option>
+                            <option value="bisexual">Bisexual</option>
+                            <option value="transwoman">Transwoman</option>
+                        </select>
+                    </div>
+                    <div class="details">
+                        <label class="detail-label l2">Sex:</label>
+                            <select id="SexInput" name="sex" class="inputBox">
+                                <option value="" disabled selected></option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                    </div>
+                    
+                    <div class="details">
+                        <label class="detail-label l3">Civil Status:</label>
+                        <select id="CivilInput" class="inputBox" name="civil-status">
+                            <option value="" disabled selected></option>
+                            <option value="single">Single</option>
+                            <option value="married">Married</option>
+                            <option value="divorced">Divorced</option>
+                            <option value="widowed">Widowed</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="profile-item">
+                    <div class="details">
+                        <label class="detail-label l1">Contact:</label>
+                        <input type="text" id="ContactInput" class="input-field" value="{{member.contact_number}}" onfocus="clearInput(this)">
+                    </div>
+                    <div class="details">
+                        <label class="detail-label l2">Email:</label>
+                        <input type="text" id="EmailInput" class="input-field" value="{{member.email}}" onfocus="clearInput(this)">
+                    </div>
+
+                    <div class="details">
+                        <label class="detail-label l1">Facebook:</label>
+                        <input type="text" id="FacebookInput" class="input-field" value="{{member.fb_account}}" onfocus="clearInput(this)">
+                    </div>
+                    
+                </div>
+
+                <div class="profile-item">
+                    <div class="details">
+                        <label class="detail-label l1">Occupation:</label>
+                        <input type="text" id="OccupationInput" class="input-field" value="{{member.occupation}}" onfocus="clearInput(this)">
+                    </div>
+
+                    <div class="details">
+                        <label class="detail-label l2">Designation:</label>
+                        <input type="text" id="DesignationInput" class="input-field" value="{{member.designation}}" onfocus="clearInput(this)">
+                    </div>
+
+                    <div class="details">
+                        <label class="detail-label l3">Company:</label>
+                        <input type="text" id="CompanyInput" class="input-field" value="{{member.company}}" onfocus="clearInput(this)">
+                    </div>
+                </div>
+
+                <div class="education-title"><h2>Education</h2></div>
+            
+                    <div class="profile-item">
+                        {{#if member.entries}}
+                            {{#each member.entries}}
+                            <div class="details">
+                                <label class="detail-label l1">Course:</label>
+                                <input type="text" id="CourseInput" class="input-field" value="{{this.course}}" onfocus="clearInput(this)">
+                            </div>   
+                            <div class="details">
+                                <label class="detail-label l1">Education Year:</label>
+                                <input type="text" id="EducationYearInput" class="input-field" value="{{this.educationYear}}" onfocus="clearInput(this)">
+                            </div> 
+                            <div class="details">
+                                <label class="detail-label l1">School Attended:</label>
+                                <input type="text" id="SchoolAttendedInput" class="input-field" value="{{this.school}}" onfocus="clearInput(this)">
+                            </div>
+                            {{/each}}
+                        {{/if}}
+                    </div>  
+            </div>
+        </div>
+
+        <div id="health-form" class="profile-form box-style">
+            <div class="profile-information">
+                <div class="title-header"><h2>HEALTH INFORMATION</h2></div>
+
+                <div class="profile-item" id="Health">
+                    {{#if member.medications}}
+                        {{#each member.medications}}
+                            <div class="details">
+                                <label class="detail-label l1">Medication:</label>
+                                <input type="text" id="MedicationInput" class="input-field" value="{{this.medication}}" onfocus="clearInput(this)">
+                            </div>
+                            <div class="details">
+                                <label class="detail-label l2">Start Date:</label>
+                                <input type="text" id="StartDateInput" class="input-field" value="{{this.StartDate}}" onfocus="clearInput(this)">
+                            </div>
+                            <div class="details">
+                                <label class="detail-label l1">Condition:</label>
+                                <input type="text" id="ConditionInput" class="input-field" value="{{this.condition}}" onfocus="clearInput(this)">
+                            </div>
+                </div>
+                        {{/each}}
+                    {{/if}}
+            </div>
+                
+        </div>
+        
+        <div id="contact-form" class="profile-form box-style">
+            <div class="profile-information">
+                <div class="title-header"><h2>CONTACT INFORMATION</h2></div>
+
+                <div class="profile-item">
+                    <div class="details">
+                        <label class="detail-label l1">Contact Person:</label>
+                        <input type="text" id="ePersonInput" class="input-field" value="{{member.ePerson}}" onfocus="clearInput(this)">
+                    </div>
+                    <div class="details">
+                        <label class="detail-label l1">Contact Number:</label>
+                        <input type="text" id="eContactInput" class="input-field" value="{{member.eContact}}" onfocus="clearInput(this)">
+                    </div>
+                </div>
+                <div class="profile-item">
+                    <div class="details">
+                        <label class="detail-label l1">Relationship:</label>
+                        <input type="text" id="eRelationshipInput" class="input-field" value="{{member.eRelationship}}" onfocus="clearInput(this)">
+                    </div>
+                    <div class="details">
+                        <label class="detail-label l1">Contact Address:</label>
+                        <input type="text" id="eAddressInput" class="input-field" value="{{member.eAddress}}" onfocus="clearInput(this)">
+                    </div>
+                </div>
+                <a id="saveButton" href="/new_updateMember?uic_code={{member.uic_code}}">Save</a>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    function clearInput(input) {
+        input.value = ' ';
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById('saveButton').addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent default link behavior
+
+            const uicCode = document.getElementById('UIC').innerText.trim();
+            const name = document.getElementById('NameInput').value;
+            const birthday = document.getElementById('BirthdayInput').value;
+            const barangay = document.getElementById('BarangayInput').value;
+            const location = document.getElementById('LocationInput').value;
+            const gender = document.getElementById('GenderInput').value;
+            const sex = document.getElementById('SexInput').value;
+            const contactNumber = document.getElementById('ContactInput').value;
+            const email = document.getElementById('EmailInput').value;
+            const civilStatus = document.getElementById('CivilInput').value;
+            const facebook = document.getElementById('FacebookInput').value;
+
+
+
+            // Collecting Education Information
+            const courseInputs = document.querySelectorAll('#CourseInput');
+            const educationYearInputs = document.querySelectorAll('#EducationYearInput');
+            const schoolInputs = document.querySelectorAll('#SchoolAttendedInput');
+            const entries = [];
+
+            courseInputs.forEach((input, index) => {
+                entries.push({
+                    course: input.value,
+                    educationYear: educationYearInputs[index].value,
+                    school: schoolInputs[index].value
+                });
+            });
+
+            const occupation = document.getElementById('OccupationInput').value;
+            const designation = document.getElementById('DesignationInput').value;
+            const company = document.getElementById('CompanyInput').value;
+
+            // Collecting Health Information
+            const medicationInputs = document.querySelectorAll('#MedicationInput');
+            const startDateInputs = document.querySelectorAll('#StartDateInput');
+            const conditionInputs = document.querySelectorAll('#ConditionInput');
+            const medications = [];
+
+            medicationInputs.forEach((input, index) => {
+                medications.push({
+                    medication: input.value,
+                    startDate: startDateInputs[index].value,
+                    condition: conditionInputs[index].value
+                });
+            });
+
+            // Collecting Contact Information
+            const ePerson = document.getElementById('ePersonInput').value;
+            const eContact = document.getElementById('eContactInput').value;
+            const eRelationship = document.getElementById('eRelationshipInput').value;
+            const eAddress = document.getElementById('eAddressInput').value;
+
+            const data = {
+                uic_code: uicCode,
+                name: name,
+                birthday: birthday,
+                barangay: barangay,
+                location: location,
+                gender: gender,
+                sex: sex,
+                contact_number: contactNumber,
+                email: email,
+                civil_status: civilStatus,
+                fb_account: facebook,
+                occupation: occupation,
+                designation: designation,
+                company: company,
+                entries: entries,
+                medications: medications,
+                ePerson: ePerson,
+                eContact: eContact,
+                eRelationship: eRelationship,
+                eAddress: eAddress
+            };
+
+            fetch('/update-member', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                console.log('Member details updated successfully:', result);
+                // Redirect to member detail display with the same uic
+                window.location.href = `/memberDetail?uic_code=${uicCode}`;
+            })
+            .catch(error => {
+                console.error('Error updating member details:', error);
+                // Optionally handle error UI updates
+            });
+        });
+    });
+</script>

@@ -1,0 +1,123 @@
+
+/* Popup form */
+.popup-form {
+    display: none; 
+    position: fixed; 
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.4); 
+}
+
+.popup-content {
+    background-color: #fefefe;
+    margin: 5% auto; 
+    padding: 20px;
+    border: 1px solid #888;
+    width: 90%; 
+    max-width: 400px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.popup-content h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.popup-content label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.popup-content input[type="text"],
+.popup-content input[type="date"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.popup-content button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.popup-content button:hover {
+    background-color: #45a049;
+}
+
+
+.popup-add {
+    background-color: #fefefe;
+    margin: 5% auto; 
+    padding: 20px;
+    border: 1px solid #888;
+    width: 70%; 
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
+}
+
+.addUser {
+    display:flex;
+    margin:20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.inputBox{
+    width: 100%;
+    height: 5vh;
+    font-size: 18px;
+}
+
+option {
+    font-size: 14px;
+    padding: 5px;
+}
+
+/* Basic styles to ensure the button text is visible */
+#add-btn {
+    font-size: 16px;
+    padding: 2.5vh 20px;
+    color: white;
+    background-color: blue;
+    border: none;
+    cursor: pointer;
+}
+
+#add-btn:hover {
+    background-color: darkblue;
+}
+
+#eventDate{
+    line-height: normal;
+}

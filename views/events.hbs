@@ -1,0 +1,131 @@
+    <style>
+        /* Basic styles to ensure the button text is visible */
+        #add-btn {
+            font-size: 16px;
+            padding: 10px 20px;
+            color: white;
+            background-color: blue;
+            border: none;
+            cursor: pointer;
+        }
+
+        #add-btn:hover {
+            background-color: darkblue;
+        }
+    </style>
+<main>
+    <div class="main">
+        <div class="database-container">
+            <div class="searchbar-container">
+                <form class="searchbar-form" id="searchbar-form" action="">
+                    <div class="search">
+                        <div class="search-btn-container">
+                            <button class="btn" type="submit">
+                                <span class="search-icon material-symbols-outlined">search</span>
+                            </button>
+                        </div>
+                        <div class="search-input-container">
+                            <input class="search-input" type="search" id="searchEvents" placeholder="Search...">
+                        </div>
+                    </div>
+                    <div class="sort-item">
+                        <button class="item-btn" type="button" id="addEventBtn">Add Event</button>
+                    </div>
+                </form>
+            </div>
+
+
+
+            <div class="database-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="UIC">Event Name</th>
+                            <th class="Name">Event Date</th>
+                            <th class="Name">Number of Participants</th>
+                            <th class="Show-More last-child">Add Member</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!--Member Entry Start-->
+                        {{#each event}}
+                        <tr>
+                            <td class="UIC">{{name}}</td>
+                            <td class="Name">{{date}}</td>
+                            <td class="Name">{{attendees}}</td>
+                            <td class="Show-More last-child">
+                                <button class="add-attendee-btn" data-event-id="{{_id}}">
+                                    <span class="material-symbols-outlined">add</span>
+                                </button>
+                            </td>
+                        </tr>
+                        {{/each}}
+                        <!--Member Entry End-->
+                    </tbody>
+                </table>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+    </div>
+
+    <!-- Popup Form -->
+    <div id="popupForm" class="popup-form">
+        <div class="popup-content">
+            <span class="close">&times;</span>
+            <h2>Add Event</h2>
+            <form id="eventForm">
+                <label for="eventName">Event Name:</label>
+                <input type="text" id="eventName" name="eventName" required>
+                <label for="eventDate">Event Date:</label>
+                <input type="date" id="eventDate" name="eventDate" required>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="registerAttendeePopup" class="popup-form">
+        <div class="popup-add">
+            <span class="close">&times;</span>
+            <h2 class="addUser">Register Attendee</h2>
+            <div class="addUser">
+                <label for="person">Name:</label>
+                <input id="person" name="person" class="inputBox" type="text" placeholder="Type to search..." list="attendeeNames"><br>
+                <datalist id="attendeeNames"></datalist>
+                <input type="button" value="Add" id="add-btn">
+            </div>
+            <h2 class="addUser">Current Registered Users</h2>
+            <div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th> Name </th>
+                            <th> UIC </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Registered members will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+
+<script src="/js/add-event.js"></script>
+
