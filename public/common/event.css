@@ -120,12 +120,33 @@ option {
 
 #submit-date{
     font-size: 12px;
-    padding:10px;
+    padding:1.25vh 5px;
     color: white;
     background-color: blue;
     border: none;
     cursor: pointer;
+    text-align: center;
+    line-height: 0.2px; /* Adjust to center vertically */
+    vertical-align: middle; /* Adjust to center horizontally */
+    position: absolute;
+    margin-bottom: 5%;
+    
 }
+
+#submit-amount{
+    font-size: 12px;
+    padding:1.25vh 5px;
+    color: white;
+    background-color: blue;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    line-height: 0.2px; /* Adjust to center vertically */
+    vertical-align: middle; /* Adjust to center horizontally */
+    position: absolute;
+    margin-bottom: 5%;
+}
+
 
 #eventDate{
     line-height: normal;
