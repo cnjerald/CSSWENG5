@@ -206,6 +206,20 @@
                 </div>
                 <div class="profile-item" id="Health">
                             <div class="details">
+                                <label class="detail-label l1">Attending Physician:</label>
+                                <input type="text" id="AttendingPhysicianInput" class="input-field" value="{{this.physician}}" onfocus="clearInput(this)">
+                            </div>
+                            <div class="details">
+                                <label class="detail-label l2">Date of Diagnosis:</label>
+                                <input type="date" id="dodInput" class="input-field" value="{{this.dod}}" onfocus="clearInput(this)">
+                            </div>
+                            <div class="details">
+                                <label class="detail-label l1">Treatment Hub:</label>
+                                <input type="text" id="TreatmentHubInput" class="input-field" value="{{this.treatmentHub}}" onfocus="clearInput(this)">
+                            </div>
+                </div>
+                <div class="profile-item" id="Health">
+                            <div class="details">
                                 <label class="detail-label l1">Regimen:</label>
                                 <input type="text" id="RegimenInput" class="input-field" value="{{this.regimen}}" onfocus="clearInput(this)">
                             </div>
@@ -215,7 +229,7 @@
                             </div>
                             <div class="details">
                                 <label class="detail-label l1">Contact Person:</label>
-                                <input type="text" id="ContactPersonInput" class="input-field" value="{{this.contactperson}}" onfocus="clearInput(this)">
+                                <input type="text" id="ContactPersonInput" class="input-field" value="{{this.contact}}" onfocus="clearInput(this)">
                             </div>
                 </div>
                         {{/each}}
