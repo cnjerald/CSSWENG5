@@ -119,7 +119,7 @@ Handlebars.registerHelper('concat', function() {
 
 
 
-const port = process.env.PORT | 9999;
+const port = process.env.PORT | 8080;
 server.listen(port, function(){
     console.log('Listening at port '+port);
     console.log('Wait for database connection, else it will crash.');
