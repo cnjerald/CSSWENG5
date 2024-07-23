@@ -17,12 +17,13 @@ $(document).ready(function() {
           sex: selectedValues[0],
           membership: selectedValues[1],
           membershipDetails: selectedValues[2],
+          status: selectedValues[3],
           sort: selectedValues[6],
           searchRes: selectedValues[7]
         },
         function(data, status) {
           if (status === 'success') {
-            renderMembers(data.members);
+            renderMembers(data.members,data.length);
           } else{
             console.error("Failed to retrieve data");
           }
@@ -51,7 +52,7 @@ $(document).ready(function() {
       debouncedGetSelectedValues();
     });
 
-    function renderMembers(members) {
+    function renderMembers(members,length) {
       var wrapper = document.querySelector('.database-wrapper');
       wrapper.innerHTML = ''; // Clear previous content
   
@@ -59,7 +60,7 @@ $(document).ready(function() {
           <table>
               <thead>
                   <tr>
-                      <th class="index"></th>
+                      <th class="index">${length}</th>
                       <th class="Name">Name</th>
                       <th class="Sex">Sex</th>
                       <th class="Payment">Membership</th>
@@ -78,7 +79,7 @@ $(document).ready(function() {
         // Construct the status content using template literals
         const statusContent = `
             ${member.membershipDetails}
-            ${member.membershipDetails === 'Paid' ? ` - Payment Date: ${member.renewalDate}` : ''}
+            ${(member.membershipDetails === 'Paid' || member.membershipDetails === "Expired") ? ` - Payment Date: ${member.renewalDate}` : ''}
         `;
     
         // Create the member row with the updated status content

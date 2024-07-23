@@ -77,6 +77,8 @@ if (!$('#input-section').length) {
                        "</tr>";
         tbody.append(headerRow);
 
+        var totalAmount = 0;
+
         transactions.forEach(function(transaction) {
             var row = "<tr>" +
                         "<td>" + transaction.admin + "</td>" +
@@ -86,7 +88,15 @@ if (!$('#input-section').length) {
                         "<td><button class='delete-btn' data-id='" + transaction._id + "'>X</button></td>" +  // Added Delete button
                       "</tr>";
             tbody.append(row);
+            totalAmount += parseFloat(transaction.amount);
         });
+    
+        var totalRow = "<tr>" +
+                       "<td colspan='3'><strong>Total</strong></td>" +
+                       "<td><strong>" + totalAmount.toFixed(2) + "</strong></td>" +
+                       "<td></td>" +  // No delete button for the total row
+                       "</tr>";
+        tbody.append(totalRow);
 
         // Remove any existing click event listener for the delete button to avoid duplication
         tbody.off('click', '.delete-btn');

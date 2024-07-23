@@ -131,7 +131,7 @@ function checkPersonalInfo(newPersonalInfo){
   array.push(isValidDate(newPersonalInfo.birthday)); // 10
   array.push(onlyContainsNumbers(newPersonalInfo.contact_number) ? 1 : 0); // 11
   array.push(isValidEmail(newPersonalInfo.email)? 1 : 0); // 12
-  array.push((newPersonalInfo.img_path && newPersonalInfo.img_path.length > 1) ? 1 : 0); // 13
+  array.push((newPersonalInfo.img_path && newPersonalInfo.img_path.length > 1) ? 1 : 1); // 13
   console.log(array);
     resolve(array).catch(errorFn);
   })
@@ -159,7 +159,7 @@ module.exports.getUser = getUser;
 // This function is a helper function that queries all registered members and their details.
 function getMembers() {
   return new Promise((resolve, reject) => {
-    personalInfoModel.find({}).lean().then(members => {
+    personalInfoModel.find({status:"Active"}).lean().then(members => {
       resolve(members);
     }).catch(error => {
       reject(error);
@@ -213,40 +213,37 @@ module.exports.checkMembershipStatus = checkMembershipStatus;
 
 
 // This function is in charge of the search queries and filter.
-function searchFilter(searchString, sex, membership, membershipDetails, sort) {
+function searchFilter(searchString, sex, membership,status, membershipDetails, sort) {
   let searchQuery = {};
 
   if (searchString.length > 0) {
       searchQuery.name = { $regex: searchString, $options: 'i' }; // Case-insensitive regex
-  } else {
-      console.log("Empty");
-  }
+  } 
 
   if (sex !== "All") {
       searchQuery.sex = sex.toLowerCase();
-  } else {
-      console.log("All");
+  } 
+
+  if(status !=="All"){
+    searchQuery.status = status;
   }
+
+
   if (membership !== "All") {
     if(membership == "Community"){
       searchQuery.membership = "Community Member"
     } else{
       searchQuery.membership = membership;
     }
-  } else {
-    console.log("All");
-  }
+  } 
   if (membershipDetails !== "All") {
-    if(membershipDetails === "Paid" || membershipDetails === "Not Paid"){
+    if(membershipDetails === "Paid" || membershipDetails === "Not Paid" || membershipDetails === "Expired"){
       searchQuery.membershipDetails = membershipDetails;
     } else{
       searchQuery.membershipDetails = { $regex: membershipDetails, $options: "i" };
     }
     
-  } else {
-    console.log("All");
-  }
-
+  } 
   return new Promise((resolve, reject) => {
       let query = personalInfoModel.find(searchQuery).lean();
 
@@ -341,8 +338,6 @@ function getRegisteredMembers(eventid) {
           event.participants.forEach(names => {
               let promise = personalInfoModel.findOne({ _id: names }).lean().then(user => {
                   if (user != undefined && user._id != null) {
-                      console.log("DB1 " + user.name);
-                      console.log("DB1 " + user.uic_code);
                       return user;
                   }
               });

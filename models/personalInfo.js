@@ -41,7 +41,8 @@ const personalInfoSchema = new mongoose.Schema({
   membership: {type: String},
   membershipDetails: {type: String},
   renewalDate: { type: String, default: "newuser" },
-  reminderSent: {type:Boolean, default:false}
+  reminderSent: {type:Boolean, default:false},
+  status: {type : String, default: "Active"}
 }, { versionKey: false });
 
 const personalInfoModel = mongoose.model('personalInfo', personalInfoSchema);

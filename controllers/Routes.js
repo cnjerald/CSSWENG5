@@ -41,7 +41,7 @@ const isAuthLogin = (req, res, next) => {
 
 function add(server) {
   server.use(session({
-    secret: '09175019182', // Pls do not call this number. will change to a hash soon.
+    secret: '82b3917f1f1bba9e5dc20ea4bb4111d5', // ill change to a hash soon.
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false } 
@@ -112,6 +112,7 @@ function add(server) {
           layout: 'mainMenuIndex',
           title: 'Mainpage',
           member: memberData,
+          length: Array.isArray(memberData) ? memberData.length : 0
         });
       })
       .catch(err => {
@@ -465,11 +466,12 @@ function add(server) {
     var sex = req.body.sex;
     var membership = req.body.membership;
     var membershipDetails = req.body.membershipDetails;
+    var status = req.body.status;
     var sort = req.body.sort
     var searchRes = req.body.searchRes;
 
-    responder.searchFilter(searchRes,sex,membership,membershipDetails,sort).then((members)=>{
-      resp.send({members: members});
+    responder.searchFilter(searchRes,sex,membership,status,membershipDetails,sort).then((members)=>{
+      resp.send({length: members.length, members: members});
     })
     
   });
