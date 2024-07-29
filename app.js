@@ -86,6 +86,14 @@ Handlebars.registerHelper('ifEither', function(value, options) {
   return options.inverse(this);  // Render the inverse block
 });
 
+Handlebars.registerHelper('eq', function(a, b) {
+  return a === b;
+});
+
+
+Handlebars.registerHelper('concat', function() {
+  return Array.prototype.slice.call(arguments, 0, -1).join('');
+});
 
 // CONTROLLER 
 const controllers = ['Routes'];

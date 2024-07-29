@@ -104,7 +104,7 @@ function add(server) {
     responder.checkMembershipStatus()
       .then(() => {
         // Fetch member data after the membership status check is complete
-        return responder.getMembers();
+        return responder.getAllMembers();
       })
       .then(memberData => {
         // Render the page with member data
@@ -254,11 +254,11 @@ function add(server) {
     }
   });
 
-  server.get('/memberDetail',isAuth, function(req, resp) {
+  server.get('/memberDetail', isAuth, function(req, resp) {
     const uicCode = req.query.uic_code; // extract uic_code from query parameters
 
-    responder.getMembers().then(memberData => {
-        // find the member in memberData array based on uic_code
+    responder.getAllMembers().then(memberData => {
+        // find the member in memberData array based on uic_code and status
         const member = memberData.find(member => member.uic_code === uicCode);
 
         if (member) {
@@ -268,17 +268,17 @@ function add(server) {
                 member: member
             });
         } else {
-            resp.status(404).send('Member not found'); //  member not found case
+            resp.status(404).send('Member not found or inactive'); // member not found or inactive case
         }
     }).catch(error => {
         resp.status(500).send('Error fetching members'); // handle error case
     });
-  }); 
+});
 
   server.get('/new_updateMember',isAuth, function(req, resp) {
     const uicCode = req.query.uic_code; // extract uic_code from query parameters
 
-    responder.getMembers().then(memberData => {
+    responder.getAllMembers().then(memberData => {
         // find the member in memberData array based on uic_code
         const member = memberData.find(member => member.uic_code === uicCode);
 
@@ -297,7 +297,7 @@ function add(server) {
   }); 
 
   server.post('/update-member', (req, res) => {
-    const { uic_code, name, birthday, barangay, location, gender, sex, contact_number, email, civil_status, fb_account, occupation, designation, company, entries, medications, ePerson, eContact, eRelationship, eAddress } = req.body;
+    const { uic_code, name, birthday, barangay, location, gender, sex, contact_number, email, civil_status, fb_account, occupation, designation, company, status, entries, medications, ePerson, eContact, eRelationship, eAddress } = req.body;
 
     // Assuming `uic_code` uniquely identifies the member to update
     personalInfoModel.findOneAndUpdate({ uic_code: uic_code }, {
@@ -314,6 +314,7 @@ function add(server) {
         occupation: occupation,
         designation: designation,
         company: company,
+        status: status,
         entries: entries,
         medications: medications,
         ePerson: ePerson,

@@ -168,6 +168,19 @@ function getMembers() {
 }
 module.exports.getMembers = getMembers;
 
+
+// This function is a helper function that queries all registered members and their details. (including deceased and terminated)
+function getAllMembers() {
+  return new Promise((resolve, reject) => {
+    personalInfoModel.find({}).lean().then(members => {
+      resolve(members);
+    }).catch(error => {
+      reject(error);
+    });
+  });
+}
+module.exports.getAllMembers = getAllMembers;
+
 // This function is a helper function that checks the membership status of the user.
 async function checkMembershipStatus() {
   try {

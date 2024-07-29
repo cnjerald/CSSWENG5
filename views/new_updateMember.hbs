@@ -49,10 +49,15 @@
                     
                     <div class="details">
                         <label class="detail-label l2">Barangay:</label>
-                         <select id="BarangayInput" class="inputBox" name="barangay">
-                             <option value="">Select Barangay</option>
+                        <select id="BarangayInput" class="inputBox" name="barangay">
+                            <option value="" {{#if member.barangay}}{{else}}selected{{/if}}>Select Barangay</option>
+                            <option value="Not in Caloocan" {{#if (eq member.barangay "Not in Caloocan")}}selected{{/if}}>Not in Caloocan</option>
+                            {{#each barangays}}
+                                <option value="Barangay {{this}}" {{#if (eq member.barangay (concat "Barangay " this))}}selected{{/if}}>Barangay {{this}}</option>
+                            {{/each}}
                         </select>
                     </div>
+
                     <div class="details">
                         <label class="detail-label l3">Location:</label>
                         <input class="inputBox"type="text" id="LocationInput" name="location" placeholder="Enter Location">
@@ -61,71 +66,84 @@
                 </div>
                 
     <script>
-        function populateBarangays() {
+    function populateBarangays(selectedBarangay) {
+        var select = document.getElementById("BarangayInput");
+        // Array of barangay numbers (assuming they are sequential from 1 to 188)
+        var barangays = Array.from({ length: 188 }, (_, index) => index + 1);
+        var noneOption = document.createElement("option");
+        noneOption.value = "Not in Caloocan";
+        noneOption.textContent = "Not in Caloocan";
+        select.appendChild(noneOption);
         
-            var select = document.getElementById("BarangayInput");
-            // Array of barangay numbers (assuming they are sequential from 1 to 188)
-            var barangays = Array.from({ length: 188 }, (_, index) => index + 1);
-            var noneOption = document.createElement("option");
-            noneOption.value = "Not in Caloocan";
-            noneOption.textContent = "Not in Caloocan";
-            select.appendChild(noneOption);
-            // Iterate through the array and create option elements
-            barangays.forEach(function (barangay) {
-                var option = document.createElement("option");
-                option.value = "Barangay " + barangay; 
-                option.textContent = "Barangay " + barangay; 
-                select.appendChild(option);
-            });
-        }
-            function handleBarangayChange() {
-            var selectedBarangay = document.getElementById("BarangayInput").value;
-            var otherLocation = document.getElementById("otherLocation");
-            if (selectedBarangay === "Not in Caloocan") {
-                otherLocation.style.display = "block";
-            } else {
-                otherLocation.style.display = "none";
+        // Iterate through the array and create option elements
+        barangays.forEach(function (barangay) {
+            var option = document.createElement("option");
+            option.value = "Barangay " + barangay;
+            option.textContent = "Barangay " + barangay;
+            if ("Barangay " + barangay === selectedBarangay) {
+                option.selected = true;
             }
-        }
-        // call the function to populate the dropdown when the page loads
-        populateBarangays();
-        document.getElementById("barangay").addEventListener("change", handleBarangayChange);
-    </script>
+            select.appendChild(option);
+        });
 
-                <div class="profile-item">
-                    <div class="details">
-                        <label class="detail-label l1">Gender:</label>
-                        <select id="GenderInput" name="gender" class="inputBox">
-                            <option value="" disabled selected></option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                            <option value="heterosexual">Heterosexual</option>
-                            <option value="gay">Gay</option>
-                            <option value="lesbian">Lesbian</option>
-                            <option value="bisexual">Bisexual</option>
-                            <option value="transwoman">Transwoman</option>
-                        </select>
-                    </div>
-                    <div class="details">
-                        <label class="detail-label l2">Sex:</label>
-                            <select id="SexInput" name="sex" class="inputBox">
-                                <option value="" disabled selected></option>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
-                            </select>
-                    </div>
-                    
-                    <div class="details">
-                        <label class="detail-label l3">Civil Status:</label>
-                        <select id="CivilInput" class="inputBox" name="civil-status">
-                            <option value="" disabled selected></option>
-                            <option value="single">Single</option>
-                            <option value="married">Married</option>
-                            <option value="divorced">Divorced</option>
-                            <option value="widowed">Widowed</option>
-                        </select>
-                    </div>
-                </div>
+        // Set the selected value for "Not in Caloocan"
+        if (selectedBarangay === "Not in Caloocan") {
+            noneOption.selected = true;
+        }
+    }
+
+    function handleBarangayChange() {
+        var selectedBarangay = document.getElementById("BarangayInput").value;
+        var otherLocation = document.getElementById("otherLocation");
+        if (selectedBarangay === "Not in Caloocan") {
+            otherLocation.style.display = "block";
+        } else {
+            otherLocation.style.display = "none";
+        }
+    }
+
+    // Assuming 'member.barangay' contains the selected barangay value from the Handlebars context
+    var selectedBarangay = "{{member.barangay}}";
+    populateBarangays(selectedBarangay);
+    document.getElementById("BarangayInput").addEventListener("change", handleBarangayChange);
+</script>
+
+        <div class="profile-item">
+
+        <div class="details">
+            <label class="detail-label l1">Gender:</label>
+            <select id="GenderInput" name="gender" class="inputBox">
+                <option value="" {{#if member.gender}}{{else}}selected{{/if}}></option>
+                <option value="male" {{#if (eq member.gender "male")}}selected{{/if}}>Male</option>
+                <option value="female" {{#if (eq member.gender "female")}}selected{{/if}}>Female</option>
+                <option value="heterosexual" {{#if (eq member.gender "heterosexual")}}selected{{/if}}>Heterosexual</option>
+                <option value="gay" {{#if (eq member.gender "gay")}}selected{{/if}}>Gay</option>
+                <option value="lesbian" {{#if (eq member.gender "lesbian")}}selected{{/if}}>Lesbian</option>
+                <option value="bisexual" {{#if (eq member.gender "bisexual")}}selected{{/if}}>Bisexual</option>
+                <option value="transwoman" {{#if (eq member.gender "transwoman")}}selected{{/if}}>Transwoman</option>
+            </select>
+        </div>
+        
+        <div class="details">
+            <label class="detail-label l2">Sex:</label>
+            <select id="SexInput" name="sex" class="inputBox">
+                <option value="" {{#if member.sex}}{{else}}selected{{/if}}></option>
+                <option value="male" {{#if (eq member.sex "male")}}selected{{/if}}>Male</option>
+                <option value="female" {{#if (eq member.sex "female")}}selected{{/if}}>Female</option>
+            </select>
+        </div>
+
+        <div class="details">
+            <label class="detail-label l3">Civil Status:</label>
+            <select id="CivilInput" class="inputBox" name="civil-status">
+                <option value="" {{#if member.civil_status}}{{else}}selected{{/if}}></option>
+                <option value="single" {{#if (eq member.civil_status "single")}}selected{{/if}}>Single</option>
+                <option value="married" {{#if (eq member.civil_status "married")}}selected{{/if}}>Married</option>
+                <option value="divorced" {{#if (eq member.civil_status "divorced")}}selected{{/if}}>Divorced</option>
+                <option value="widowed" {{#if (eq member.civil_status "widowed")}}selected{{/if}}>Widowed</option>
+            </select>
+        </div>
+    </div>
 
                 <div class="profile-item">
                     <div class="details">
@@ -158,6 +176,17 @@
                     <div class="details">
                         <label class="detail-label l3">Company:</label>
                         <input type="text" id="CompanyInput" class="input-field" value="{{member.company}}" onfocus="clearInput(this)">
+                    </div>
+                </div>
+
+                <div class="profile-item">
+                    <div class="details">
+                        <label class="detail-label l3">Status:</label>
+                        <select id="StatusInput" class="inputBox" name="status">
+                            <option value="Active" disabled selected>Active</option>
+                            <option value="Deceased">Deceased</option>
+                            <option value="Terminated">Terminated</option>
+                        </select>
                     </div>
                 </div>
 
@@ -308,6 +337,7 @@
             const occupation = document.getElementById('OccupationInput').value;
             const designation = document.getElementById('DesignationInput').value;
             const company = document.getElementById('CompanyInput').value;
+            const status = document.getElementById('StatusInput').value;
 
             // Collecting Health Information
             const medicationInputs = document.querySelectorAll('#MedicationInput');
@@ -344,6 +374,7 @@
                 occupation: occupation,
                 designation: designation,
                 company: company,
+                status: status,
                 entries: entries,
                 medications: medications,
                 ePerson: ePerson,

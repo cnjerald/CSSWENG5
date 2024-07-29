@@ -102,6 +102,13 @@
                     </div>
                 </div>
 
+                <div class="profile-item">
+                    <div class="details">
+                        <label class="detail-label l3">Status:</label>
+                        <div class="detail-text col3" id="Status">{{member.status}}</div>
+                    </div>
+                </div>
+
                 <div class="education-title"><h2>Education</h2></div>
                 
 
@@ -205,8 +212,8 @@
                     </div>
                 </div>
                 <div class="buttons">
-                    <a id="editButton" href="/new_updateMember?uic_code={{member.uic_code}}">Update User Information</a>
-                    <a id="editButton" href="#" onclick="deleteUser()">Delete User</a>
+                    <a class="memberButton"  href="/new_updateMember?uic_code={{member.uic_code}}">Update User Information</a>
+                    <a class="memberButton"  href="#" onclick="deleteUser()">Delete User</a>
                 </div>
             </div>
         </div>
