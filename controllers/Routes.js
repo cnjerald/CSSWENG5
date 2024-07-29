@@ -41,7 +41,7 @@ const isAuthLogin = (req, res, next) => {
 
 function add(server) {
   server.use(session({
-    secret: '82b3917f1f1bba9e5dc20ea4bb4111d5', // ill change to a hash soon.
+    secret: '82b3917f1f1bba9e5dc20ea4bb4111d5', 
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false } 
@@ -49,7 +49,7 @@ function add(server) {
 
   // For bug testers, param2 can be changed to 60000 (or 1 minuites for bug testing) 
   // See documentation of this function on Responder.js file.
-  setInterval(responder.checkOneMonth, 60* 60 * 1000);
+  // setInterval(responder.checkOneMonth, 60* 60 * 1000);
 
   // These section contains all get request for the pages.
 
