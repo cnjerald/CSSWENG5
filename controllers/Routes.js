@@ -104,7 +104,7 @@ function add(server) {
     responder.checkMembershipStatus()
       .then(() => {
         // Fetch member data after the membership status check is complete
-        return responder.getAllMembers();
+        return responder.getMembers();
       })
       .then(memberData => {
         // Render the page with member data
