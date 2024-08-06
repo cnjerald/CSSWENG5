@@ -5,6 +5,7 @@
 const express = require('express');
 const server = express();
 const path = require('path');
+const os = require('os');
 
 const bodyParser = require('body-parser');
 server.use(express.json()); 
@@ -36,9 +37,12 @@ const clientOptions = {
 async function connectToDatabase() {
   try {
       await mongoose.connect(uri, clientOptions);
-      console.log('Database connected successfully');
+      console.log('Load Successful.');
+      const localIp = getLocalIpAddress();
+      const accessUrl = `http://${localIp}:${port}`;
+      console.log(`Access the server at ${accessUrl}`);
   } catch (err) {
-      console.error('Database connection error:', err);
+      console.error('Load Failed.', err);
   }
 }
 
@@ -127,8 +131,23 @@ Handlebars.registerHelper('concat', function() {
 
 
 
-const port = process.env.PORT | 8080;
-server.listen(port, function(){
-    console.log('Listening at port '+port);
-    console.log('Wait for database connection, else it will crash.');
+const port = process.env.PORT || 8080;
+const host = '0.0.0.0';
+
+// Function to get the local IP address
+function getLocalIpAddress() {
+  const interfaces = os.networkInterfaces();
+  for (const interfaceName in interfaces) {
+      for (const iface of interfaces[interfaceName]) {
+          if (iface.family === 'IPv4' && !iface.internal) {
+              return iface.address;
+          }
+      }
+  }
+  return '127.0.0.1';
+}
+
+server.listen(port, host, () => {
+  console.log('Server loading please wait.');
+  
 });
